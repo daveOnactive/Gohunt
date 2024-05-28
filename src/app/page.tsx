@@ -1,8 +1,12 @@
+import { HeroBanner, NavigationBar, OurAsset } from "@/components";
 
 export default function Home() {
   return (
     <main>
-      Hello Gohunt!
+      <NavigationBar>
+        <HeroBanner />
+        <OurAsset />
+      </NavigationBar>
     </main>
   );
 }
