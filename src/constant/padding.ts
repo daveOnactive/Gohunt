@@ -1,0 +1,2 @@
+export const DESKTOP_CONTAINER_PADDING = 5;
+export const MOBILE_CONTAINER_PADDING = 2;
