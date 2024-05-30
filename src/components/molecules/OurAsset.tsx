@@ -44,7 +44,7 @@ export function OurAsset() {
     <Box sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING }
     }}>
-      <Typography variant="h6" fontWeight="bold" textAlign="center" mb={2}>Our Asset</Typography>
+      <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>Our Asset</Typography>
 
       <Box sx={{
         display: 'flex',
@@ -93,7 +93,7 @@ export function OurAsset() {
 
               <Box display="flex" alignItems='center' justifyContent='space-between'>
                 <Typography variant="h6">{item.price}</Typography>
-                <Typography variant="h6">{item.abbr}</Typography>
+                <Typography variant="h6" fontWeight='light'>{item.abbr}</Typography>
               </Box>
             </Card>
           ))
