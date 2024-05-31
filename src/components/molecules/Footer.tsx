@@ -50,11 +50,16 @@ export function Footer() {
     <Box sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING }
     }}>
-      <Box mb={3} display='flex' alignItems='center' justifyContent='space-between'>
+      <Box mb={3} sx={{
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: { sm: 'row', xs: 'column' },
+        justifyContent: 'space-between'
+      }}>
         <Box sx={{
           display: 'flex',
           alignItems: 'center',
-          gap: 2
+          gap: 2,
         }}>
           {
             socials.map(({ href, icon }, index) => (
@@ -78,12 +83,13 @@ export function Footer() {
 
         <Box sx={{
           display: 'flex',
-          gap: 2
+          gap: 2,
+          fontSize: { sm: '.9rem !important', xs: '.6rem !important'},
+          mt: { xs: '1rem' }
         }}>
           {
             links.map(({ href, label }) => (
               <Link href={href} key={label} style={{
-                fontSize: '.9rem',
                 color: 'white',
               }}>{label}</Link>
             ))

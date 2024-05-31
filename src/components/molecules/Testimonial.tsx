@@ -51,7 +51,8 @@ export function Testimonial() {
         display: 'flex',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        gap: 2
+        gap: 2,
+        flexDirection: { sm: 'row', xs: 'column' }
       }}>
         <TestimonialCard />
         <TestimonialCard />

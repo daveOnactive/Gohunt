@@ -63,7 +63,7 @@ export function Timeline({ items }: IProps) {
                     >
                       <Typography variant="h6" mb={2} fontWeight="bold">{item.title}</Typography>
 
-                      <Typography variant="body1">{item.content}</Typography>
+                      <Typography variant="body1" sx={{ opacity: .7 }}>{item.content}</Typography>
                     </Card>
                   </Grid>
                 </Grid>
@@ -86,7 +86,7 @@ export function Timeline({ items }: IProps) {
                   >
                     <Typography variant="h6" mb={2} fontWeight="bold">{item.title}</Typography>
 
-                    <Typography variant="body1">{item.content}</Typography>
+                    <Typography variant="body1" sx={{ opacity: .7 }}>{item.content}</Typography>
                   </Card>
                   <Box
                     sx={{
