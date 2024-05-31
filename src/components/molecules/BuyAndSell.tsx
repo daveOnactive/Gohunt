@@ -57,12 +57,12 @@ function ContentSection() {
               alignItems: 'center',
               gap: 2,
               mb: 4,
-              ml: index * 7
+              ml: { sm: index * 7 }
             }}>
               <Box sx={{
                 background: '#132D46',
-                width: { sm: '60px', xs: ''},
-                height: { sm: '60px', xs: ''},
+                width: { sm: '60px', xs: '40px'},
+                height: { sm: '60px', xs: '40px'},
                 borderRadius: 100,
                 display: 'flex',
                 justifyContent: 'center',
@@ -90,7 +90,7 @@ function CardSection() {
 
   return (
     <Card sx={{
-      width: { sm: '30%' },
+      width: { sm: '30%', xs: '100%' },
       py: { sm: 2.5, xs: 2 },
       px: { sm: 1.8, xs: 1.3 },
     }}>

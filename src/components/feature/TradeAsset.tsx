@@ -24,7 +24,7 @@ export function TradeAsset({ tradeType }: IProps) {
       <Box sx={{
         display: 'flex',
         flexDirection: tradeType === 'sell' ? 'column' : 'column-reverse',
-        height: { sm: '8rem' },
+        height: '8rem',
         justifyContent: 'space-between',
       }}>
         <AssetInput />
