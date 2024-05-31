@@ -5,3 +5,4 @@ export * from './OurService';
 export * from './BuyAndSell';
 export * from './WhyChooseUs';
 export * from './Testimonial';
+export * from './FAQ';

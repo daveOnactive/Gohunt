@@ -1,4 +1,13 @@
-import { BuyAndSell, HeroBanner, NavigationBar, OurAsset, OurService, WhyChooseUse, Testimonial } from "@/components";
+import { 
+  BuyAndSell, 
+  HeroBanner, 
+  NavigationBar, 
+  OurAsset, 
+  OurService, 
+  WhyChooseUse, 
+  Testimonial, 
+  FAQ 
+} from "@/components";
 
 export default function Home() {
   return (
@@ -10,6 +19,7 @@ export default function Home() {
         <BuyAndSell />
         <WhyChooseUse />
         <Testimonial />
+        <FAQ />
       </NavigationBar>
     </main>
   );

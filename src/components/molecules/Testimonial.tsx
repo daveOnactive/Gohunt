@@ -42,7 +42,8 @@ export function Testimonial() {
       <Typography variant="body1" textAlign="center" mb={4} sx={{
         width: { sm: '400px', xs: '100%' },
         display: 'flex',
-        mx: 'auto'
+        mx: 'auto',
+        opacity: .7,
       }}>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</Typography>
 
       
