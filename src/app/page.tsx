@@ -6,7 +6,8 @@ import {
   OurService, 
   WhyChooseUse, 
   Testimonial, 
-  FAQ 
+  FAQ,
+  Footer
 } from "@/components";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
         <WhyChooseUse />
         <Testimonial />
         <FAQ />
+        <Footer />
       </NavigationBar>
     </main>
   );
