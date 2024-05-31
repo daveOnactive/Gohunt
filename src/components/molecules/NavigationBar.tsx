@@ -29,12 +29,26 @@ const drawerWidth = 240;
 const navItems = ['Our Asset', 'Our Service', 'Why Choose Us', 'Testimonial', 'FAQ'];
 
 export function NavigationBar(props: React.PropsWithChildren<Props>) {
-  const { window } = props;
+  // const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [isNavBg, setIsNavBg] = React.useState(false);
+  const [container, setContainer] = React.useState<HTMLElement>();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
+
+  const handleScroll = () => {
+    if (window.scrollY > 10) setIsNavBg(true);
+    else setIsNavBg(false);
+  };
+
+  React.useEffect(() => {
+    handleScroll();
+    if (window) setContainer(window.document.body);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
@@ -63,12 +77,10 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
     </Box>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" elevation={0} sx={{background: 'none'}}>
+      <AppBar component="nav" elevation={0} sx={{ background: isNavBg ? '#0F101E' : 'none'}}>
         <Toolbar sx={{ justifyContent: 'space-between'}}>
           <IconButton
             color="inherit"

@@ -76,7 +76,7 @@ export function OurAsset() {
                     alt={item.title}
                   />
 
-                  <Typography mt={1.5} variant="caption" fontWeight={100}>
+                  <Typography mt={1.5} variant="caption" fontWeight={100} sx={{ opacity: .7 }}>
                     {item.title}
                   </Typography>
                 </Box>
@@ -93,7 +93,7 @@ export function OurAsset() {
 
               <Box display="flex" alignItems='center' justifyContent='space-between'>
                 <Typography variant="h6">{item.price}</Typography>
-                <Typography variant="h6" fontWeight='light'>{item.abbr}</Typography>
+                <Typography variant="h6" fontWeight='light' sx={{ opacity: .7 }}>{item.abbr}</Typography>
               </Box>
             </Card>
           ))

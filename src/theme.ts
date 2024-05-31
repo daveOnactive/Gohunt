@@ -25,6 +25,12 @@ const theme = createTheme({
         }
       }
     }
+  },
+  typography: {
+    fontFamily: [
+      "Cabin",
+      'sans-serif'
+    ].join(',')
   }
 });
 
