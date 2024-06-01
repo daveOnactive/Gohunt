@@ -3,3 +3,7 @@ export * from './Tabs';
 export * from './AssetInput';
 export * from './AssetMenu';
 export * from './CurrencyInput';
+export * from './WalletAddressInput';
+export * from './AccountInput';
+export * from './UploadInput';
+export * from './AccountDisplay';

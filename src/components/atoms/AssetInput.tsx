@@ -1,6 +1,5 @@
 import { Box, InputBase} from "@mui/material";
 import { AssetMenu } from "./AssetMenu";
-import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 export function AssetInput() {
   return (

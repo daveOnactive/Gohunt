@@ -23,6 +23,7 @@ interface Props {
    * You won't need it on your project.
    */
   window?: () => Window;
+  isNavBg?: boolean;
 }
 
 const drawerWidth = 240;
@@ -31,7 +32,7 @@ const navItems = ['Our Asset', 'Our Service', 'Why Choose Us', 'Testimonial', 'F
 export function NavigationBar(props: React.PropsWithChildren<Props>) {
   // const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isNavBg, setIsNavBg] = React.useState(false);
+  const [isNavBg, setIsNavBg] = React.useState(props?.isNavBg);
   const [container, setContainer] = React.useState<HTMLElement>();
 
   const handleDrawerToggle = () => {
@@ -39,6 +40,7 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
   };
 
   const handleScroll = () => {
+    if (props?.isNavBg) return;
     if (window.scrollY > 10) setIsNavBg(true);
     else setIsNavBg(false);
   };

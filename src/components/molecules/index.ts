@@ -7,3 +7,4 @@ export * from './WhyChooseUs';
 export * from './Testimonial';
 export * from './FAQ';
 export * from './Footer';
+export * from './TradeSection';

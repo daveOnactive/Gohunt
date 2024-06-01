@@ -24,6 +24,25 @@ const theme = createTheme({
           borderRadius: 10
         }
       }
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& label': {
+            color: '#fff'
+          },
+          '& .MuiInputBase-root::before': {
+            borderColor: '#6a6868 !important'
+          },
+        }
+      }
+    },
+    MuiCard: {
+      defaultProps: {
+        style: {
+          borderRadius: '27px'
+        }
+      }
     }
   },
   typography: {
