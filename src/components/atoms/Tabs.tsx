@@ -41,9 +41,10 @@ type IProps = {
     title: string;
     content: React.ReactNode;
   }[];
+  handleClick?: (tab: string) => void;
 }
 
-export function Tabs({ tabs }: IProps) {
+export function Tabs({ tabs, handleClick }: IProps) {
   
   const [value, setValue] = useState(0);
 
@@ -72,7 +73,7 @@ export function Tabs({ tabs }: IProps) {
         >
           {
             tabs.map((tab, index) => (
-              <MuiTab key={tab.title} label={tab.title} {...a11yProps(index)} />
+              <MuiTab key={tab.title} label={tab.title} {...a11yProps(index)} onClick={() => handleClick?.(tab.title)}/>
             ))
           }
         </MuiTabs>
