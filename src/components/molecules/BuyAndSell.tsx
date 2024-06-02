@@ -1,11 +1,9 @@
-"use client"
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { Box, Card, Typography } from "@mui/material";
 import connect from '../../../public/svg/connect.svg';
 import wallet from '../../../public/svg/wallet.svg';
 import bank from '../../../public/svg/bank.svg';
 import Image from "next/image";
-import { useState } from "react";
 import { Tabs } from "../atoms";
 import { TradeAsset } from "../feature";
 

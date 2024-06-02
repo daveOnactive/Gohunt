@@ -16,8 +16,8 @@ export default function Home() {
       <NavigationBar>
         <HeroBanner />
         <OurAsset />
-        <OurService />
         <BuyAndSell />
+        <OurService />
         <WhyChooseUse />
         <Testimonial />
         <FAQ />
