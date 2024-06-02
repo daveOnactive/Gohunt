@@ -6,7 +6,7 @@ import { Box, Card } from "@mui/material";
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { useState } from "react";
 import Sell from '../../../public/svg/sell.svg';
-import Buy from '../../../public/svg/Buy.svg';
+import Buy from '../../../public/svg/buy.svg';
 import { SellAsset, BuyAsset } from "../feature";
 
 enum Trade {

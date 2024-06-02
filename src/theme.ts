@@ -37,13 +37,6 @@ const theme = createTheme({
         }
       }
     },
-    MuiCard: {
-      defaultProps: {
-        style: {
-          borderRadius: '27px'
-        }
-      }
-    }
   },
   typography: {
     fontFamily: [

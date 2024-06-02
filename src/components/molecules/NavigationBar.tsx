@@ -13,9 +13,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation'
 
 interface Props {
   /**
@@ -34,6 +34,8 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isNavBg, setIsNavBg] = React.useState(props?.isNavBg);
   const [container, setContainer] = React.useState<HTMLElement>();
+
+  const router = useRouter()
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -62,8 +64,10 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
           style={{
             width: 150,
             height: 50,
-            objectFit: 'contain'
+            objectFit: 'contain',
+            cursor: 'pointer'
           }}
+          onClick={() => router.push('/')}
         />
       </Box>
       <Divider />
@@ -103,8 +107,10 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
               style={{
                 width: 150,
                 height: 50,
-                objectFit: 'contain'
+                objectFit: 'contain',
+                cursor: 'pointer'
               }}
+              onClick={() => router.push('/')}
             />
           </Box>
 
@@ -116,7 +122,7 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
             ))}
           </Box>
 
-          <Button variant='contained'>
+          <Button variant='contained' onClick={() => router.push('/trade', { scroll: false })}>
             Get Started
           </Button>
         </Toolbar>

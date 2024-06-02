@@ -1,5 +1,7 @@
+'use client'
 import { Box, Button, Typography } from "@mui/material"
 import { AssetInput, CurrencyInput } from "../atoms"
+import { useRouter } from 'next/navigation'
 
 
 function DisplayRate() {
@@ -17,6 +19,8 @@ type IProps = {
 
 export function TradeAsset({ tradeType }: IProps) {
 
+  const router = useRouter()
+
   return (
     <Box>
       <DisplayRate />
@@ -31,7 +35,13 @@ export function TradeAsset({ tradeType }: IProps) {
         <CurrencyInput />
       </Box>
 
-      <Button fullWidth sx={{ mt: 5 }} variant="contained" size="large">
+      <Button 
+        fullWidth 
+        sx={{ mt: 5 }} 
+        variant="contained" 
+        size="large"
+        onClick={() => router.push('/trade', { scroll: false })}
+      >
         {tradeType === 'sell' ? 'Sell Now' : 'Buy Now'}
       </Button>
     </Box>

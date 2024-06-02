@@ -49,7 +49,9 @@ export function WalletAddressInput({ isInput }: IProps) {
               />
             ) : (
               <>
-                  <Typography variant="h6">1JWRoquJwe46mOtrC6UlZSDofJJFJJ..</Typography>
+                  <Typography variant="h6" sx={{
+                    fontSize: { sm: '1.27rem', xs: '.7rem'}
+                  }}>1JWRoquJwe46mOtrC6UlZSDofJJFJJ..</Typography>
 
                   <IconButton>
                     <ContentCopyOutlinedIcon sx={{ color: 'white' }} />
