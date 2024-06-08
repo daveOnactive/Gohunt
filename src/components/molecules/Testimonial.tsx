@@ -7,7 +7,7 @@ import Quote from '../../../public/svg/quote.svg';
 function TestimonialCard() {
   return (
     <Card sx={{
-      width: { sm: '600px', xs: '100%' },
+      width: '100%',
       p: { sm: 4, xs: 2 }
     }}>
       <Box

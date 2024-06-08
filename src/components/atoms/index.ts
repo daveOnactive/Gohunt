@@ -7,3 +7,4 @@ export * from './WalletAddressInput';
 export * from './AccountInput';
 export * from './UploadInput';
 export * from './AccountDisplay';
+export * from './Breadcrumbs';

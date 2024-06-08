@@ -31,7 +31,8 @@ export function WhyChooseUse() {
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
       display: 'flex',
       flexDirection: { sm: 'row', xs: 'column' },
-      alignItems: 'center'
+      alignItems: 'center',
+      width: '100%'
     }}>
       <Box>
         <Image

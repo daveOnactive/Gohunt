@@ -29,7 +29,8 @@ export function TradeSection() {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      flexDirection: { sm: 'row', xs: 'column' }
+      flexDirection: { sm: 'row', xs: 'column' },
+      width: '100%'
     }}>
       <Box sx={{
         ml: 9,

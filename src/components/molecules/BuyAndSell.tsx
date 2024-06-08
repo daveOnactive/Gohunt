@@ -40,7 +40,7 @@ const tabs = [
 function ContentSection() {
   return (
     <Box sx={{
-      width: { sm: '30%' }
+      width: { sm: '50%' }
     }}>
       <Typography variant="h5" fontWeight="bold" mb={2}>One click, instant sell & buy crypto.</Typography>
       <Typography>
@@ -108,6 +108,7 @@ export function BuyAndSell(){
       justifyContent: 'center',
       flexDirection: { sm: 'row', xs: 'column'},
       gap: 5,
+      width: '100%'
     }}>
       <ContentSection />
       <CardSection />

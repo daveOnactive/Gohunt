@@ -48,7 +48,8 @@ const links = [
 export function Footer() {
   return (
     <Box sx={{
-      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING }
+      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
+      width: '100%'
     }}>
       <Box mb={3} sx={{
         display: 'flex',

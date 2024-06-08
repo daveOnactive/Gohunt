@@ -4,6 +4,7 @@ import Image from "next/image";
 import BannerSide from '../../../public/img/banner-side.png';
 import Dollar from '../../../public/svg/dollar.svg';
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
+import { SCREEN_MAX_WIDTH } from "@/constant/width";
 
 export function HeroBanner(){
   return (
@@ -14,14 +15,19 @@ export function HeroBanner(){
         width: '100%',
         backgroundSize: '100% 100%',
         backgroundPosition: 'center',
-        display: 'flex',
-        justifyContent: 'space-between',
-        paddingTop: '89px',
+        paddingTop: 30,
         paddingX: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
-        alignItems: 'center',
-        flexDirection: { sm: 'row', xs: 'column'}
       }}
     >
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: { sm: 'row', xs: 'column', xl: 'row' },
+        maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' },
+        mx: 'auto'
+      }}>
+
       <Box sx={{
         width: { sm: '629px', xs: '100%'}
       }}>
@@ -52,6 +58,7 @@ export function HeroBanner(){
         height={300}
         objectFit="contain"
       />
+      </Box>
     </Box>
   )
 }
