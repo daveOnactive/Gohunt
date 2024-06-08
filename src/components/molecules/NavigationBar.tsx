@@ -16,6 +16,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
+import { SCREEN_MAX_WIDTH } from '@/constant/width';
+import { Breadcrumbs } from '../atoms';
 
 interface Props {
   /**
@@ -24,6 +26,7 @@ interface Props {
    */
   window?: () => Window;
   isNavBg?: boolean;
+  showBreadcrumbs?: boolean;
 }
 
 const drawerWidth = 240;
@@ -86,8 +89,8 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" elevation={0} sx={{ background: isNavBg ? '#0F101E' : 'none'}}>
-        <Toolbar sx={{ justifyContent: 'space-between'}}>
+      <AppBar component="nav" elevation={0} sx={{ background: isNavBg ? '#0F101E' : 'none', }}>
+        <Toolbar sx={{ justifyContent: 'space-between', maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' }, display: 'flex', alignItems: 'center', width: '100%', margin: 'auto' }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -145,7 +148,7 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
         </Drawer>
       </nav>
       <Box component="main" width='100%'>
-        {/* <Toolbar /> */}
+        {props?.showBreadcrumbs ? <Breadcrumbs /> : null}
         {props.children}
       </Box>
     </Box>

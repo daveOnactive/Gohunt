@@ -9,19 +9,30 @@ import {
   FAQ,
   Footer
 } from "@/components";
+import { SCREEN_MAX_WIDTH } from "@/constant/width";
+import { Box } from "@mui/material";
 
 export default function Home() {
   return (
     <main>
       <NavigationBar>
         <HeroBanner />
-        <OurAsset />
-        <BuyAndSell />
-        <OurService />
-        <WhyChooseUse />
-        <Testimonial />
-        <FAQ />
-        <Footer />
+        <Box sx={{
+          maxWidth: { xl: SCREEN_MAX_WIDTH , sm: '100%', xs: '100%'},
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          mx: 'auto'
+        }}>
+          <OurAsset />
+          <BuyAndSell />
+          <OurService />
+          <WhyChooseUse />
+          <Testimonial />
+          <FAQ />
+          <Footer />
+        </Box>
       </NavigationBar>
     </main>
   );
