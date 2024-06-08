@@ -1,8 +1,9 @@
-import { NavigationBar, TradeSection } from "@/components";
+import { EditBankDetails, NavigationBar } from "@/components";
+import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { SCREEN_MAX_WIDTH } from "@/constant/width";
 import { Box } from "@mui/material";
 
-export default function Trade() {
+export default function BankDetails() {
   return (
     <main>
       <NavigationBar
@@ -12,12 +13,11 @@ export default function Trade() {
         <Box sx={{
           maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' },
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          mx: 'auto'
+          mx: 'auto',
+          mt: 8,
+          padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
         }}>
-          <TradeSection />
+          <EditBankDetails />
         </Box>
       </NavigationBar>
     </main>

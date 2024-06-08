@@ -5,6 +5,7 @@ import ETH from '../../../public/svg/ETH.svg';
 import USDT from '../../../public/svg/USDT.svg';
 import { AssetCard, BankDetailsCard } from "../molecules";
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
+import { useRouter } from 'next/navigation';
 
 enum AssetCardType {
   ASSET = 'asset',
@@ -55,6 +56,8 @@ export function DashboardCards() {
     }
   ]
 
+  const { push } = useRouter()
+
   return (
     <Box sx={{
       display: 'grid',
@@ -64,7 +67,7 @@ export function DashboardCards() {
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
     }}>
       {
-        assetCards.map((card) => card.type === AssetCardType.ASSET ? <AssetCard data={card} onClick={() => null} key={card.assetName} /> : <BankDetailsCard data={card} onClick={() => null} key={card.bankName} />)
+        assetCards.map((card) => card.type === AssetCardType.ASSET ? <AssetCard data={card} onClick={() => push('/dashboard/wallet-details')} key={card.assetName} /> : <BankDetailsCard data={card} onClick={() => push('/dashboard/bank-details')} key={card.bankName} />)
       }
     </Box>
   )

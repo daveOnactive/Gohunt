@@ -9,8 +9,10 @@ import { SCREEN_MAX_WIDTH } from '@/constant/width';
 
 
 const breadcrumbNameMap: { [key: string]: string } = {
-  '/trad': 'Trade',
+  '/trade': 'Trade',
   '/dashboard': 'Dashboard',
+  '/dashboard/bank-details': 'Edit Bank Details',
+  '/dashboard/wallet-details': 'Edit Wallet Details'
 };
 
 
@@ -27,15 +29,13 @@ export function Breadcrumbs() {
       sx={{
         width: '100%',
         position: 'relative',
-        top: '10%',
+        top: '80px',
         paddingX: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
         maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' },
         margin: 'auto'
       }}
     >
-      <Link underline="hover" key="1" color="inherit" href="/" sx={{
-        color: '#1F719D'
-      }}>
+      <Link underline="hover" key="1" href="/" color="primary">
         Home
       </Link>
       {pathnames.map((value, index) => {
@@ -47,7 +47,7 @@ export function Breadcrumbs() {
             {breadcrumbNameMap[to]}
           </Typography>
         ) : (
-          <Link underline="hover" color="inherit" href={to} key={to}>
+          <Link underline="hover" color="primary" href={to} key={to}>
           {breadcrumbNameMap[to]}
           </Link>
         );
