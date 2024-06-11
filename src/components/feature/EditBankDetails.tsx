@@ -5,12 +5,12 @@ export function EditBankDetails(){
   return (
     <Card elevation={0} sx={{
       borderRadius: '28px',
-      px: 9.5,
+      px: { sm: 9.5, xs: 4 },
       py: 4,
       display: 'flex',
       flexDirection: 'column',
       mx: 'auto',
-      width: '50%',
+      width: { sm: '50%', xs: '100%' },
       mt: 7
     }}>
       <Typography color='primary' variant="h6" textAlign='center' fontWeight='bold' mb={6.5}>Bank Details</Typography>

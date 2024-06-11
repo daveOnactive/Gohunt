@@ -15,7 +15,7 @@ export function HeroBanner(){
         width: '100%',
         backgroundSize: '100% 100%',
         backgroundPosition: 'center',
-        paddingTop: 30,
+        paddingTop: { sm: 30, xs: 10 },
         paddingX: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
       }}
     >
@@ -39,13 +39,14 @@ export function HeroBanner(){
           borderRadius: 100,
           marginBottom: '8px',
           display: 'flex',
+          alignItems: 'center'
         }}>
           <Image
             src={Dollar}
             alt="dollar"
             objectFit="contain"
           />
-          <Typography variant="body1" ml='8px'>Discover a new ways to enjoy your World!</Typography>
+          <Typography variant="body1" ml='8px' sx={{ fontSize: { xs: '.8rem', sm: '1rem' }}}>Discover a new ways to enjoy your World!</Typography>
         </Box>
         <Typography variant="h3" mb={"35px"}>A trusted and secure cryptocurrency exchange.</Typography>
         <Typography variant="body1">We have over 15 year exprience in business consultting arena. We have over 15 year exprience in business consultting arena and artficial intelligence.</Typography>
@@ -56,7 +57,7 @@ export function HeroBanner(){
         alt="Banner side"
         width={400}
         height={300}
-        objectFit="contain"
+        style={{ width: '100%', objectFit: "contain" }}
       />
       </Box>
     </Box>

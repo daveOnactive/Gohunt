@@ -42,7 +42,8 @@ export function OurAsset() {
 
   return (
     <Box sx={{
-      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING }
+      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
+      width: '100%'
     }}>
       <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>Our Asset</Typography>
 
@@ -51,7 +52,7 @@ export function OurAsset() {
         alignItems: 'center',
         gap: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
         justifyContent: 'center',
-        flexDirection: { sm: 'row', xs: 'column' }
+        flexDirection: { sm: 'row', xs: 'column' },
       }}>
         {
           asset.map((item) => (

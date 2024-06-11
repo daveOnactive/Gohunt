@@ -16,7 +16,7 @@ export default function Dashboard() {
           justifyContent: 'space',
           alignItems: 'center',
           mx: 'auto',
-          mt: 8
+          mt: 8,
         }}>
           <DashboardCards />
           <TransactionHistory />
