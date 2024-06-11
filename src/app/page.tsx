@@ -10,9 +10,11 @@ import {
   Footer
 } from "@/components";
 import { SCREEN_MAX_WIDTH } from "@/constant/width";
+import Api from "@/services/api";
 import { Box } from "@mui/material";
 
-export default function Home() {
+export default async function Home() {
+  
   return (
     <main>
       <NavigationBar>
