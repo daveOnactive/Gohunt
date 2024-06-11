@@ -18,7 +18,7 @@ export function AssetCard({ data, onClick }: IProps) {
       <Box sx={{
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: { xs: 'self-end', sm: 'center' },
         mb: 1.5,
         flexDirection: { sm: 'row', xs: 'column-reverse'}
       }}>

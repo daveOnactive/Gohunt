@@ -14,6 +14,10 @@ const data = [
     asset: 'Bitcoin',
     transaction: 'Sell',
     rate: 1000,
+    bankAccount: '0987654321',
+    bankName: 'Access bank',
+    holdersName: 'Chido',
+    walletAddress: 'fmibgurbgrbgr',
     status: 'Successful',
     phoneNumber: '09088763354',
     amount: 500000
@@ -26,7 +30,11 @@ const data = [
     rate: 1000,
     status: 'Pending',
     phoneNumber: '09088763354',
-    amount: 500000
+    amount: 500000,
+    bankAccount: '0987654321',
+    bankName: 'Access bank',
+    holdersName: 'Chido',
+    walletAddress: 'fmibgurbgrbgr',
   },
   {
     id: 3,
@@ -36,7 +44,11 @@ const data = [
     rate: 1000,
     status: 'Failed',
     phoneNumber: '09088763354',
-    amount: 500000
+    amount: 500000,
+    bankAccount: '0987654321',
+    bankName: 'Access bank',
+    holdersName: 'Chido',
+    walletAddress: 'fmibgurbgrbgr',
   }
 ];
 
@@ -63,6 +75,22 @@ export function TransactionList(){
     },
     {
       title: 'Rate',
+      align: 'left'
+    },
+    {
+      title: 'Bank Account',
+      align: 'left'
+    },
+    {
+      title: 'Bank Name',
+      align: 'left'
+    },
+    {
+      title: 'Bank Holder\'s Name',
+      align: 'left'
+    },
+    {
+      title: 'Wallet Address',
       align: 'left'
     },
     {
@@ -114,6 +142,10 @@ export function TransactionList(){
                 <TableCell align="left">{row.asset}</TableCell>
                 <TableCell align="left">{row.transaction}</TableCell>
                 <TableCell align="left">{row.rate}</TableCell>
+              <TableCell align="left">{row.bankAccount}</TableCell>
+              <TableCell align="left">{row.bankName}</TableCell>
+              <TableCell align="left">{row.holdersName}</TableCell>
+              <TableCell align="left">{row.walletAddress}</TableCell>
               <TableCell align="left" sx={{ color: StatusColorMapper[row.status as keyof typeof StatusColorMapper] }}>{row.status}</TableCell>
                 <TableCell align="left">{row.phoneNumber}</TableCell>
                 <TableCell align="left">{row.amount}</TableCell>

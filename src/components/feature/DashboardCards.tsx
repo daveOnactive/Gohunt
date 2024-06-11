@@ -65,6 +65,7 @@ export function DashboardCards() {
       gap: 3,
       width: '100%',
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
+      mt: { xs: 2 }
     }}>
       {
         assetCards.map((card) => card.type === AssetCardType.ASSET ? <AssetCard data={card} onClick={() => push('/dashboard/wallet-details')} key={card.assetName} /> : <BankDetailsCard data={card} onClick={() => push('/dashboard/bank-details')} key={card.bankName} />)
