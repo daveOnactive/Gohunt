@@ -1,7 +1,7 @@
 import { doc, updateDoc, getDoc } from "firebase/firestore"
 import { db } from "../../db"
-import { Status } from "../../type"
-import { tryCatch } from "../../helpers";
+import { Status } from "../../../../type"
+import { tryCatch } from "../../../../helpers";
 
 export async function GET(
   request: Request,
