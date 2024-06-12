@@ -38,6 +38,7 @@ const tabs = [
 ]
 
 function ContentSection() {
+
   return (
     <Box sx={{
       width: { sm: '50%' }

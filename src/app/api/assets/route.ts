@@ -6,7 +6,7 @@ export async function GET() {
   return tryCatch(async() => {
     const querySnapshot = await getDocs(collection(db, 'assets'));
     const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-    return Response.json({ data })
+    return Response.json(data)
   })
 }
 

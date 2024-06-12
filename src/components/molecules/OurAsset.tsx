@@ -1,44 +1,35 @@
-import { Box, Card, Typography } from "@mui/material";
-import BTC from '../../../public/svg/Bitcoin.svg';
-import ETH from '../../../public/svg/ETH.svg';
-import USDT from '../../../public/svg/USDT.svg';
+"use client"
+import { Box, Card, Skeleton, Typography } from "@mui/material";
 import Image from "next/image";
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
+import { AssetsIconMapper, formatNumber } from "@/helpers";
+import { useContext } from "react";
+import { AssetContext } from "@/providers";
 
 export function OurAsset() {
 
-  const asset = [
+  const assets = [
     {
       title: 'Bitcoin',
-      icon: BTC,
+      icon: AssetsIconMapper['bitcoin'],
       abbr: 'BTC',
-      rate: {
-        sell: 1000,
-        buy: 1000,
-      },
       price: 58000,
     },
     {
       title: 'Ethereum',
-      icon: ETH,
+      icon: AssetsIconMapper['ethereum'],
       abbr: 'ETH',
-      rate: {
-        sell: 1000,
-        buy: 1000,
-      },
       price: 58000,
     },
     {
       title: 'Tether',
-      icon: USDT,
+      icon: AssetsIconMapper['tether'],
       abbr: 'USDT',
-      rate: {
-        sell: 1000,
-        buy: 1000,
-      },
       price: 58000,
     }
   ]
+
+  const { data, isLoading, getAssetRate } = useContext(AssetContext);
 
   return (
     <Box sx={{
@@ -55,7 +46,7 @@ export function OurAsset() {
         flexDirection: { sm: 'row', xs: 'column' },
       }}>
         {
-          asset.map((item) => (
+          assets.map((item) => (
             <Card key={item.title} elevation={0} sx={{
               width: { sm: '364px', xs: '100%'},
               padding: 1.5
@@ -82,18 +73,18 @@ export function OurAsset() {
                   </Typography>
                 </Box>
 
-                <Box>
-                  <Typography>
-                    <b>Sell Rate</b> - {item.rate.sell}
+                <Box width='fit-content' minWidth='30%'>
+                  <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <b>Sell Rate</b> - {!isLoading ?  getAssetRate(item.abbr, data)?.sell || '' : <Skeleton variant="text" width='30%' />}
                   </Typography>
-                  <Typography>
-                    <b>Buy Rate</b> - {item.rate.buy}
+                  <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <b>Buy Rate</b> - {!isLoading ? getAssetRate(item.abbr, data)?.buy || '' : <Skeleton variant="text" width='30%' />}
                   </Typography>
                 </Box>
               </Box>
 
               <Box display="flex" alignItems='center' justifyContent='space-between'>
-                <Typography variant="h6">{item.price}</Typography>
+                <Typography variant="h6">{formatNumber(item.price, true)}</Typography>
                 <Typography variant="h6" fontWeight='light' sx={{ opacity: .7 }}>{item.abbr}</Typography>
               </Box>
             </Card>
@@ -103,3 +94,4 @@ export function OurAsset() {
     </Box>
   )
 }
+

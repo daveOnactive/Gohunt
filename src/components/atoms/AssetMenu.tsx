@@ -30,7 +30,12 @@ const menu: IMenu[] = [
     icon: USDT
   }
 ];
-export function AssetMenu() {
+
+type IProps = {
+  onChange?: (value: string) => void;
+}
+
+export function AssetMenu({ onChange }: IProps) {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -48,6 +53,8 @@ export function AssetMenu() {
   const handleClose = (value: IMenu) => {
     setAnchorEl(null);
     setSelectedValue(value);
+
+    onChange?.(value.value);
   };
 
   return (
