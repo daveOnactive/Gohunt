@@ -2,7 +2,7 @@ import { Box, InputBase, Typography } from "@mui/material";
 import NGN from '../../../public/svg/NGN.svg';
 import Image from 'next/image';
 
-export function CurrencyInput() {
+export function CurrencyInput({ value, onChange }: { value: any; onChange?: (value: number) => void; }) {
   return (
     <Box sx={{
       borderBottom: 1,
@@ -20,6 +20,8 @@ export function CurrencyInput() {
         <InputBase
           type="number"
           fullWidth
+          value={value}
+          onChange={(ev) => onChange?.(ev.target.value as unknown as number)}
         />
       </Box>
       <Box sx={{
