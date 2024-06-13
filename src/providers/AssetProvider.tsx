@@ -31,12 +31,16 @@ function getAssetRate(abbr: string, assets?: Assets[]) {
 export function AssetProvider({ children }: PropsWithChildren) {
   const { data, isLoading } = useQuery<Assets[]>({
     queryKey: ['assets'],
-    queryFn: async () => (await Api.get('/assets')).data
+    queryFn: async () => (await Api.get('/assets')).data,
+    // enabled: false,
+    // staleTime: Infinity
   });
 
   const { data: bank, isLoading: isLoadingBank } = useQuery<Bank[]>({
     queryKey: ['bank'],
-    queryFn: async () => (await Api.get('/bank')).data
+    queryFn: async () => (await Api.get('/bank')).data,
+    // enabled: false,
+    // staleTime: Infinity
   });
 
   return (
