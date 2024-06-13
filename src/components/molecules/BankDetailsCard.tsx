@@ -1,8 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
 import HistoryEduRoundedIcon from '@mui/icons-material/HistoryEduRounded';
+import { Bank } from "@/type";
 
 type IProps = {
-  data: any;
+  data?: Bank;
   onClick: (data: any) => void;
 }
 export function BankDetailsCard({ data, onClick }: IProps) {
@@ -41,18 +42,18 @@ export function BankDetailsCard({ data, onClick }: IProps) {
         mb: 2
       }}>
         <Typography variant="h6">
-          {data.bankName}
+          {data?.bankName}
         </Typography>
 
         <Typography variant="body2">
-          {data.accountNumber}
+          {data?.accountNumber}
         </Typography>
       </Box>
 
       <Typography variant="h6" sx={{
         color: '#EB832E'
       }}>
-        {data.holdersName}
+        {data?.holdersName}
       </Typography>
 
     </Box>

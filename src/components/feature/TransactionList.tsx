@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+"use client"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,56 +6,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
-const data = [
-  {
-    id: 1,
-    date: '23-03-2024',
-    asset: 'Bitcoin',
-    transaction: 'Sell',
-    rate: 1000,
-    bankAccount: '0987654321',
-    bankName: 'Access bank',
-    holdersName: 'Chido',
-    walletAddress: 'fmibgurbgrbgr',
-    status: 'Successful',
-    phoneNumber: '09088763354',
-    amount: 500000
-  },
-  {
-    id: 2,
-    date: '23-03-2024',
-    asset: 'Bitcoin',
-    transaction: 'Sell',
-    rate: 1000,
-    status: 'Pending',
-    phoneNumber: '09088763354',
-    amount: 500000,
-    bankAccount: '0987654321',
-    bankName: 'Access bank',
-    holdersName: 'Chido',
-    walletAddress: 'fmibgurbgrbgr',
-  },
-  {
-    id: 3,
-    date: '23-03-2024',
-    asset: 'Bitcoin',
-    transaction: 'Sell',
-    rate: 1000,
-    status: 'Failed',
-    phoneNumber: '09088763354',
-    amount: 500000,
-    bankAccount: '0987654321',
-    bankName: 'Access bank',
-    holdersName: 'Chido',
-    walletAddress: 'fmibgurbgrbgr',
-  }
-];
+import { useQuery } from "react-query";
+import Api from "@/services/api";
+import { Transaction } from '@/type';
 
 const StatusColorMapper = {
-  "Successful": "#19966C",
-  "Pending": "#BCAC1B",
-  "Failed": "#FF0318",
+  "successful": "#19966C",
+  "pending": "#BCAC1B",
+  "failed": "#FF0318",
 }
 
 
@@ -107,6 +65,11 @@ export function TransactionList(){
     }
   ];
 
+  const { data: transactions } = useQuery<Transaction[]>({
+    queryKey: ['transactions'],
+    queryFn: async () => (await Api.get('/transactions')).data
+  });
+
   return (
       <TableContainer component={Paper} sx={{
         backgroundColor: 'transparent'
@@ -125,33 +88,33 @@ export function TransactionList(){
               }
             </TableRow>
           </TableHead>
-          <TableBody>
-          {data.map((row) => (
-              <TableRow
-                key={row.id}
-                sx={{ 
-                  '&:last-child td, &:last-child th': { border: 0 },
-                  '& .MuiTableCell-root': {
-                    borderColor: '#2A2F45'
-                  }
-                }}
-              >
-                <TableCell align="left">
-                  {row.date}
-                </TableCell>
-                <TableCell align="left">{row.asset}</TableCell>
-                <TableCell align="left">{row.transaction}</TableCell>
-                <TableCell align="left">{row.rate}</TableCell>
+        <TableBody>
+          {transactions?.map((row) => (
+            <TableRow
+              key={row.id}
+              sx={{
+                '&:last-child td, &:last-child th': { border: 0 },
+                '& .MuiTableCell-root': {
+                  borderColor: '#2A2F45'
+                }
+              }}
+            >
+              <TableCell align="left">
+                {`${row.date}`}
+              </TableCell>
+              <TableCell align="left">{row.asset}</TableCell>
+              <TableCell align="left">{row.transactionType}</TableCell>
+              <TableCell align="left">{row.rate}</TableCell>
               <TableCell align="left">{row.bankAccount}</TableCell>
               <TableCell align="left">{row.bankName}</TableCell>
               <TableCell align="left">{row.holdersName}</TableCell>
               <TableCell align="left">{row.walletAddress}</TableCell>
               <TableCell align="left" sx={{ color: StatusColorMapper[row.status as keyof typeof StatusColorMapper] }}>{row.status}</TableCell>
-                <TableCell align="left">{row.phoneNumber}</TableCell>
-                <TableCell align="left">{row.amount}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+              <TableCell align="left">{row.phoneNumber}</TableCell>
+              <TableCell align="left">{row.amount}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
         </Table>
       </TableContainer>
   )
