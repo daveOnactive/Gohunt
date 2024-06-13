@@ -1,9 +1,11 @@
 import { Box, Button, Typography } from "@mui/material";
 import HistoryEduRoundedIcon from '@mui/icons-material/HistoryEduRounded';
 import Image from "next/image";
+import { Assets } from "@/type";
+import { AssetsIconMapper, formatNumber } from "@/helpers";
 
 type IProps = {
-  data: any;
+  data: Assets;
   onClick: (data: any) => void;
 }
 
@@ -24,7 +26,7 @@ export function AssetCard({ data, onClick }: IProps) {
       }}>
         <Typography variant="body2">
           <strong>{`Wallet Address: `}</strong>
-          <span style={{ opacity: .7 }}>{data.walletAddress}</span>
+          <span style={{ opacity: .7 }}>{data.assetAddress}</span>
         </Typography>
 
         <Button
@@ -50,7 +52,7 @@ export function AssetCard({ data, onClick }: IProps) {
           gap: 2,
           flexDirection: {xs: 'column', sm: 'row' }
         }}>
-          <Image alt={data.assetName} src={data.icon} />
+          <Image alt={data.assetName} src={AssetsIconMapper[data.assetName.toLowerCase() as keyof typeof AssetsIconMapper]} />
 
           <Box width='100%'>
             <Typography variant="h6" pb={.5}>
@@ -58,7 +60,7 @@ export function AssetCard({ data, onClick }: IProps) {
             </Typography>
 
             <Typography variant="body2" sx={{ opacity: .7 }}>
-              {`Updated: ${data.lastUpdated}`}
+              {`Updated: 22-01-2024`}
             </Typography>
           </Box>
         </Box>
@@ -66,12 +68,12 @@ export function AssetCard({ data, onClick }: IProps) {
         <Box>
           <Typography variant="body2">
             <strong>Sell Rate- </strong>
-            {data.rate.sell}
+            {formatNumber(data.rate.sell, true)}
           </Typography>
 
           <Typography variant="body2">
             <strong>Buy Rate- </strong>
-            {data.rate.buy}
+            {formatNumber(data.rate.buy, true)}
           </Typography>
         </Box>
       </Box>

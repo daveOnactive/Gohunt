@@ -2,11 +2,20 @@
 
 import { formatNumber } from "@/helpers";
 import Api from "@/services/api";
-import { Assets } from "@/type";
+import { Assets, Bank } from "@/type";
 import { createContext, PropsWithChildren } from "react";
 import { useQuery } from "react-query";
 
-export const AssetContext = createContext<any>({});
+type IAssetProvide = {
+  data: Assets[];
+  isLoading: boolean;
+  getAssetRate: any;
+  filterAssets: any;
+  bank: Bank;
+  isLoadingBank: boolean;
+}
+
+export const AssetContext = createContext<Partial<IAssetProvide>>({});
 
 function filterAssets(assets: Assets[], name: string) {
   return assets?.filter((asset) => asset.abbr === name)[0];
@@ -25,13 +34,20 @@ export function AssetProvider({ children }: PropsWithChildren) {
     queryFn: async () => (await Api.get('/assets')).data
   });
 
+  const { data: bank, isLoading: isLoadingBank } = useQuery<Bank[]>({
+    queryKey: ['bank'],
+    queryFn: async () => (await Api.get('/bank')).data
+  });
+
   return (
     <AssetContext.Provider
       value={{
         data,
         isLoading,
         getAssetRate,
-        filterAssets
+        filterAssets,
+        bank: bank?.[0],
+        isLoadingBank,
       }}
     >
       {children}

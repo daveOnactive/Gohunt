@@ -1,4 +1,4 @@
-import { Breadcrumbs, DashboardCards, NavigationBar, TransactionHistory } from "@/components";
+import { DashboardCards, NavigationBar, TransactionHistory } from "@/components";
 import { SCREEN_MAX_WIDTH } from "@/constant/width";
 import { Box } from "@mui/material";
 
