@@ -10,7 +10,7 @@ import { AssetContext } from "@/providers"
 type IDisplayRate = {
   asset: string;
   rate: number;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 function DisplayRate({ asset, rate, isLoading }: IDisplayRate) {
