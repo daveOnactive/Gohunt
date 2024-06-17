@@ -6,6 +6,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Api from "@/services/api";
 import { useAlert } from "@/hooks";
 import { Assets } from "@/type";
+import { useContext } from "react";
+import { AssetContext } from "@/providers";
 
 type IForm = {
   assetAddress: string;
@@ -18,10 +20,7 @@ export function EditWalletDetails() {
   const params = useSearchParams();
   const id = params.get('id');
 
-  const { isLoading: isLoadingAsset, data } = useQuery<Assets>({
-    queryKey: ['asset', id],
-    queryFn: async () => (await Api.get(`/assets/${id?.toString()}`)).data
-  });
+  const { asset: data, isLoadingAsset } = useContext(AssetContext);
 
   const { control, formState: { errors }, handleSubmit } = useForm<IForm>({
     defaultValues: {

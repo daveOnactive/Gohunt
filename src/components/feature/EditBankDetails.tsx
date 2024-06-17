@@ -1,7 +1,63 @@
+'use client'
 import { Button, Card, Typography } from "@mui/material";
 import { AccountInput } from "../atoms";
+import { AssetContext } from "@/providers";
+import { useRouter } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
+import Api from "@/services/api";
+import { useAlert } from "@/hooks";
+import { useQueryClient, useMutation } from "react-query";
+
+type IForm = {
+  bankName: string;
+  accountNumber: string;
+  holdersName: string;
+  id?: string;
+}
 
 export function EditBankDetails(){
+
+  const { bank } = useContext(AssetContext);
+
+  const [bankDetails, setBankDetails] = useState<Partial<IForm>>();
+
+  const { push } = useRouter();
+
+  const { showNotification } = useAlert();
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    setBankDetails({
+      bankName: bank?.bankName,
+      accountNumber: bank?.accountNumber,
+      holdersName: bank?.holdersName,
+    });
+  }, [bank]);
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (data: Partial<IForm>) => Api.patch(`/bank`, data)
+  });
+
+  function handleBankDetails(value: string, key: 'bankName' | 'accountNumber') {
+    setBankDetails({
+      ...bankDetails,
+      [key]: value,
+    });
+  }
+
+  const onSubmit = () => {
+    if (bankDetails?.accountNumber && bankDetails.bankName) {
+      mutate({ ...bankDetails, id: bank?.id }, {
+        onSuccess: () => {
+          showNotification({ message: 'Bank Details Edited!', type: 'success' });
+          queryClient.invalidateQueries('bank')
+          push('/dashboard');
+        }
+      });
+    }
+  }
+
   return (
     <Card elevation={0} sx={{
       borderRadius: '28px',
@@ -15,9 +71,17 @@ export function EditBankDetails(){
     }}>
       <Typography color='primary' variant="h6" textAlign='center' fontWeight='bold' mb={6.5}>Bank Details</Typography>
 
-      <AccountInput />
+      <AccountInput
+        value={{
+          holdersName: bank?.holdersName,
+          accountNumber: bank?.accountNumber,
+          bankName: bank?.bankName
+        }}
+        onBankChange={(value) => handleBankDetails(value, 'bankName')}
+        onChange={(value) => handleBankDetails(value, 'accountNumber')}
+      />
 
-      <Button variant="contained" color='primary' fullWidth sx={{ mt: 6.5 }}>Save Changes</Button>
+      <Button disabled={isLoading} variant="contained" color='primary' fullWidth sx={{ mt: 6.5 }} onClick={onSubmit}>Save Changes</Button>
     </Card>
   )
 }
