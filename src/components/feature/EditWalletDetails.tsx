@@ -2,7 +2,7 @@
 import { Card, Typography, Button, TextField, Skeleton } from "@mui/material";
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import Api from "@/services/api";
 import { useAlert } from "@/hooks";
 import { Assets } from "@/type";
