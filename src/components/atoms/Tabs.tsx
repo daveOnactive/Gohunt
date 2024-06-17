@@ -42,13 +42,14 @@ type IProps = {
     content: React.ReactNode;
   }[];
   handleClick?: (tab: string) => void;
+  activeTab?: number;
 }
 
-export function Tabs({ tabs, handleClick }: IProps) {
+export function Tabs({ tabs, handleClick, activeTab = 0, }: IProps) {
   
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(activeTab);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 

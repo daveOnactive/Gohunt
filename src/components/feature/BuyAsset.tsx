@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Skeleton, TextField } from "@mui/material";
 import { AccountDisplay, UploadInput, WalletAddressInput } from "../atoms";
 import { useAlert } from "@/hooks";
 import { AssetContext } from "@/providers";
@@ -16,7 +16,7 @@ type IForm = {
 }
 
 export function BuyAsset(){
-  const { data, filterAssets, bank } = useContext(AssetContext);
+  const { data, filterAssets, bank, isLoadingBank } = useContext(AssetContext);
 
   const [selectedAsset, setSelectedAsset] = useState<string>('BTC');
 
@@ -63,11 +63,20 @@ export function BuyAsset(){
       onSubmit={handleSubmit(onSubmit)}
     >
       <Box mt={3.5}>
-        <AccountDisplay
-          bankAccount={bank?.accountNumber}
-          bankName={bank?.bankName}
-          holdersName={bank?.holdersName}
-        />
+        {
+          isLoadingBank ? (
+            <Skeleton
+              width='100%'
+              height={60}
+            />
+          ) : (
+              <AccountDisplay
+                bankAccount={bank?.accountNumber}
+                bankName={bank?.bankName}
+                holdersName={bank?.holdersName}
+              />
+          )
+        }
       </Box>
 
       <Controller

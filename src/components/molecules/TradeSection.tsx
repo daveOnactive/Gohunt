@@ -8,6 +8,7 @@ import { useState } from "react";
 import Sell from '../../../public/svg/sell.svg';
 import Buy from '../../../public/svg/buy.svg';
 import { SellAsset, BuyAsset } from "../feature";
+import { useSearchParams } from "next/navigation";
 
 enum Trade {
   sell = 'Sell Crypto',
@@ -20,6 +21,13 @@ export function TradeSection() {
   const icon = {
     [Trade.sell]: Sell,
     [Trade.buy]: Buy
+  }
+
+  const searchParams = useSearchParams();
+
+  const activeTab = {
+    sell: 0,
+    buy: 1,
   }
 
   return (
@@ -62,6 +70,7 @@ export function TradeSection() {
             }
           ]}
           handleClick={(tab) => setCurrentTab(tab as Trade)}
+          activeTab={activeTab[searchParams.get('tradeType') as keyof typeof activeTab]}
         />
       </Card>
     </Box>

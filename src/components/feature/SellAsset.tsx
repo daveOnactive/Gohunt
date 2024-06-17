@@ -1,11 +1,11 @@
 'use client'
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Skeleton, TextField } from "@mui/material";
 import { AccountInput, UploadInput, WalletAddressInput } from "..";
 import { useContext, useMemo, useState } from "react";
 import { AssetContext } from "@/providers";
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useAlert } from "@/hooks";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "react-query";
 import Api from "@/services/api";
 import { Assets, Bank } from "@/type";
@@ -17,7 +17,9 @@ type IForm = {
 
 export function SellAsset() {
 
-  const { data, filterAssets } = useContext(AssetContext);
+  const { data, filterAssets, isLoading: isLoadingAsset } = useContext(AssetContext);
+  
+  const searchParams = useSearchParams();
 
   const [selectedAsset, setSelectedAsset] = useState<string>('BTC');
 
@@ -26,6 +28,7 @@ export function SellAsset() {
   const [bankDetails, setBankDetails] = useState<Partial<Bank>>();
 
   const asset = useMemo(() => filterAssets(data, selectedAsset), [data, filterAssets, selectedAsset]) as Assets;
+
 
   function handleBankChange(value: string, key: 'bankName' | 'accountNumber') {
     setBankDetails({
@@ -67,10 +70,19 @@ export function SellAsset() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <Box mt={3.5}>
-        <WalletAddressInput
-          asset={asset}
-          onAssetChange={(value) => setSelectedAsset(value)}
-        />
+        {
+          isLoadingAsset ? (
+            <Skeleton
+              width='100%'
+              height={60}
+            />
+          ) : (
+            <WalletAddressInput
+              asset={asset}
+              onAssetChange={(value) => setSelectedAsset(value)}
+            />
+          )
+        }
       </Box>
 
       <Controller
@@ -103,6 +115,7 @@ export function SellAsset() {
             error={!!errors.assetAddress}
             type="number"
             placeholder="Type amount"
+            defaultValue={searchParams.get('amount')}
           />
         )}
         rules={{ required: true }}
