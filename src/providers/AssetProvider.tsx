@@ -3,6 +3,7 @@
 import { formatNumber } from "@/helpers";
 import Api from "@/services/api";
 import { Assets, Bank } from "@/type";
+import { useSearchParams } from "next/navigation";
 import { createContext, PropsWithChildren } from "react";
 import { useQuery } from "react-query";
 
@@ -13,6 +14,8 @@ type IAssetProvide = {
   filterAssets: any;
   bank: Bank;
   isLoadingBank: boolean;
+  asset: Assets;
+  isLoadingAsset: boolean;
 }
 
 export const AssetContext = createContext<Partial<IAssetProvide>>({});
@@ -29,14 +32,29 @@ function getAssetRate(abbr: string, assets?: Assets[]) {
 };
 
 export function AssetProvider({ children }: PropsWithChildren) {
+
+  const params = useSearchParams();
+  const id = params.get('id');
+
+
   const { data, isLoading } = useQuery<Assets[]>({
     queryKey: ['assets'],
-    queryFn: async () => (await Api.get('/assets')).data
+    queryFn: async () => (await Api.get('/assets')).data,
+    // enabled: false,
+    // staleTime: Infinity
   });
 
   const { data: bank, isLoading: isLoadingBank } = useQuery<Bank[]>({
     queryKey: ['bank'],
-    queryFn: async () => (await Api.get('/bank')).data
+    queryFn: async () => (await Api.get('/bank')).data,
+    // enabled: false,
+    // staleTime: Infinity
+  });
+
+  const { isLoading: isLoadingAsset, data: asset } = useQuery<Assets>({
+    queryKey: ['asset', id],
+    queryFn: async () => (await Api.get(`/assets/${id?.toString()}`)).data,
+    enabled: !!id,
   });
 
   return (
@@ -48,6 +66,8 @@ export function AssetProvider({ children }: PropsWithChildren) {
         filterAssets,
         bank: bank?.[0],
         isLoadingBank,
+        asset,
+        isLoadingAsset
       }}
     >
       {children}

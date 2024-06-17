@@ -37,10 +37,10 @@ export function DashboardCards() {
           <>
               {
                 data?.map(item => (
-                  <AssetCard key={item.assetName} data={item} onClick={() => push('/dashboard/wallet-details')} />
+                  <AssetCard key={item.id} data={item} onClick={() => push(`/dashboard/wallet-details?id=${item.id}&name=${item.abbr}`)} />
                 ))
               }
-              <BankDetailsCard data={bank} onClick={() => push('/dashboard/bank-details')} />
+              <BankDetailsCard data={bank} onClick={() => push(`/dashboard/bank-details?id=${bank?.id}`)} />
           </>
         )
       }

@@ -9,23 +9,3 @@ export async function GET() {
     return Response.json(data)
   })
 }
-
-export async function PATCH(request: Request) {
-
-  return tryCatch(async () => {
-    const res = await request.json()
-  
-    const assetRef = doc(db, 'assets', res.id)
-  
-    await updateDoc(assetRef, {
-      assetAddress: res.assetAddress,
-      rate: {
-        buy: res.buy,
-        sell: res.sell
-      }
-    });
-  
-  
-    return Response.json({ message: 'Asset updated!' });
-  })
-}
