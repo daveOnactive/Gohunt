@@ -18,14 +18,14 @@ export async function GET(
   })
 }
 
-export async function PATCH(
+export async function PUT(
   request: Request,
   { params }: { params: { slug: string } }
 ) {
   return tryCatch(async () => {
     const slug = params.slug
   
-    const res = await request.json()
+    const res = await request.json();
   
     const transactionRef = doc(db, 'transactions', slug);
   
