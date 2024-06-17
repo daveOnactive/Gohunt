@@ -1,12 +1,19 @@
-import { Box, Typography } from "@mui/material";
+'use client'
+import { Box, Typography, useTheme } from "@mui/material";
 import BannerImg from '../../../public/img/banner.png';
 import Image from "next/image";
 import BannerSide from '../../../public/img/banner-side.png';
 import Dollar from '../../../public/svg/dollar.svg';
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { SCREEN_MAX_WIDTH } from "@/constant/width";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export function HeroBanner(){
+
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('md'));
+
+
   return (
     <Box
       sx={{
@@ -52,13 +59,14 @@ export function HeroBanner(){
         <Typography variant="body1">We have over 15 year exprience in business consultting arena. We have over 15 year exprience in business consultting arena and artficial intelligence.</Typography>
       </Box>
 
-      <Image
-        src={BannerSide.src}
-        alt="Banner side"
-        width={400}
-        height={300}
-        style={{ width: '100%', objectFit: "contain" }}
-      />
+        <Image
+          src={BannerSide.src}
+          alt="Banner side"
+          width={400}
+          height={300}
+          style={{ width: matches ? '100%' : 'fit-content' , objectFit: "contain" }}
+        />
+
       </Box>
     </Box>
   )
