@@ -62,7 +62,10 @@ export function SellAsset() {
   }
 
   return (
-    <Box component='form' onSubmit={handleSubmit(onSubmit)}>
+    <Box
+      component='form' 
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <Box mt={3.5}>
         <WalletAddressInput
           asset={asset}
