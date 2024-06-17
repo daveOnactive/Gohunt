@@ -1,12 +1,19 @@
-import { Box, IconButton, InputBase, InputLabel, Typography } from "@mui/material";
+import { Box, InputBase, InputLabel, Typography } from "@mui/material";
 import { AssetMenu } from "./AssetMenu";
-import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import { Assets } from "@/type";
+import { formatNumber } from "@/helpers";
+import { Copy } from ".";
 
 type IProps = {
   isInput?: boolean;
+  onAssetChange?: (value: string) => void;
+  asset?: Assets;
+  type?: 'sell' | 'buy';
+  onInputChange?: (value: string) => void;
 }
 
-export function WalletAddressInput({ isInput }: IProps) {
+export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell', onInputChange }: IProps) {
+  
   return (
     <Box>
       <Box sx={{
@@ -21,7 +28,7 @@ export function WalletAddressInput({ isInput }: IProps) {
       }}>
         <InputLabel>Wallet Address</InputLabel>
 
-        <InputLabel>₦1 = 0.0000000102253</InputLabel>
+        <InputLabel>1 {asset?.abbr} = {formatNumber(asset?.rate[type] as number, true)}</InputLabel>
       </Box>
       
       <Box sx={{
@@ -44,18 +51,19 @@ export function WalletAddressInput({ isInput }: IProps) {
           {
             isInput ? (
               <InputBase
-                type="number"
                 fullWidth
+                onChange={(ev) => onInputChange?.(ev.target.value)}
               />
             ) : (
               <>
                   <Typography variant="h6" sx={{
                     fontSize: { sm: '1.27rem', xs: '.7rem'}
-                  }}>1JWRoquJwe46mOtrC6UlZSDofJJFJJ..</Typography>
+                  }}>{asset?.assetAddress}</Typography>
 
-                  <IconButton>
-                    <ContentCopyOutlinedIcon sx={{ color: 'white' }} />
-                  </IconButton>
+                  <Copy
+                    name='Wallet Address'
+                    value={asset?.assetAddress || ''}
+                  />
               </>
             )
           }
@@ -65,7 +73,7 @@ export function WalletAddressInput({ isInput }: IProps) {
           display: 'flex',
           mx: 'auto',
         }}>
-          <AssetMenu />
+          <AssetMenu onChange={(value) => onAssetChange?.(value)}/>
         </Box>
 
       </Box>

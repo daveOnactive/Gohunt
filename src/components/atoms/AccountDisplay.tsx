@@ -1,7 +1,16 @@
 import { Box, InputLabel, Typography, IconButton } from "@mui/material";
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import { Copy } from ".";
 
-export function AccountDisplay() {
+
+type IProps = {
+  bankName?: string;
+  bankAccount?: string;
+  holdersName?: string;
+}
+
+
+export function AccountDisplay({ bankAccount, bankName, holdersName  }: IProps) {
   return (
     <Box>
       <Box sx={{
@@ -33,14 +42,14 @@ export function AccountDisplay() {
           pr: 2
         }}>
 
-          <Typography variant="body1">Guarantee Trust Bank</Typography>
+          <Typography variant="body1">{bankName}</Typography>
 
-          <Typography variant="body1">0234512345</Typography>
+          <Typography variant="body1">{bankAccount}</Typography>
 
-          <IconButton>
-            <ContentCopyOutlinedIcon sx={{ color: 'white' }} />
-          </IconButton>
-
+          <Copy
+            name='Bank'
+            value={bankAccount || ''}
+          />
         </Box>
 
       </Box>
@@ -50,7 +59,7 @@ export function AccountDisplay() {
         fontWeight='bold'
         sx={{
         color: '#EB832E'
-      }}>Helen Obianujuaka Jerome</Typography>
+        }}>{holdersName}</Typography>
     </Box>
   )
 }
