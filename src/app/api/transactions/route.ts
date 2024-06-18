@@ -26,7 +26,8 @@ export async function POST(request: Request) {
       bankAccount: res.bankAccount || '',
       walletAddress: res.walletAddress || '',
       bankName: res.bankName || '',
-      holdersName: res.holdersName || ''
+      holdersName: res.holdersName || '',
+      screenshotUrl: res.screenshotUrl || '',
     });
   
   
