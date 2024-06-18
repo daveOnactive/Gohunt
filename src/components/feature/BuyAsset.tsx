@@ -9,6 +9,8 @@ import { useContext, useState, useMemo } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useMutation } from "react-query";
 import Api from "@/services/api";
+import { storage } from "@/services";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 type IForm = {
   phoneNumber?: string;
@@ -26,6 +28,10 @@ export function BuyAsset(){
 
   const asset = useMemo(() => filterAssets(data, selectedAsset), [data, filterAssets, selectedAsset]) as Assets;
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [selectedFile, setSelectedFile] = useState<any>();
+
   function handleInput(value: string) {
     setWalletAddress(value);
   }
@@ -34,26 +40,38 @@ export function BuyAsset(){
 
   const { showNotification } = useAlert();
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (data: any) => Api.post(`/transactions/`, data)
   });
 
   const onSubmit: SubmitHandler<IForm> = (value) => {
-    const formValue = {
-      asset: asset.assetName,
-      transactionType: 'buy',
-      rate: asset.rate.buy,
-      phoneNumber: value?.phoneNumber,
-      amount: value?.amount,
-      walletAddress: walletAddress,
-    }
 
-    mutate(formValue, {
-      onSuccess: () => {
-        showNotification({ message: 'Requested to buy', type: 'success' });
-        // push('/dashboard');
+    if (walletAddress) {
+      setIsLoading(true);
+      const formValue = {
+        asset: asset.assetName,
+        transactionType: 'buy',
+        rate: asset.rate.buy,
+        phoneNumber: value?.phoneNumber,
+        amount: value?.amount,
+        walletAddress: walletAddress,
       }
-    });
+
+      const storageRef = ref(storage, `files/${selectedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+      uploadTask.on('state_changed', null, null, () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          mutate({ ...formValue, screenshotUrl: downloadURL }, {
+            onSuccess: () => {
+              showNotification({ message: 'Requested to buy', type: 'success' });
+              // push('/dashboard');
+            },
+            onSettled: () => setIsLoading(false)
+          });
+        });
+      })
+    }
   }
 
   
@@ -125,7 +143,9 @@ export function BuyAsset(){
       </Box>
 
       <Box my={3}>
-        <UploadInput />
+        <UploadInput
+          getFile={(file) => setSelectedFile(file)}
+        />
       </Box>
 
       <Button 

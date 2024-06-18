@@ -51,7 +51,7 @@ export function EditBankDetails(){
       mutate({ ...bankDetails, id: bank?.id }, {
         onSuccess: () => {
           showNotification({ message: 'Bank Details Edited!', type: 'success' });
-          queryClient.invalidateQueries('bank')
+          queryClient.invalidateQueries(['bank'])
           push('/dashboard');
         }
       });

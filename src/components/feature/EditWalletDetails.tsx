@@ -45,7 +45,7 @@ export function EditWalletDetails() {
     mutate({ ...value, sell: Number(value.sell), buy: Number(value.buy) }, {
       onSuccess: () => {
         showNotification({ message: 'Wallet Details Edited!', type: 'success' });
-        queryClient.invalidateQueries('assets')
+        queryClient.invalidateQueries(['assets'])
         push('/dashboard');
       }
     });

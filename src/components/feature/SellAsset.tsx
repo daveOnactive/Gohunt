@@ -9,6 +9,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "react-query";
 import Api from "@/services/api";
 import { Assets, Bank } from "@/type";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { storage } from '@/services';
 
 type IForm = {
   phoneNumber?: string;
@@ -26,6 +28,9 @@ export function SellAsset() {
   const { control, formState: { errors }, handleSubmit } = useForm();
 
   const [bankDetails, setBankDetails] = useState<Partial<Bank>>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [selectedFile, setSelectedFile] = useState<any>();
 
   const asset = useMemo(() => filterAssets(data, selectedAsset), [data, filterAssets, selectedAsset]) as Assets;
 
@@ -41,27 +46,40 @@ export function SellAsset() {
 
   const { showNotification } = useAlert();
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (data: any) => Api.post(`/transactions/`, data)
   });
 
   const onSubmit: SubmitHandler<IForm> = (value) => {
-    const formValue = {
-      asset: asset.assetName,
-      transactionType: 'sell',
-      rate: asset.rate.sell,
-      phoneNumber: value?.phoneNumber,
-      amount: value?.amount,
-      bankAccount: bankDetails?.accountNumber,
-      bankName: bankDetails?.bankName,
-      holdersName: bankDetails?.holdersName || 'Default_name', 
-    }
-    mutate(formValue, {
-      onSuccess: () => {
-        showNotification({ message: 'Requested to sell', type: 'success' });
-        // push('/dashboard');
+
+    if (bankDetails?.accountNumber && bankDetails?.bankName) {
+      setIsLoading(true);
+      const formValue = {
+        asset: asset.assetName,
+        transactionType: 'sell',
+        rate: asset.rate.sell,
+        phoneNumber: value?.phoneNumber,
+        amount: value?.amount,
+        bankAccount: bankDetails?.accountNumber,
+        bankName: bankDetails?.bankName,
+        holdersName: bankDetails?.holdersName || 'Default_name', 
       }
-    });
+  
+      const storageRef = ref(storage, `files/${selectedFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+  
+      uploadTask.on('state_changed', null, null, () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          mutate({ ...formValue, screenshotUrl: downloadURL }, {
+            onSuccess: () => {
+              showNotification({ message: 'Requested to sell', type: 'success' });
+              // push('/dashboard');
+            },
+            onSettled: () => setIsLoading(false)
+          });
+        });
+      })
+    }
   }
 
   return (
@@ -129,7 +147,9 @@ export function SellAsset() {
       </Box>
 
       <Box my={3}>
-        <UploadInput />
+        <UploadInput
+          getFile={(file) => setSelectedFile(file)}
+        />
       </Box>
 
       <Button
