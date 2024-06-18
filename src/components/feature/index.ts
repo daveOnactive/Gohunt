@@ -5,3 +5,4 @@ export * from './DashboardCards';
 export * from './TransactionList';
 export * from './EditBankDetails';
 export * from './EditWalletDetails';
+export * from './AwaitingTrade';
