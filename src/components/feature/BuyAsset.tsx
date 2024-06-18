@@ -3,14 +3,15 @@ import { Box, Button, Skeleton, TextField } from "@mui/material";
 import { AccountDisplay, UploadInput, WalletAddressInput } from "../atoms";
 import { useAlert } from "@/hooks";
 import { AssetContext } from "@/providers";
-import { Assets } from "@/type";
-import { useRouter } from "next/navigation";
+import { Assets, Transaction } from "@/type";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useState, useMemo } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useMutation } from "react-query";
 import Api from "@/services/api";
 import { storage } from "@/services";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { AwaitingTrade } from "./AwaitingTrade";
 
 type IForm = {
   phoneNumber?: string;
@@ -31,6 +32,10 @@ export function BuyAsset(){
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [selectedFile, setSelectedFile] = useState<any>();
+
+  const [trade, setTrade] = useState<Transaction>();
+
+  const searchParams = useSearchParams();
 
   function handleInput(value: string) {
     setWalletAddress(value);
@@ -63,15 +68,20 @@ export function BuyAsset(){
       uploadTask.on('state_changed', null, null, () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           mutate({ ...formValue, screenshotUrl: downloadURL }, {
-            onSuccess: () => {
+            onSuccess: (data) => {
               showNotification({ message: 'Requested to buy', type: 'success' });
-              // push('/dashboard');
+              setTrade(data.data.data);
+              push(`/trade?tradeId=${data.data.data.id}&type=buy`);
             },
             onSettled: () => setIsLoading(false)
           });
         });
       })
     }
+  }
+
+  if (searchParams.get('tradeId') && searchParams.get('type') === 'buy') {
+    return <AwaitingTrade trade={trade} type="buy" id={searchParams.get('tradeId') as string} />;
   }
 
   

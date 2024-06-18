@@ -1,6 +1,6 @@
 'use client'
 import { Box, Button, Skeleton, TextField } from "@mui/material";
-import { AccountInput, UploadInput, WalletAddressInput } from "..";
+import { AccountInput, AwaitingTrade, UploadInput, WalletAddressInput } from "..";
 import { useContext, useMemo, useState } from "react";
 import { AssetContext } from "@/providers";
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
@@ -8,7 +8,7 @@ import { useAlert } from "@/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "react-query";
 import Api from "@/services/api";
-import { Assets, Bank } from "@/type";
+import { Assets, Bank, Transaction } from "@/type";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from '@/services';
 
@@ -33,6 +33,8 @@ export function SellAsset() {
   const [selectedFile, setSelectedFile] = useState<any>();
 
   const asset = useMemo(() => filterAssets(data, selectedAsset), [data, filterAssets, selectedAsset]) as Assets;
+
+  const [trade, setTrade] = useState<Transaction>();
 
 
   function handleBankChange(value: string, key: 'bankName' | 'accountNumber') {
@@ -71,15 +73,21 @@ export function SellAsset() {
       uploadTask.on('state_changed', null, null, () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           mutate({ ...formValue, screenshotUrl: downloadURL }, {
-            onSuccess: () => {
+            onSuccess: (data) => {
               showNotification({ message: 'Requested to sell', type: 'success' });
-              // push('/dashboard');
+              setTrade(data.data.data);
+              push(`/trade?tradeId=${data.data.data.id}&type=sell`);
             },
             onSettled: () => setIsLoading(false)
           });
         });
       })
     }
+  }
+
+
+  if (searchParams.get('tradeId') && searchParams.get('type') === 'sell') {
+    return <AwaitingTrade trade={trade} type="sell" id={searchParams.get('tradeId') as string}/>;
   }
 
   return (

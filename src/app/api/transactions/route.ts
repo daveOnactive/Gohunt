@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '../db';
 import { Status } from '../../../type';
 import { tryCatch } from '../../../helpers';
@@ -29,8 +29,10 @@ export async function POST(request: Request) {
       holdersName: res.holdersName || '',
       screenshotUrl: res.screenshotUrl || '',
     });
+
+    const trans = (await getDoc(transaction)).data();
   
   
-    return Response.json({ data: transaction.id, message: 'Transaction Recorded!' });
+    return Response.json({ data: { ...trans, id: transaction.id }, message: 'Transaction Recorded!' });
   })
 }
