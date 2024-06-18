@@ -1,6 +1,7 @@
 import { Box, InputBase, Typography } from "@mui/material";
 import NGN from '../../../public/svg/NGN.svg';
 import Image from 'next/image';
+// import { NumberInput } from ".";
 
 export function CurrencyInput({ value, onChange }: { value: any; onChange?: (value: number) => void; }) {
   return (
@@ -22,6 +23,7 @@ export function CurrencyInput({ value, onChange }: { value: any; onChange?: (val
           fullWidth
           value={value}
           onChange={(ev) => onChange?.(ev.target.value as unknown as number)}
+          // inputComponent={NumberInput as any}
         />
       </Box>
       <Box sx={{

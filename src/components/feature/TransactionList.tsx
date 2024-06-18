@@ -15,6 +15,7 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { useAlert, useConfirm } from '@/hooks';
 import { useState } from 'react';
 import { Tabs } from '../atoms';
+import { formatDate, formatNumber } from '@/helpers';
 
 const StatusColorMapper = {
   "successful": "#19966C",
@@ -180,7 +181,7 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
           </TableRow>
         </TableHead>
       <TableBody>
-        {transactions?.map((row) => (
+          {transactions?.filter((item) => item.transactionType === type)?.map((row) => (
           <TableRow
             key={row.id}
             sx={{
@@ -191,11 +192,11 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
             }}
           >
             <TableCell align="left">
-              {`${row.date}`}
+              {formatDate(`${row.date}`)}
             </TableCell>
             <TableCell align="left">{row.asset}</TableCell>
             <TableCell align="left">{row.transactionType}</TableCell>
-            <TableCell align="left">{row.rate}</TableCell>
+            <TableCell align="left">{formatNumber(Number(row.rate), true)}</TableCell>
             {
               type === 'sell' ? (
                 <>
@@ -208,7 +209,7 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
             {type === 'buy' ? <TableCell align="left">{row.walletAddress}</TableCell> : null}
             <TableCell align="left" sx={{ color: StatusColorMapper[row.status as keyof typeof StatusColorMapper] }}>{row.status}</TableCell>
             <TableCell align="left">{row.phoneNumber}</TableCell>
-            <TableCell align="left">{row.amount}</TableCell>
+            <TableCell align="left">{formatNumber(row.amount, true)}</TableCell>
             <TableCell align="left">
               {
                 row.status !== Status.SUCCESSFUL && row.status !== Status.FAILED ? (
