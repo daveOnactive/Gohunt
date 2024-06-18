@@ -1,5 +1,6 @@
 import { Box, InputBase} from "@mui/material";
 import { AssetMenu } from "./AssetMenu";
+// import { NumberInput } from ".";
 
 type IProps = {
   onAssetChange?: (value: string) => void;
@@ -27,6 +28,7 @@ export function AssetInput({ onAssetChange, onInputChange, value }: IProps) {
           fullWidth
           onChange={(ev) => onInputChange?.(ev.target.value)}
           value={value}
+          // inputComponent={NumberInput as any}
         />
       </Box>
       <Box sx={{
