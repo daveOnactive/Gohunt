@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from "@/theme";
 import '../app/style.css';
 import ReactQueryProvider from "./ReactQueryProvider";
-import { AssetProvider, SnackbarProvider, ConfirmProvider } from "@/providers";
+import { AssetProvider, SnackbarProvider, ConfirmProvider, ModalProvider } from "@/providers";
 import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -27,13 +27,15 @@ export default function RootLayout({
           <Suspense>
             <ThemeProvider theme={theme}>
               <ReactQueryProvider>
-                <SnackbarProvider>
-                  <ConfirmProvider>
-                    <AssetProvider>
-                      {children}
-                    </AssetProvider>
-                  </ConfirmProvider>
-                </SnackbarProvider>
+                <ModalProvider>
+                  <SnackbarProvider>
+                    <ConfirmProvider>
+                      <AssetProvider>
+                        {children}
+                      </AssetProvider>
+                    </ConfirmProvider>
+                  </SnackbarProvider>
+                </ModalProvider>
               </ReactQueryProvider>
             </ThemeProvider>
           </Suspense>

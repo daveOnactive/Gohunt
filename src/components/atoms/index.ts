@@ -10,3 +10,4 @@ export * from './AccountDisplay';
 export * from './Breadcrumbs';
 export * from './Copy';
 export * from './NumberInput';
+export * from './AccountInput';

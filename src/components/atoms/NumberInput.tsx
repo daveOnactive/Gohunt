@@ -1,4 +1,5 @@
 'use client'
+import { Currency } from '@/type';
 import { forwardRef } from 'react';
 import { NumericFormat, NumericFormatProps } from 'react-number-format';
 
@@ -26,7 +27,7 @@ export const NumberInput = forwardRef<NumericFormatProps, CustomProps>(
         }}
         thousandSeparator
         valueIsNumericString
-        prefix={prefix}
+        prefix={Currency.naira}
       />
     );
   },

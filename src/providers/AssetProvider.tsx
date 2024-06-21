@@ -28,7 +28,7 @@ function getAssetRate(abbr: string, assets?: Assets[]) {
 
   const asset = filterAssets(assets as Assets[], abbr);
 
-  return { buy: formatNumber(asset.rate.buy, true), sell: formatNumber(asset.rate.sell, true) }
+  return { buy: formatNumber(asset?.rate?.buy, true), sell: formatNumber(asset?.rate?.sell, true) }
 };
 
 export function AssetProvider({ children }: PropsWithChildren) {
