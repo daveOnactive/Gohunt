@@ -67,7 +67,7 @@ export function AmountInput({ control, defaultValue, selectedAsset, error, rate 
           width: '30%'
         }}>
           <Typography variant="body1">
-            {(amountInAsset / rate).toFixed(3)} {selectedAsset}
+            {(amountInAsset / rate).toFixed(3) || 0.00} {selectedAsset}
           </Typography>
         </Box>
 
