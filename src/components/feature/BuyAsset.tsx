@@ -12,6 +12,7 @@ import Api from "@/services/api";
 import { storage } from "@/services";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { AwaitingTrade } from "./AwaitingTrade";
+import { AmountInput } from "../atoms/AmountInput";
 
 type IForm = {
   phoneNumber?: string;
@@ -124,22 +125,12 @@ export function BuyAsset(){
         rules={{ required: true }}
       />
 
-      <Controller
-        name="amount"
+      <AmountInput
         control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Amount"
-            fullWidth
-            sx={{ mt: 2 }}
-            variant="standard"
-            error={!!errors.assetAddress}
-            type="number"
-            placeholder="Type amount"
-          />
-        )}
-        rules={{ required: true }}
+        selectedAsset={selectedAsset}
+        defaultValue={searchParams.get('amount') as string}
+        error={!!errors?.amount}
+        rate={asset?.rate?.buy}
       />
 
       <Box mt={3}>

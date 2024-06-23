@@ -11,6 +11,7 @@ import Api from "@/services/api";
 import { Assets, Bank, Transaction } from "@/type";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from '@/services';
+import { AmountInput } from "../atoms/AmountInput";
 
 type IForm = {
   phoneNumber?: string;
@@ -128,25 +129,14 @@ export function SellAsset() {
         rules={{ required: true }}
       />
 
-      <Controller
-        name="amount"
+      <AmountInput
         control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Amount"
-            fullWidth
-            sx={{ mt: 2 }}
-            variant="standard"
-            error={!!errors.assetAddress}
-            type="number"
-            placeholder="Type amount"
-            defaultValue={searchParams.get('amount')}
-          />
-        )}
-        rules={{ required: true }}
+        selectedAsset={selectedAsset}
+        defaultValue={searchParams.get('amount') as string}
+        error={!!errors?.amount}
+        rate={asset?.rate?.sell}
       />
-
+        
       <Box mt={3}>
         <AccountInput 
           onBankChange={(value) => handleBankChange(value, 'bankName')} 

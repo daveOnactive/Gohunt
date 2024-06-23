@@ -6,100 +6,21 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import Api from "@/services/api";
 import { Status, Transaction } from '@/type';
-import { Backdrop, Box, CircularProgress, Divider, IconButton } from '@mui/material';
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import { Box, Button, Divider} from '@mui/material';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import { useAlert, useConfirm } from '@/hooks';
-import { useState } from 'react';
+import { useAlert, useModal } from '@/hooks';
 import { Tabs } from '../atoms';
 import { formatDate, formatNumber } from '@/helpers';
+import { TransactionDetails } from '@/components/molecules';
+import { useCallback, useState } from 'react';
 
 const StatusColorMapper = {
   "successful": "#19966C",
   "pending": "#BCAC1B",
   "failed": "#FF0318",
-}
-
-type ITableActions = {
-  id?: string;
-}
-
-export function TableActions({ id }: ITableActions) {
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const { mutate } = useMutation({
-    mutationFn: (data: { status: Status }) => Api.put(`/transactions/${id}`, data)
-  });
-
-  const { showDialog } = useConfirm();
-  const { showNotification } = useAlert();
-
-  const queryClient = useQueryClient();
-
-  function handleClick(status: Status) {
-    showDialog({
-      title: 'Confirm Transaction',
-      onConfirm: () => {
-        handleOpen()
-        mutate({
-          status
-        }, {
-          onSuccess: () => {
-            showNotification({
-              message: 'Transaction Updated!',
-              type: 'success'
-            });
-
-            queryClient.invalidateQueries(['transactions'])
-          },
-          onError: () => {
-            showNotification({
-              message: 'Transaction Failed to update!',
-              type: 'error'
-            })
-          },
-          onSettled: () => handleClose()
-        });
-      }
-    })
-  }
-
-  return (
-  <>
-    <Box
-      sx={{
-        display: 'flex',
-        gap: 2,
-        alignItems: 'center'
-      }}
-    >
-      <IconButton onClick={() => handleClick(Status.FAILED)}>
-        <ClearRoundedIcon color='error'/>
-      </IconButton>
-
-      <IconButton onClick={() => handleClick(Status.SUCCESSFUL)}>
-        <CheckRoundedIcon color='success' />
-      </IconButton>
-    </Box>
-    <Backdrop
-      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      open={open}
-    >
-      <CircularProgress color="inherit" />
-    </Backdrop>
-  </>
-  )
 }
 
 type ITransactionTable = {
@@ -160,16 +81,62 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
     return item.title !== 'Bank Account' && item.title !== 'Bank Name' && item.title !== 'Bank Holder\'s Name'
   });
 
+  const { showModal, handleModalClose } = useModal();
+
+  const { showNotification } = useAlert();
+
+  const [transaction, setTransaction] = useState<Transaction>();
+
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: async (data: { status: Status }) => await Api.put(`/transactions/${transaction?.id}`, data)
+  });
+
+  function onApprove() {
+    mutate({
+      status: Status.SUCCESSFUL
+    }, {
+      onSuccess: () => {
+        showNotification({
+          message: 'Transaction Updated!',
+          type: 'success'
+        });
+
+        queryClient.invalidateQueries(['transactions'])
+
+        handleModalClose?.();
+      },
+      onError: () => {
+        showNotification({
+          message: 'Transaction Failed to update!',
+          type: 'error'
+        })
+      },
+    });
+  }
+
+  const handleClick = useCallback(
+    function handleClick(transaction: Transaction) {
+      setTransaction(transaction)
+      showModal(
+        <TransactionDetails
+          onApprove={onApprove}
+          transaction={transaction}
+        />
+      )
+    }, [transaction])
+
   return (
     <TableContainer component={Paper} sx={{
-      backgroundColor: 'transparent'
+      backgroundColor: '#132D46'
     }} elevation={0}>
-      <Divider sx={{ borderColor: '#2A2F45' }} />
+      <Divider sx={{ borderColor: 'paper' }} />
       <Table sx={{ width: '100%' }} aria-label="simple table">
         <TableHead>
           <TableRow sx={{
             '& .MuiTableCell-root': {
-              borderColor: '#2A2F45'
+              borderColor: 'paper'
             }
           }}>
             {
@@ -187,7 +154,7 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
             sx={{
               '&:last-child td, &:last-child th': { border: 0 },
               '& .MuiTableCell-root': {
-                borderColor: '#2A2F45'
+                borderColor: 'paper'
               }
             }}
           >
@@ -213,7 +180,13 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
             <TableCell align="left">
               {
                 row.status !== Status.SUCCESSFUL && row.status !== Status.FAILED ? (
-                  <TableActions id={row.id}/>
+                    <Button 
+                      onClick={() => handleClick(row)} 
+                      variant='contained' 
+                      color='success' 
+                      endIcon={<CheckRoundedIcon />}>
+                      Approve Trade
+                    </Button>
                 ) : <div />
               }
             </TableCell>

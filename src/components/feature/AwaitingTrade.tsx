@@ -1,11 +1,16 @@
 'use client'
 import { Transaction } from "@/type";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import { useQuery } from 'react-query';
 import Api from '@/services/api';
 import { formatNumber } from "@/helpers";
 import { useRouter } from "next/navigation";
 import { StatusColorMapper } from "@/constant/statusColorMapper";
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
+import HistoryToggleOffRoundedIcon from '@mui/icons-material/HistoryToggleOffRounded';
+import { Countdown } from "../atoms";
+import { useDownload } from "@/hooks";
+import { PrintTrade } from "../molecules";
 
 type IProps = {
   trade?: Transaction;
@@ -17,6 +22,8 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
 
   const { push } = useRouter();
 
+  const { handleDownload } = useDownload();
+
   const { data } = useQuery({
     queryKey: ['transaction'],
     queryFn: async () => (await Api.get(`/transactions/${id}`)).data,
@@ -27,24 +34,49 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
     },
   });
 
-  const value = trade || data?.data;
+  const value = (trade || data?.data) as Transaction;
+  const isBuy = type === 'buy';
 
   return (
     <Box>
-      <Typography mt={3} variant='h6' fontWeight='bold' textAlign='center'>Trade Status</Typography>
+      <HistoryToggleOffRoundedIcon color='primary' sx={{
+        display: 'flex',
+        margin: '2rem auto',
+        fontSize: '6rem'
+      }} />
+      <Typography mt={3} variant='subtitle1' fontWeight='bold' textAlign='center'>{value?.date ? <Countdown minute={15} startTime={value?.date as any} /> : null} Minutes Remaining to Complete Your Transaction</Typography>
 
-      <Typography my={2}><b>Amount: </b>{formatNumber(Number(value?.amount), true)}</Typography>
+      <Typography variant="body1" my={2}><b>{isBuy ? 'Expected Coin:' : 'Coin Sent:'} </b>{(value?.amount / Number(value?.rate)).toFixed(3)} {value?.asset}</Typography>
 
-      {
-        type === 'sell' ? (
-          <Typography my={2}><b>Bank Account: </b>{value?.bankAccount} {value?.bankName} ({value?.holdersName})</Typography>
-        ) : (
-          <Typography my={2}><b>Wallet Address: </b>{value?.walletAddress}</Typography>
-        )
-      }
-      <Typography mb={3}><b>Status: </b><span style={{ color: StatusColorMapper[value?.status as keyof typeof StatusColorMapper] }}>{value?.status}</span></Typography>
+      <Typography my={2}><b>{isBuy ? 'Amount Sent:' : 'Expected Amount:'} </b>{formatNumber(Number(value?.amount), true)}</Typography>
 
-      <Button onClick={() => push('/trade')} fullWidth variant="contained">Dismiss</Button>
+      {isBuy ? (
+        <Typography my={2}><b>Your Wallet Address: </b>{value?.walletAddress}</Typography>
+      ) : (
+        <Typography my = { 2 }><b>Your Bank Account: </b>{ value?.bankAccount } { value?.bankName } ({ value?.holdersName })</Typography >
+      )}
+
+      <Typography my={2}><b>Your Phone Number: </b>{value?.phoneNumber}</Typography>
+
+      <Typography mb={3}><b>Transaction Status: </b><span style={{ color: StatusColorMapper[value?.status as keyof typeof StatusColorMapper] }}>{value?.status}</span></Typography>
+
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 2
+      }}>
+        <IconButton 
+          size="large"
+          onClick={() => handleDownload(<PrintTrade value={value} /> as any)}
+        >
+          <DownloadRoundedIcon color='primary' sx={{
+            fontSize: '3rem'
+          }} />
+        </IconButton>
+        <Button size='large' onClick={() => push('/trade')} variant="contained">Dismiss</Button>
+      </Box>
+
     </Box>
   );
 };

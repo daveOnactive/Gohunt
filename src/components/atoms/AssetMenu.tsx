@@ -1,11 +1,13 @@
 'use client'
-import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Button, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { useState } from 'react';
 import Bitcoin from '../../../public/svg/Bitcoin.svg';
 import ETH from '../../../public/svg/ETH.svg';
 import USDT from '../../../public/svg/USDT.svg';
 import Image from 'next/image';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useModal } from '@/hooks';
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 
 type IMenu = {
   value: string;
@@ -40,6 +42,8 @@ export function AssetMenu({ onChange }: IProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const { showModal, handleModalClose } = useModal();
+
   const [selectedValue, setSelectedValue] = useState<IMenu>(menu[0])
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -53,7 +57,35 @@ export function AssetMenu({ onChange }: IProps) {
   const handleClose = (value: IMenu) => {
     setAnchorEl(null);
     setSelectedValue(value);
+    showModal(
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        textAlign: 'center'
+      }}>
+        <ErrorOutlineRoundedIcon color='primary' sx={{
+          mb: 2,
+          fontSize: '3rem',
+          display: 'flex',
+          mx: 'auto'
+        }}/>
 
+        <Typography mb={2} variant='h6' fontWeight='bold'>Notice</Typography>
+
+        <Typography textAlign='center' mb={2} variant='body1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit magni nisi non, a ullam inventore fugiat quia exercitationem incidunt in laudantium</Typography>
+
+        <Button variant='contained' size='large' sx={{
+            display: 'flex',
+            mx: 'auto',
+            width: '60%'
+          }}
+          onClick={handleModalClose}
+        >
+          Ok
+        </Button>
+      </Box>
+    )
     onChange?.(value.value);
   };
 

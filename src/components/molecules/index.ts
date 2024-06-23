@@ -11,3 +11,5 @@ export * from './TradeSection';
 export * from './AssetCard';
 export * from './BankDetailsCard';
 export * from './TransactionHistory';
+export * from './PrintTrade';
+export * from './TransactionDetails';
