@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import Api from "@/services/api";
 import { Status, Transaction } from '@/type';
-import { Backdrop, Box, CircularProgress, Divider, IconButton } from '@mui/material';
+import { Backdrop, Box, Button, CircularProgress, Divider, IconButton } from '@mui/material';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { useAlert, useConfirm } from '@/hooks';
@@ -84,13 +84,9 @@ export function TableActions({ id }: ITableActions) {
         alignItems: 'center'
       }}
     >
-      <IconButton onClick={() => handleClick(Status.FAILED)}>
-        <ClearRoundedIcon color='error'/>
-      </IconButton>
-
-      <IconButton onClick={() => handleClick(Status.SUCCESSFUL)}>
-        <CheckRoundedIcon color='success' />
-      </IconButton>
+        <Button onClick={() => handleClick(Status.SUCCESSFUL)} variant='contained' color='primary' endIcon={<CheckRoundedIcon />}>
+          Approve Trade
+        </Button>
     </Box>
     <Backdrop
       sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -162,14 +158,14 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
 
   return (
     <TableContainer component={Paper} sx={{
-      backgroundColor: 'transparent'
+      backgroundColor: '#132D46'
     }} elevation={0}>
-      <Divider sx={{ borderColor: '#2A2F45' }} />
+      <Divider sx={{ borderColor: 'paper' }} />
       <Table sx={{ width: '100%' }} aria-label="simple table">
         <TableHead>
           <TableRow sx={{
             '& .MuiTableCell-root': {
-              borderColor: '#2A2F45'
+              borderColor: 'paper'
             }
           }}>
             {
@@ -187,7 +183,7 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
             sx={{
               '&:last-child td, &:last-child th': { border: 0 },
               '& .MuiTableCell-root': {
-                borderColor: '#2A2F45'
+                borderColor: 'paper'
               }
             }}
           >
