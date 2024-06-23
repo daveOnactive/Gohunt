@@ -51,7 +51,7 @@ export function PrintTrade({ value }: Partial<IProp>) {
     ...defaultTradeContent
   ];
 
-  const content = value?.transactionType === 'sell' ? sellTradeContent : buyTradeContent
+  const content = value?.transactionType === 'sell' ? sellTradeContent : buyTradeContent;
 
   return (
     <Box>
