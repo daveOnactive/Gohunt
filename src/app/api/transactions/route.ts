@@ -1,11 +1,11 @@
-import { addDoc, collection, getDoc, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDoc, getDocs, orderBy, query } from 'firebase/firestore';
 import { db } from '../db';
 import { Status } from '../../../type';
 import { tryCatch } from '../../../helpers';
 
 export async function GET() {
   return tryCatch(async () => {
-    const querySnapshot = await getDocs(collection(db, 'transactions'));
+    const querySnapshot = await getDocs(query(collection(db, 'transactions'), orderBy('status')));
     const data = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
     return Response.json(data)
   })
