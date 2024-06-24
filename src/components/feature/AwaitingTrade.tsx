@@ -1,5 +1,5 @@
 'use client'
-import { Transaction } from "@/type";
+import { Status, Transaction } from "@/type";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import { useQuery } from 'react-query';
 import Api from '@/services/api';
@@ -11,6 +11,7 @@ import HistoryToggleOffRoundedIcon from '@mui/icons-material/HistoryToggleOffRou
 import { Countdown } from "../atoms";
 import { useDownload } from "@/hooks";
 import { PrintTrade } from "../molecules";
+import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 
 type IProps = {
   trade?: Transaction;
@@ -32,19 +33,41 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
         push('/trade')
       }
     },
+    refetchInterval: 18000,
   });
 
   const value = (trade || data?.data) as Transaction;
   const isBuy = type === 'buy';
 
+  const tradeIsSuccessful = value?.status === Status.SUCCESSFUL;
+
   return (
     <Box>
-      <HistoryToggleOffRoundedIcon color='primary' sx={{
-        display: 'flex',
-        margin: '2rem auto',
-        fontSize: '6rem'
-      }} />
-      <Typography mt={3} variant='subtitle1' fontWeight='bold' textAlign='center'>{value?.date ? <Countdown minute={15} startTime={value?.date as any} /> : null} Minutes Remaining to Complete Your Transaction</Typography>
+      {
+        tradeIsSuccessful ? (
+          <TaskAltRoundedIcon
+          color = 'success' 
+          sx = {{
+            display: 'flex',
+            margin: '2rem auto',
+            fontSize: '6rem'
+          }}
+          />
+        ) : (
+          <HistoryToggleOffRoundedIcon color='primary' sx={{
+            display: 'flex',
+            margin: '2rem auto',
+            fontSize: '6rem'
+          }} />
+        )
+      }
+
+      {tradeIsSuccessful ? (
+        <Typography mt={3} variant='subtitle1' fontWeight='bold' textAlign='center'>Trade Successful</Typography>
+      ) : (
+          <Typography mt={3} variant='subtitle1' fontWeight='bold' textAlign='center'>{value?.date ? <Countdown minute={15} startTime={value?.date as any} /> : null} Minutes Remaining to Complete Your Transaction</Typography>
+      )}
+        
 
       <Typography variant="body1" my={2}><b>{isBuy ? 'Expected Coin:' : 'Coin Sent:'} </b>{(value?.amount / Number(value?.rate)).toFixed(3)} {value?.asset}</Typography>
 

@@ -8,6 +8,7 @@ import { useAlert } from "@/hooks";
 import { Assets } from "@/type";
 import { useContext } from "react";
 import { AssetContext } from "@/providers";
+import { NumberInput } from "../atoms";
 
 type IForm = {
   assetAddress: string;
@@ -98,7 +99,18 @@ export function EditWalletDetails() {
               control={control}
                 defaultValue={data?.rate?.sell}
               render={({ field }) => (
-                <TextField {...field} label='Sell' fullWidth sx={{ my: 2 }} type="number" variant="standard" disabled={isLoadingAsset} error={!!errors.sell} defaultValue={data?.rate?.sell} />
+                <TextField 
+                  {...field}
+                  label='Sell' 
+                  fullWidth sx={{ my: 2 }}
+                  variant="standard" 
+                  disabled={isLoadingAsset} 
+                  error={!!errors.sell} 
+                  defaultValue={data?.rate?.sell}
+                  InputProps={{
+                    inputComponent: NumberInput as any
+                  }}
+                />
               )}
               rules={{ required: true }}
             />
@@ -108,7 +120,18 @@ export function EditWalletDetails() {
               control={control}
               defaultValue={data?.rate?.buy}
               render={({ field }) => (
-                <TextField {...field} label='Buy' fullWidth sx={{ my: 2 }} type="number" variant="standard" disabled={isLoadingAsset} error={!!errors.buy} defaultValue={data?.rate?.buy} />
+                <TextField 
+                  {...field} 
+                  label='Buy' 
+                  fullWidth sx={{ my: 2 }}
+                  variant="standard" 
+                  disabled={isLoadingAsset} 
+                  error={!!errors.buy}
+                  defaultValue={data?.rate?.buy}
+                  InputProps={{
+                    inputComponent: NumberInput as any
+                  }}
+                />
               )}
               rules={{ required: true }}
             />
