@@ -29,10 +29,10 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
         push('/trade')
       }
     },
-    refetchInterval: 18000,
+    refetchInterval: 7000,
   });
 
-  const value = (trade || data?.data) as Transaction;
+  const value = data?.data as Transaction;
   const isBuy = type === 'buy';
 
   const tradeIsSuccessful = value?.status === Status.SUCCESSFUL;

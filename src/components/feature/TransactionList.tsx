@@ -166,7 +166,8 @@ export function TransactionList(){
 
   const { data: transactions } = useQuery<Transaction[]>({
     queryKey: ['transactions'],
-    queryFn: async () => (await Api.get('/transactions')).data
+    queryFn: async () => (await Api.get('/transactions')).data,
+    refetchInterval: 7000,
   });
 
   return (

@@ -40,15 +40,13 @@ export function AssetProvider({ children }: PropsWithChildren) {
   const { data, isLoading } = useQuery<Assets[]>({
     queryKey: ['assets'],
     queryFn: async () => (await Api.get('/assets')).data,
-    // enabled: false,
-    // staleTime: Infinity
+    refetchInterval: 7000,
   });
 
   const { data: bank, isLoading: isLoadingBank } = useQuery<Bank[]>({
     queryKey: ['bank'],
     queryFn: async () => (await Api.get('/bank')).data,
-    // enabled: false,
-    // staleTime: Infinity
+    refetchInterval: 7000,
   });
 
   const { isLoading: isLoadingAsset, data: asset } = useQuery<Assets>({
