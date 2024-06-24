@@ -55,7 +55,7 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
     if (window) setContainer(window.document.body);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
