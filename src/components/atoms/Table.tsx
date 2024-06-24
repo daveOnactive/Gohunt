@@ -33,7 +33,7 @@ export function Table({ columns, data, handleClick }: IProps) {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [page, rowsPerPage],
+    [page, rowsPerPage, data],
   );
 
   
@@ -76,7 +76,7 @@ export function Table({ columns, data, handleClick }: IProps) {
               >
                 {
                   columns.map(row => (
-                  <TableCell align={row.align as any}>
+                  <TableCell key={`${row.align}-${item?.id}`} align={row.align as any}>
                     {
                       row?.valueGetter ? row.valueGetter(item) : item[row.field]
                     }
