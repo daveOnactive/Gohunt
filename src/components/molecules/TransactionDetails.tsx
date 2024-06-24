@@ -1,7 +1,10 @@
+"use client"
 import { formatDate, formatNumber } from "@/helpers";
-import { Transaction } from "@/type";
-import { Box, Button, Typography } from "@mui/material";
+import { useDownload } from "@/hooks";
+import { Status, Transaction } from "@/type";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import Image from "next/image";
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 
 type IProps = {
   transaction: Transaction;
@@ -54,9 +57,10 @@ export function TransactionDetails({ transaction, onApprove }: IProps) {
 
   const content = transaction?.transactionType === 'sell' ? sellTradeContent : buyTradeContent;
 
-  return (
-  <>
-    <Box p={2}>
+  const { handleDownload, isLoading } = useDownload();
+
+  const renderContent = (
+    <>
       <Typography variant="subtitle1" mb={2} textAlign='center'>Approve Trade ({formatDate(transaction?.date || '')})</Typography>
 
       {
@@ -66,7 +70,13 @@ export function TransactionDetails({ transaction, onApprove }: IProps) {
           </Typography>
         ))
       }
+    </>
+  )
 
+  return (
+  <>
+    <Box p={2}>
+      {renderContent}
       <Typography textAlign='center' mb={2}>Payment Screenshot</Typography>
       <Image 
         src={transaction?.screenshotUrl || ''}
@@ -80,16 +90,32 @@ export function TransactionDetails({ transaction, onApprove }: IProps) {
         }}
       />
 
-      <Button 
-        size='large' 
-        color='success' 
-        variant="contained" 
-        sx={{
-          display: 'flex',
-          m: 'auto'
-        }}
-        onClick={onApprove}
+      {transaction.status !== Status.SUCCESSFUL ?  (
+        <Button
+          size='large'
+          color='success'
+          variant="contained"
+          sx={{
+            display: 'flex',
+            m: 'auto'
+          }}
+          onClick={onApprove}
         >Approve</Button>
+      ) : (
+        <IconButton
+          size="large"
+          onClick={() => handleDownload(renderContent as any)}
+          sx={{
+            display: 'flex',
+            m: 'auto'
+          }}
+          disabled={isLoading}
+        >
+          <DownloadRoundedIcon color='primary' sx={{
+            fontSize: '3rem'
+          }} />
+        </IconButton>
+      )}
     </Box>
   </>
   );

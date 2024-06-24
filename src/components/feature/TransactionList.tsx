@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import Api from "@/services/api";
 import { Status, Transaction } from '@/type';
-import { Box, Button, Divider} from '@mui/material';
+import { Box, Button, Divider, TablePagination} from '@mui/material';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { useAlert, useModal } from '@/hooks';
 import { Tabs } from '../atoms';
@@ -89,9 +89,21 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
 
   const queryClient = useQueryClient();
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const { mutate } = useMutation({
     mutationFn: async (data: { status: Status }) => await Api.put(`/transactions/${transaction?.id}`, data)
   });
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   function onApprove() {
     mutate({
@@ -151,10 +163,16 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
           {transactions?.filter((item) => item.transactionType === type)?.map((row) => (
           <TableRow
             key={row.id}
+            onClick={() => handleClick(row)}
             sx={{
               '&:last-child td, &:last-child th': { border: 0 },
               '& .MuiTableCell-root': {
                 borderColor: 'paper'
+              },
+              cursor: 'pointer',
+              '&:hover': {
+                opacity: .7,
+                background: '#111'
               }
             }}
           >
@@ -194,6 +212,15 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
         ))}
       </TableBody>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={transactions?.length || 0}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </TableContainer>
 
   )
