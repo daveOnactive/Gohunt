@@ -12,3 +12,5 @@ export * from './Copy';
 export * from './NumberInput';
 export * from './AccountInput';
 export * from './Countdown';
+export * from './DownloadButton';
+export * from './Table';

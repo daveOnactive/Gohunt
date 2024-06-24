@@ -1,15 +1,13 @@
 'use client'
 import { Status, Transaction } from "@/type";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useQuery } from 'react-query';
 import Api from '@/services/api';
-import { formatNumber } from "@/helpers";
+import { formatDate, formatNumber } from "@/helpers";
 import { useRouter } from "next/navigation";
 import { StatusColorMapper } from "@/constant/statusColorMapper";
-import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 import HistoryToggleOffRoundedIcon from '@mui/icons-material/HistoryToggleOffRounded';
-import { Countdown } from "../atoms";
-import { useDownload } from "@/hooks";
+import { Countdown, DownloadButton } from "../atoms";
 import { PrintTrade } from "../molecules";
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 
@@ -22,8 +20,6 @@ type IProps = {
 export function AwaitingTrade({ trade, type, id }: IProps) {
 
   const { push } = useRouter();
-
-  const { handleDownload } = useDownload();
 
   const { data } = useQuery({
     queryKey: ['transaction'],
@@ -89,14 +85,10 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
         alignItems: 'center',
         gap: 2
       }}>
-        <IconButton 
-          size="large"
-          onClick={() => handleDownload(<PrintTrade value={value} /> as any)}
-        >
-          <DownloadRoundedIcon color='primary' sx={{
-            fontSize: '3rem'
-          }} />
-        </IconButton>
+        <DownloadButton
+          downloadContent={<PrintTrade value={value} />}
+          filename={`transaction-${formatDate(value?.date)}`}
+        />
         <Button size='large' onClick={() => push('/trade')} variant="contained">Dismiss</Button>
       </Box>
 
