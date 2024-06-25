@@ -5,6 +5,7 @@ import Shield from '../../../public/svg/Shield.svg';
 import Show from '../../../public/svg/Show.svg';
 import User from '../../../public/svg/User.svg';
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
+import Ellipse5 from '../../../public/svg/ellipse-5.svg';
 
 
 const options = [
@@ -32,7 +33,8 @@ export function WhyChooseUse() {
       display: 'flex',
       flexDirection: { sm: 'row', xs: 'column' },
       alignItems: 'center',
-      width: '100%'
+      width: '100%',
+      position: 'relative'
     }}>
       <Box>
         <Image
@@ -81,6 +83,18 @@ export function WhyChooseUse() {
           ))
         }
       </Box>
+
+      <Box
+        component={Image}
+        sx={{
+          position: "absolute",
+          bottom: '-5%',
+          left: 0,
+          zIndex: -1
+        }}
+        src={Ellipse5}
+        alt='ellipse'
+      />
     </Box>
   )
 }

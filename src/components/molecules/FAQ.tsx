@@ -35,7 +35,7 @@ export function FAQ() {
   return (
     <Box sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
-      width: '100%'
+      width: '100%',
     }}>
       <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>Frequently Asked Questions</Typography>
       <Typography variant="body1" textAlign="center" mb={4} sx={{

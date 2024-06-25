@@ -2,6 +2,7 @@ import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/
 import { Box, Card, Typography } from "@mui/material";
 import Image from "next/image";
 import Quote from '../../../public/svg/quote.svg';
+import Ellipse6 from '../../../public/svg/ellipse-5.svg';
 
 
 function TestimonialCard() {
@@ -36,8 +37,20 @@ function TestimonialCard() {
 export function Testimonial() {
   return (
     <Box sx={{
-      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING }
-    }}>
+      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
+      position: 'relative'
+      }}>
+      <Box
+        component={Image}
+        sx={{
+          position: "absolute",
+          bottom: '-10%',
+          right: '5%',
+          zIndex: -1
+        }}
+        src={Ellipse6}
+        alt='ellipse'
+      />
       <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>What People says about Us</Typography>
       <Typography variant="body1" textAlign="center" mb={4} sx={{
         width: { sm: '400px', xs: '100%' },
