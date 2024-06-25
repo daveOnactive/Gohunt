@@ -6,6 +6,7 @@ import bank from '../../../public/svg/bank.svg';
 import Image from "next/image";
 import { Tabs } from "../atoms";
 import { TradeAsset } from "../feature";
+import Ellipse4 from '../../../public/svg/ellipse-4.svg';
 
 const content = [
   {
@@ -81,6 +82,18 @@ function ContentSection() {
           ))
         }
       </Box>
+
+      <Box
+        component={Image}
+        sx={{
+          position: "absolute",
+          top: '60%',
+          right: '-2%',
+          zIndex: -1
+        }}
+        src={Ellipse4}
+        alt='ellipse'
+      />
     </Box>
   )
 }
@@ -109,7 +122,8 @@ export function BuyAndSell(){
       justifyContent: 'center',
       flexDirection: { sm: 'row', xs: 'column'},
       gap: 5,
-      width: '100%'
+      width: '100%',
+      position: 'relative'
     }}>
       <ContentSection />
       <CardSection />

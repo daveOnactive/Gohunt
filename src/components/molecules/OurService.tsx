@@ -1,6 +1,9 @@
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
-import { Box, Card, Grid, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Timeline } from "..";
+import Ellipse2 from '../../../public/svg/ellipse-2.svg';
+import Ellipse3 from '../../../public/svg/ellipse-3.svg';
+import Image from "next/image";
 
 
 const services = [
@@ -25,7 +28,8 @@ const services = [
 export function OurService(){
   return (
     <Box sx={{
-      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING }
+      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
+      position: 'relative'
     }}>
       <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>Our service</Typography>
       <Typography variant="body1" textAlign="center" mb={4} sx={{
@@ -37,6 +41,28 @@ export function OurService(){
 
       <Timeline
         items={services}
+      />
+      <Box
+        component={Image}
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          left: '-25%',
+          zIndex: -1
+        }}
+        src={Ellipse2}
+        alt='ellipse'
+      />
+      <Box
+        component={Image}
+        sx={{
+          position: "absolute",
+          right: '-25%',
+          bottom: '20%',
+          zIndex: -1
+        }}
+        src={Ellipse3}
+        alt='ellipse'
       />
     </Box>
   )

@@ -24,6 +24,7 @@ export function HeroBanner(){
         backgroundPosition: 'center',
         paddingTop: { sm: 30, xs: 10 },
         paddingX: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
+        position: 'relative',
       }}
     >
       <Box sx={{
@@ -64,10 +65,21 @@ export function HeroBanner(){
           alt="Banner side"
           width={400}
           height={300}
-          style={{ width: matches ? '100%' : 'fit-content' , objectFit: "contain" }}
+          style={{ width: matches ? '100%' : 'fit-content' , objectFit: "contain", zIndex: 2 }}
         />
 
       </Box>
+
+      <Box
+        sx={{
+          backgroundImage: 'linear-gradient(180deg, rgba(15, 15, 18, 0.00) -8.82%, #0F0F12 63.66%)',
+          width: '100%',
+          height: '238px',
+          position: 'absolute',
+          bottom: 0,
+          left: 0
+        }}
+      />
     </Box>
   )
 }

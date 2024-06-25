@@ -5,6 +5,7 @@ import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/
 import { AssetsIconMapper, formatNumber } from "@/helpers";
 import { useContext } from "react";
 import { AssetContext } from "@/providers";
+import Ellipse1 from '../../../public/svg/ellipse-1.svg';
 
 export function OurAsset() {
 
@@ -34,8 +35,20 @@ export function OurAsset() {
   return (
     <Box sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
-      width: '100%'
+      width: '100%',
+      position: 'relative'
     }}>
+      <Box 
+        component={Image}
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          zIndex: -1
+        }}
+        src={Ellipse1}
+        alt='ellipse'
+      />
       <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>Our Asset</Typography>
 
       <Box sx={{
