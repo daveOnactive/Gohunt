@@ -37,7 +37,9 @@ function TestimonialCard() {
 
 export function Testimonial() {
   return (
-    <Box sx={{
+    <Box 
+      id='Testimonial'
+    sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
       position: 'relative'
       }}>
@@ -58,17 +60,17 @@ export function Testimonial() {
         opacity: .7,
       }}>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</Typography>
 
-      
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        gap: 2,
-        flexDirection: { sm: 'row', xs: 'column' }
-      }}>
-        <TestimonialCard />
-        <TestimonialCard />
-      </Box>
+        <Box
+          sx={{
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          gap: 2,
+          flexDirection: { sm: 'row', xs: 'column' }
+        }}>
+          <TestimonialCard />
+          <TestimonialCard />
+        </Box>
     </Box>
   )
 }

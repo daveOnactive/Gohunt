@@ -9,8 +9,6 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -18,6 +16,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 import { SCREEN_MAX_WIDTH } from '@/constant/width';
 import { Breadcrumbs } from '../atoms';
+import { Link } from 'react-scroll';
+import CurrencyBitcoinRoundedIcon from '@mui/icons-material/CurrencyBitcoinRounded';
+import LanRoundedIcon from '@mui/icons-material/LanRounded';
+import VolunteerActivismRoundedIcon from '@mui/icons-material/VolunteerActivismRounded';
+import SentimentSatisfiedRoundedIcon from '@mui/icons-material/SentimentSatisfiedRounded';
+import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 
 interface Props {
   /**
@@ -31,6 +35,8 @@ interface Props {
 
 const drawerWidth = 240;
 const navItems = ['Our Asset', 'Our Service', 'Why Choose Us', 'Testimonial', 'FAQ'];
+
+const navIcon = [<CurrencyBitcoinRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} />, <LanRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} />, <VolunteerActivismRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} />, <SentimentSatisfiedRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} />, <HelpOutlineRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} />]
 
 export function NavigationBar(props: React.PropsWithChildren<Props>) {
   // const { window } = props;
@@ -75,16 +81,36 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
       </Box>
       <Divider />
       <List>
-        {navItems.map((item) => (
+        {navItems.map((item, index) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
+            <Box 
+              component={Link} 
+              activeClass="active"
+              to={item}
+              onClick={() => setMobileOpen(false)}
+              smooth
+              offset={50}
+              duration={500}
+              sx={{ 
+                textAlign: 'center',
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                my: 1
+              }}>
+              {
+                navIcon[index]
+              }
+            </Box>
           </ListItem>
         ))}
       </List>
     </Box>
   );
+
+  const handleSetActive = (to: any) => {
+    console.log({to});
+  };
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -119,9 +145,26 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#fff' }}>
+              <Box 
+                component={Link}
+                key={item} 
+                sx={{ 
+                  color: '#fff',
+                  cursor: 'pointer',
+                  mx: 1,
+                  '&:hover': {
+                    textDecoration: 'underline'
+                  }
+                }}
+                activeClass="active"
+                to={item}
+                smooth
+                offset={50}
+                duration={500}
+                onSetActive={handleSetActive}
+              >
                 {item}
-              </Button>
+              </Box>
             ))}
           </Box>
 

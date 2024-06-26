@@ -4,6 +4,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
 import { useStaggerAnimation } from "@/hooks";
+import { Element } from 'react-scroll';
 
 const faqs = [
   {
@@ -39,7 +40,10 @@ export function FAQ() {
 
 
   return (
-    <Box sx={{
+    <Box 
+      component={Element}
+      name='FAQ'
+    sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
       width: '100%',
     }}>
