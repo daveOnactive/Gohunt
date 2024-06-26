@@ -1,19 +1,11 @@
 "use client"
 import { Box } from "@mui/material";
-import Bitcoin from '../../../public/svg/Bitcoin.svg';
-import ETH from '../../../public/svg/ETH.svg';
-import USDT from '../../../public/svg/USDT.svg';
 import { AssetCard, BankDetailsCard } from "../molecules";
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { useRouter } from 'next/navigation';
 import { useContext } from "react";
 import { AssetContext } from "@/providers";
 import { DashboardCardSkeleton } from "../skeleton";
-
-enum AssetCardType {
-  ASSET = 'asset',
-  BANK = 'bank'
-}
 
 export function DashboardCards() {
 
