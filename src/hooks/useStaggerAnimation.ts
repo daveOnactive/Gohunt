@@ -29,7 +29,7 @@ export function useStaggerAnimation({ position, className }: IProp) {
         }
       );
     })
-  }, [])
+  }, [animate, axis, className])
 
   return {
     scope,

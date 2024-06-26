@@ -36,7 +36,7 @@ interface Props {
 const drawerWidth = 240;
 const navItems = ['Our Asset', 'Our Service', 'Why Choose Us', 'Testimonial', 'FAQ'];
 
-const navIcon = [<CurrencyBitcoinRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} />, <LanRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} />, <VolunteerActivismRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} />, <SentimentSatisfiedRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} />, <HelpOutlineRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} />]
+const navIcon = [<CurrencyBitcoinRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={1} />, <LanRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={2} />, <VolunteerActivismRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={3} />, <SentimentSatisfiedRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={4} />, <HelpOutlineRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={5} />]
 
 export function NavigationBar(props: React.PropsWithChildren<Props>) {
   // const { window } = props;
