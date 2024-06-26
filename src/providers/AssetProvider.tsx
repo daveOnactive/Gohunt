@@ -1,6 +1,7 @@
 'use client'
 
 import { formatNumber } from "@/helpers";
+import { useDataSnapshot } from "@/hooks";
 import Api from "@/services/api";
 import { Assets, Bank } from "@/type";
 import { useSearchParams } from "next/navigation";
@@ -36,17 +37,12 @@ export function AssetProvider({ children }: PropsWithChildren) {
   const params = useSearchParams();
   const id = params.get('id');
 
+  const { data: assets } = useDataSnapshot<Assets>({
+    path: 'assets'
+  })
 
-  const { data, isLoading } = useQuery<Assets[]>({
-    queryKey: ['assets'],
-    queryFn: async () => (await Api.get('/assets')).data,
-    refetchInterval: 7000,
-  });
-
-  const { data: bank, isLoading: isLoadingBank } = useQuery<Bank[]>({
-    queryKey: ['bank'],
-    queryFn: async () => (await Api.get('/bank')).data,
-    refetchInterval: 7000,
+  const { data: bank } = useDataSnapshot<Bank>({
+    path: 'bank'
   });
 
   const { isLoading: isLoadingAsset, data: asset } = useQuery<Assets>({
@@ -58,12 +54,12 @@ export function AssetProvider({ children }: PropsWithChildren) {
   return (
     <AssetContext.Provider
       value={{
-        data,
-        isLoading,
+        data: assets,
+        isLoading: assets === undefined,
         getAssetRate,
         filterAssets,
         bank: bank?.[0],
-        isLoadingBank,
+        isLoadingBank: bank === undefined,
         asset,
         isLoadingAsset
       }}

@@ -103,15 +103,8 @@ export function TradeAsset({ tradeType }: IProps) {
   };
 
   function navigateToTrade() {
-    const query = {
-      asset: assetName,
-      tradeType,
-      amount: isTradeTypeSell ? String(inputValue) : String(amount)
-    }
 
-    const url = buildQueryParams('/trade', query);
-
-    router.push(url, { scroll: false });
+    router.push('/trade', { scroll: false });
   }
 
   const isTradeTypeSell = tradeType === 'sell';
