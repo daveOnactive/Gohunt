@@ -1,3 +1,5 @@
+'use client'
+import { useStaggerAnimation } from "@/hooks";
 import { Box, Grid, Card, Typography } from "@mui/material"
 
 type IProps = {
@@ -7,8 +9,14 @@ type IProps = {
   } []
 }
 export function Timeline({ items }: IProps) {
+
+  const { scope } = useStaggerAnimation({
+    className: ".stagger-timeline",
+    position: 'vertical'
+  });
+
   return (
-    <Box sx={{
+    <Box ref={scope} sx={{
       display: 'flex',
       justifyContent: 'center',
       width: { sm: '900px' },
@@ -21,7 +29,7 @@ export function Timeline({ items }: IProps) {
           items.map((item, index) => {
             if ((index + 1) % 2 === 0) {
               return (
-                <Grid container key={item.title} sx={{
+                <Grid className="stagger-timeline" container key={item.title} sx={{
                   my: { sm: '3rem', xs: '1rem' }
                 }}>
                   <Grid item sm={6}>
@@ -71,7 +79,7 @@ export function Timeline({ items }: IProps) {
             };
 
             return (
-              <Grid container key={item.title} sx={{
+              <Grid className="stagger-timeline" container key={item.title} sx={{
                 my: { sm: '3rem' }
               }}>
                 <Grid item sm={6} sx={{
@@ -126,6 +134,7 @@ export function Timeline({ items }: IProps) {
         width: '2px',
         backgroundColor: '#1F719D',
         position: 'absolute',
+        zIndex: -1,
         display: { xs: 'none', sm: 'block' },
         top: '-3%',
         '&::before': {

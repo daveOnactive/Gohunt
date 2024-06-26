@@ -1,18 +1,20 @@
 'use client'
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import BannerImg from '../../../public/img/banner.png';
 import Image from "next/image";
-import BannerSide from '../../../public/img/banner-side.png';
+import BannerSide from '../../../public/svg/banner.svg';
 import Dollar from '../../../public/svg/dollar.svg';
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { SCREEN_MAX_WIDTH } from "@/constant/width";
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { motion } from "framer-motion";
+import { useStaggerAnimation } from "@/hooks";
 
 export function HeroBanner(){
 
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('md'));
-
+  const { scope } = useStaggerAnimation({
+    className: ".stagger-element",
+    position: 'vertical'
+  });
 
   return (
     <Box
@@ -27,7 +29,8 @@ export function HeroBanner(){
         position: 'relative',
       }}
     >
-      <Box sx={{
+      <Box
+        sx={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -36,19 +39,23 @@ export function HeroBanner(){
         mx: 'auto'
       }}>
 
-      <Box sx={{
+      <Box
+        ref={scope}
+        sx={{
         width: { sm: '629px', xs: '100%'}
       }}>
-        <Box sx={{
-          backgroundImage: 'linear-gradient(to right bottom, #1B5373, #1184C2)',
-          width: 'fit-content',
-          paddingX: '16px',
-          paddingY: '8px',
-          borderRadius: 100,
-          marginBottom: '8px',
-          display: 'flex',
-          alignItems: 'center'
-        }}>
+        <Box 
+          className='stagger-element'
+          sx={{
+            backgroundImage: 'linear-gradient(to right bottom, #1B5373, #1184C2)',
+            width: 'fit-content',
+            paddingX: '16px',
+            paddingY: '8px',
+            borderRadius: 100,
+            marginBottom: '8px',
+            display: 'flex',
+            alignItems: 'center'
+          }}>
           <Image
             src={Dollar}
             alt="dollar"
@@ -56,17 +63,24 @@ export function HeroBanner(){
           />
           <Typography variant="body1" ml='8px' sx={{ fontSize: { xs: '.8rem', sm: '1rem' }}}>Discover a new ways to enjoy your World!</Typography>
         </Box>
-        <Typography variant="h3" mb={"35px"}>A trusted and secure cryptocurrency exchange.</Typography>
-        <Typography variant="body1">We have over 15 year exprience in business consultting arena. We have over 15 year exprience in business consultting arena and artficial intelligence.</Typography>
+        <Typography className='stagger-element' variant="h3" mb={"35px"}>A trusted and secure cryptocurrency exchange.</Typography>
+        <Typography className='stagger-element' variant="body1">We have over 15 year exprience in business consultting arena. We have over 15 year exprience in business consultting arena and artficial intelligence.</Typography>
       </Box>
-
-        <Image
-          src={BannerSide.src}
-          alt="Banner side"
-          width={400}
-          height={300}
-          style={{ width: matches ? '100%' : 'fit-content' , objectFit: "contain", zIndex: 2 }}
-        />
+        <Box 
+          component={motion.div}
+          initial={{ y: 20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, delay: .25 }}
+          viewport={{ once: true }}
+          sx={{
+            zIndex: 2
+          }}
+        >
+          <Image
+            src={BannerSide}
+            alt="Banner side"
+          />
+        </Box>
 
       </Box>
 

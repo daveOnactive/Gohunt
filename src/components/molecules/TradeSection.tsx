@@ -9,6 +9,7 @@ import Sell from '../../../public/svg/sell.svg';
 import Buy from '../../../public/svg/buy.svg';
 import { SellAsset, BuyAsset } from "../feature";
 import { useSearchParams } from "next/navigation";
+import { useStaggerAnimation } from "@/hooks";
 
 enum Trade {
   sell = 'Sell Crypto',
@@ -17,6 +18,11 @@ enum Trade {
 
 export function TradeSection() {
   const [currentTab, setCurrentTab] = useState(Trade.sell);
+
+  const { scope } = useStaggerAnimation({
+    className: ".stagger-trade-section",
+    position: 'horizontal'
+  });
 
   const icon = {
     [Trade.sell]: Sell,
@@ -31,7 +37,7 @@ export function TradeSection() {
   }
 
   return (
-    <Box sx={{
+    <Box ref={scope} sx={{
       paddingTop: '6rem',
       paddingX: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
       display: 'flex',
@@ -40,7 +46,7 @@ export function TradeSection() {
       flexDirection: { sm: 'row', xs: 'column' },
       width: '100%'
     }}>
-      <Box sx={{
+      <Box className="stagger-trade-section" sx={{
         ml: 9,
         width: { sm: '400px' },
         height: { sm: '400px' },
@@ -53,7 +59,7 @@ export function TradeSection() {
         />
       </Box>
 
-      <Card sx={{
+      <Card className="stagger-trade-section" sx={{
         width: { sm: '45%', xs: '100%' },
         py: { sm: 2.5, xs: 2 },
         px: { sm: 2.5, xs: 2 },

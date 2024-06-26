@@ -1,3 +1,4 @@
+'use client'
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { Box, Divider, Typography } from "@mui/material";
 import Fb from '../../../public/svg/fb.svg';
@@ -6,6 +7,7 @@ import Insta from '../../../public/svg/insta.svg';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import Image from "next/image";
 import Link from "next/link";
+import { useStaggerAnimation } from "@/hooks";
 
 const socials = [
   {
@@ -46,8 +48,14 @@ const links = [
 ]
 
 export function Footer() {
+
+  const { scope } = useStaggerAnimation({
+    className: ".stagger-footer",
+    position: 'vertical'
+  });
+
   return (
-    <Box sx={{
+    <Box ref={scope} sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
       width: '100%'
     }}>
@@ -64,7 +72,7 @@ export function Footer() {
         }}>
           {
             socials.map(({ href, icon }, index) => (
-              <Box key={`key-${index}`} sx={{
+              <Box className="stagger-footer" href={href} target="_blank" component={'a'} key={`key-${index}`} sx={{
                 width: '3rem',
                 height: '3rem',
                 borderRadius: 100,
@@ -72,6 +80,10 @@ export function Footer() {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                cursor: 'pointer',
+                '&:hover': {
+                  background: '#0F101E'
+                }
               }}>
                 <Image
                   alt={`social-${index}`}
@@ -90,7 +102,7 @@ export function Footer() {
         }}>
           {
             links.map(({ href, label }) => (
-              <Link href={href} key={label} style={{
+              <Link className="stagger-footer" href={href} key={label} style={{
                 color: 'white',
               }}>{label}</Link>
             ))
@@ -106,11 +118,11 @@ export function Footer() {
         alignItems: 'center',
         mt: 3
       }}>
-        <Typography variant="body2">
+        <Typography className="stagger-footer" variant="body2">
           Copyright © 2024GoHunt. All rights reserved.
         </Typography>
 
-        <Box>
+        <Box className="stagger-footer" >
           <Box sx={{
             backgroundColor: '#EC3363',
             width: '2rem',

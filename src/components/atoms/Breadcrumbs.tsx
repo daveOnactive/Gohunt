@@ -32,7 +32,8 @@ export function Breadcrumbs() {
         top: '80px',
         paddingX: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
         maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' },
-        margin: 'auto'
+        margin: 'auto',
+        zIndex: 2
       }}
     >
       <Link underline="hover" key="1" href="/" color="primary">

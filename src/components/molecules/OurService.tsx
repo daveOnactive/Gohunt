@@ -1,6 +1,6 @@
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { Box, Typography } from "@mui/material";
-import { Timeline } from "..";
+import { Ellipse, Timeline } from "..";
 import Ellipse2 from '../../../public/svg/ellipse-2.svg';
 import Ellipse3 from '../../../public/svg/ellipse-3.svg';
 import Image from "next/image";
@@ -42,8 +42,7 @@ export function OurService(){
       <Timeline
         items={services}
       />
-      <Box
-        component={Image}
+      <Ellipse
         sx={{
           position: "absolute",
           bottom: 0,
@@ -51,10 +50,8 @@ export function OurService(){
           zIndex: -1
         }}
         src={Ellipse2}
-        alt='ellipse'
       />
-      <Box
-        component={Image}
+      <Ellipse
         sx={{
           position: "absolute",
           right: '-25%',
@@ -62,7 +59,6 @@ export function OurService(){
           zIndex: -1
         }}
         src={Ellipse3}
-        alt='ellipse'
       />
     </Box>
   )

@@ -14,3 +14,4 @@ export * from './AccountInput';
 export * from './Countdown';
 export * from './DownloadButton';
 export * from './Table';
+export * from './Ellipse';
