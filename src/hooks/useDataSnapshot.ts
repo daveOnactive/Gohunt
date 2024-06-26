@@ -20,7 +20,7 @@ export function useDataSnapshot<T>({ path }: IProps) {
       })
       setData(assets)
     });
-  }, [])
+  }, [path])
 
   return {
     data

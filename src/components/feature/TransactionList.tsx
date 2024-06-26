@@ -157,7 +157,7 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
           transaction={transaction}
         />
       )
-    }, [transaction, onApprove, showModal])
+    }, [onApprove, showModal])
 
   return (
     <Table
