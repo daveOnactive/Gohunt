@@ -53,6 +53,18 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
       valueGetter: (value) => `${formatNumber(Number(value.rate), true)}`
     },
     {
+      field: 'amount',
+      align: 'left',
+      headerName: 'Coin',
+      valueGetter: (value) => `${value.amount}`
+    },
+    {
+      field: 'equivalentAmount',
+      align: 'left',
+      headerName: 'Amount',
+      valueGetter: (value) => `${formatNumber(value.equivalentAmount, true)}`
+    },
+    {
       field: 'status',
       align: 'left',
       headerName: 'Status',
@@ -71,12 +83,6 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
       align: 'left',
       headerName: 'Phone Number',
     },
-    {
-      field: 'amount',
-      align: 'left',
-      headerName: 'Amount',
-      valueGetter: (value) => `${formatNumber(value.amount, true)}`
-    }
   ]
 
   const sellTable = [

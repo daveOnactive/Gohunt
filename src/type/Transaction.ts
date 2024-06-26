@@ -12,4 +12,5 @@ export type Transaction = {
   transactionType: string;
   walletAddress: string;
   screenshotUrl: string;
+  equivalentAmount: number;
 }

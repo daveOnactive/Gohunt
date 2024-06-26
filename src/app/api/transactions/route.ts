@@ -28,6 +28,7 @@ export async function POST(request: Request) {
       bankName: res.bankName || '',
       holdersName: res.holdersName || '',
       screenshotUrl: res.screenshotUrl || '',
+      equivalentAmount: res.amount * res.rate,
     });
 
     const trans = (await getDoc(transaction)).data();

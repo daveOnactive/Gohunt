@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, CircularProgress, Typography } from "@mui/material"
+import { Box, Button, CircularProgress, Skeleton, Typography } from "@mui/material"
 import { AssetInput, CurrencyInput } from "../atoms"
 import { useRouter } from 'next/navigation'
 import { buildQueryParams, formatNumber } from "@/helpers"
@@ -11,22 +11,54 @@ type IDisplayRate = {
   asset: string;
   rate: number;
   isLoading?: boolean;
+  type: 'Buy' | 'Sell'
 }
 
-function DisplayRate({ asset, rate, isLoading }: IDisplayRate) {
+function DisplayRate({ asset, rate, isLoading, type }: IDisplayRate) {
   return (
     <Box sx={{ mb: 2, mt: 2.5 }}>
       {
         isLoading ? (
-          <CircularProgress />
+          <Skeleton variant="text" />
         ) : (
           <>
-            <Typography mb={0.5}>1 {asset}</Typography>
-            <Typography>{formatNumber(rate, true)}</Typography>
+            <Typography mb={0.5}><strong>{type} Rate</strong> - 1 {asset} = {formatNumber(rate, true)}</Typography>
           </>
         )
       }
     </Box>
+  )
+}
+
+type IBuyInputSection = {
+  assetValue?: number;
+  currencyValue?: number;
+  onChange?: (value: number) => void;
+  onAssetChange?: ((value: string) => void)
+}
+
+function BuyInputSection({ assetValue, currencyValue, onChange, onAssetChange }: IBuyInputSection) {
+  return (
+    <>
+      <CurrencyInput value={currencyValue} onChange={onChange} />
+      <AssetInput value={assetValue} disabled onAssetChange={onAssetChange} />
+    </>
+  )
+}
+
+type ISellInputSection = {
+  assetValue?: number;
+  currencyValue?: number;
+  onChange?: (value: string | number) => void;
+  onAssetChange?: ((value: string) => void)
+}
+
+function SellInputSection({ assetValue, currencyValue, onChange, onAssetChange }: ISellInputSection) {
+  return (
+    <>
+      <AssetInput value={assetValue} onInputChange={onChange} onAssetChange={onAssetChange} />
+      <CurrencyInput value={currencyValue} disabled />
+    </>
   )
 }
 
@@ -94,16 +126,33 @@ export function TradeAsset({ tradeType }: IProps) {
         rate={rate}
         asset={defaultAsset?.abbr}
         isLoading={isLoading}
+        type={isTradeTypeSell ? 'Sell' : 'Buy'}
       />
 
       <Box sx={{
         display: 'flex',
-        flexDirection: isTradeTypeSell ? 'column' : 'column-reverse',
+        flexDirection: 'column',
         height: '8rem',
         justifyContent: 'space-between',
       }}>
-        <AssetInput value={assetInputValue} onInputChange={handleInputChange} onAssetChange={handleAssetInputChange} />
-        <CurrencyInput value={currencyInputValue} onChange={handleAmountChange} />
+
+        {
+          isTradeTypeSell ? (
+            <SellInputSection
+              assetValue={assetInputValue}
+              currencyValue={currencyInputValue}
+              onAssetChange={handleAssetInputChange}
+              onChange={handleInputChange}
+            />
+          ) : (
+            <BuyInputSection
+              assetValue={assetInputValue}
+              currencyValue={currencyInputValue}
+              onAssetChange={handleAssetInputChange}
+              onChange={handleAmountChange}
+            />
+          )
+        }
       </Box>
 
       <Button 

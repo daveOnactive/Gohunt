@@ -13,6 +13,10 @@ export function TransactionDetails({ transaction, onApprove }: IProps) {
 
   const defaultTradeContent = [
     {
+      label: 'Rate: ',
+      value: `${formatNumber(Number(transaction?.rate), true)}`
+    },
+    {
       label: 'Phone Number: ',
       value: transaction?.phoneNumber,
     },
@@ -25,11 +29,11 @@ export function TransactionDetails({ transaction, onApprove }: IProps) {
   const buyTradeContent = [
     {
       label: 'Coin to Send: ',
-      value: `${(Number(transaction?.amount) / Number(transaction?.rate)).toFixed(3)} ${transaction?.asset}`
+      value: `${transaction?.amount} ${transaction?.asset}`
     },
     {
       label: 'Amount Received: ',
-      value: `${formatNumber(Number(transaction?.amount), true)}`
+      value: `${formatNumber(Number(transaction?.equivalentAmount), true)}`
     },
     {
       label: 'Wallet Address: ',
@@ -41,11 +45,11 @@ export function TransactionDetails({ transaction, onApprove }: IProps) {
   const sellTradeContent = [
     {
       label: 'Coin Received: ',
-      value: `${(Number(transaction?.amount) / Number(transaction?.rate)).toFixed(3)} ${transaction?.asset}`
+      value: `${transaction?.amount} ${transaction?.asset}`
     },
     {
       label: 'Amount to Send: ',
-      value: `${formatNumber(Number(transaction?.amount), true)}`
+      value: `${formatNumber(Number(transaction?.equivalentAmount), true)}`
     },
     {
       label: 'Bank Details: ',

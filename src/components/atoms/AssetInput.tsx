@@ -6,9 +6,10 @@ type IProps = {
   onAssetChange?: (value: string) => void;
   onInputChange?: (value: string | number) => void;
   value?: number;
+  disabled?: boolean;
 }
 
-export function AssetInput({ onAssetChange, onInputChange, value }: IProps) {
+export function AssetInput({ onAssetChange, onInputChange, value, disabled }: IProps) {
   return (
     <Box sx={{
       borderBottom: 1,
@@ -21,13 +22,17 @@ export function AssetInput({ onAssetChange, onInputChange, value }: IProps) {
         width: '70%',
         borderRight: 1,
         borderColor: '#6a6868',
-        height: 30
+        height: 30,
+        '& .Mui-disabled': {
+          textFillColor: '#fff'
+        }
       }}>
         <InputBase
           type="number"
           fullWidth
           onChange={(ev) => onInputChange?.(ev.target.value)}
           value={value}
+          disabled={disabled}
           // inputComponent={NumberInput as any}
         />
       </Box>

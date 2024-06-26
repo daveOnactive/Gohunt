@@ -65,7 +65,7 @@ export function SellAsset() {
         amount: value?.amount,
         bankAccount: bankDetails?.accountNumber,
         bankName: bankDetails?.bankName,
-        holdersName: bankDetails?.holdersName || 'Default_name', 
+        holdersName: bankDetails?.holdersName || 'Default_name',
       }
   
       const storageRef = ref(storage, `files/${selectedFile.name}`);

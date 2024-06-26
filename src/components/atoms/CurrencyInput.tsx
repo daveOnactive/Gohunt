@@ -1,9 +1,9 @@
 import { Box, InputBase, Typography } from "@mui/material";
 import NGN from '../../../public/svg/NGN.svg';
 import Image from 'next/image';
-// import { NumberInput } from ".";
+import { NumberInput } from "./NumberInput";
 
-export function CurrencyInput({ value, onChange }: { value: any; onChange?: (value: number) => void; }) {
+export function CurrencyInput({ value, onChange, disabled }: { value: any; onChange?: (value: number) => void; disabled?: boolean }) {
   return (
     <Box sx={{
       borderBottom: 1,
@@ -16,14 +16,17 @@ export function CurrencyInput({ value, onChange }: { value: any; onChange?: (val
         width: '70%',
         borderRight: 1,
         borderColor: '#6a6868',
-        height: 30
+        height: 30,
+        '& .Mui-disabled': {
+          textFillColor : '#fff !important'
+        }
       }}>
         <InputBase
-          type="number"
           fullWidth
           value={value}
           onChange={(ev) => onChange?.(ev.target.value as unknown as number)}
-          // inputComponent={NumberInput as any}
+          inputComponent={NumberInput as any}
+          disabled={disabled}
         />
       </Box>
       <Box sx={{
