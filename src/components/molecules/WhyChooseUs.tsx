@@ -9,6 +9,7 @@ import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/
 import Ellipse5 from '../../../public/svg/ellipse-5.svg';
 import { Ellipse } from "../atoms";
 import { useStaggerAnimation } from "@/hooks";
+import { Element  } from 'react-scroll';
 
 
 const options = [
@@ -37,7 +38,10 @@ export function WhyChooseUse() {
   });
 
   return (
-    <Box sx={{
+    <Box 
+      component={Element}
+      name='Why Choose Us'
+      sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
       display: 'flex',
       flexDirection: { sm: 'row', xs: 'column' },

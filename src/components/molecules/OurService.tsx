@@ -3,7 +3,6 @@ import { Box, Typography } from "@mui/material";
 import { Ellipse, Timeline } from "..";
 import Ellipse2 from '../../../public/svg/ellipse-2.svg';
 import Ellipse3 from '../../../public/svg/ellipse-3.svg';
-import Image from "next/image";
 
 
 const services = [
@@ -27,7 +26,9 @@ const services = [
 
 export function OurService(){
   return (
-    <Box sx={{
+    <Box
+      id='Our Service'
+      sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
       position: 'relative'
     }}>

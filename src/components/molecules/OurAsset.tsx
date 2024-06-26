@@ -8,6 +8,7 @@ import { AssetContext } from "@/providers";
 import Ellipse1 from '../../../public/svg/ellipse-1.svg';
 import { Ellipse } from "..";
 import { useStaggerAnimation } from "@/hooks";
+import { Element } from 'react-scroll';
 
 export function OurAsset() {
 
@@ -41,6 +42,8 @@ export function OurAsset() {
 
   return (
     <Box
+      component={Element}
+      name='Our Asset'
       sx={{
         padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
         width: '100%',
