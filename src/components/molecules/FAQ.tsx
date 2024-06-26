@@ -3,6 +3,7 @@ import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
+import { useStaggerAnimation } from "@/hooks";
 
 const faqs = [
   {
@@ -31,6 +32,11 @@ export function FAQ() {
       setExpanded(isExpanded ? panel : false);
     };
 
+  const { scope } = useStaggerAnimation({
+    className: ".stagger-accordion",
+    position: 'vertical'
+  });
+
 
   return (
     <Box sx={{
@@ -46,11 +52,12 @@ export function FAQ() {
       }}>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</Typography>
 
 
-      <Box mt={5}>
+      <Box ref={scope} mt={5}>
         {
           faqs.map(({ title, content }, index ) => (
             <Accordion 
-              key={title} 
+              key={title}
+              className="stagger-accordion"
               sx={{
                 backgroundColor: '#0F101E !important',
                 my: 2

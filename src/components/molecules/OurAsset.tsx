@@ -6,8 +6,15 @@ import { AssetsIconMapper, formatNumber } from "@/helpers";
 import { useContext } from "react";
 import { AssetContext } from "@/providers";
 import Ellipse1 from '../../../public/svg/ellipse-1.svg';
+import { Ellipse } from "..";
+import { useStaggerAnimation } from "@/hooks";
 
 export function OurAsset() {
+
+  const { scope } = useStaggerAnimation({
+    className: ".stagger-card",
+    position: 'vertical'
+  });
 
   const assets = [
     {
@@ -33,13 +40,13 @@ export function OurAsset() {
   const { data, isLoading, getAssetRate } = useContext(AssetContext);
 
   return (
-    <Box sx={{
-      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
-      width: '100%',
-      position: 'relative'
-    }}>
-      <Box 
-        component={Image}
+    <Box
+      sx={{
+        padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
+        width: '100%',
+        position: 'relative'
+      }}>
+      <Ellipse
         sx={{
           position: "absolute",
           top: 0,
@@ -47,23 +54,28 @@ export function OurAsset() {
           zIndex: -1
         }}
         src={Ellipse1}
-        alt='ellipse'
       />
       <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>Our Asset</Typography>
 
-      <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
-        justifyContent: 'center',
-        flexDirection: { sm: 'row', xs: 'column' },
-      }}>
+      <Box 
+        ref={scope} 
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
+          justifyContent: 'center',
+          flexDirection: { sm: 'row', xs: 'column' },
+        }}>
         {
           assets.map((item) => (
-            <Card key={item.title} elevation={0} sx={{
-              width: { sm: '364px', xs: '100%'},
-              padding: 1.5
-            }}>
+            <Card
+              className='stagger-card'
+              key={item.title} 
+              elevation={0} 
+              sx={{
+                width: { sm: '364px', xs: '100%'},
+                padding: 1.5
+              }}>
               <Box
                 sx={{
                   display: 'flex',

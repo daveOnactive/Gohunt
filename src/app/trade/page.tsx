@@ -1,4 +1,4 @@
-import { NavigationBar, TradeSection } from "@/components";
+import { Ellipse, NavigationBar, TradeSection } from "@/components";
 import { SCREEN_MAX_WIDTH } from "@/constant/width";
 import { Box } from "@mui/material";
 import Image from "next/image";
@@ -22,8 +22,7 @@ export default function Trade() {
           position: 'relative'
         }}>
           <TradeSection />
-          <Box
-            component={Image}
+          <Ellipse
             sx={{
               position: "absolute",
               top: '10%',
@@ -31,10 +30,8 @@ export default function Trade() {
               zIndex: -1
             }}
             src={Ellipse7}
-            alt='ellipse'
           />
-          <Box
-            component={Image}
+          <Ellipse
             sx={{
               position: "absolute",
               bottom: '5%',
@@ -42,7 +39,6 @@ export default function Trade() {
               zIndex: -1
             }}
             src={Ellipse8}
-            alt='ellipse'
           />
         </Box>
       </NavigationBar>

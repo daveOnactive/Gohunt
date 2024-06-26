@@ -1,3 +1,4 @@
+'use client'
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import World from '../../../public/svg/world.svg';
@@ -6,6 +7,8 @@ import Show from '../../../public/svg/Show.svg';
 import User from '../../../public/svg/User.svg';
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import Ellipse5 from '../../../public/svg/ellipse-5.svg';
+import { Ellipse } from "../atoms";
+import { useStaggerAnimation } from "@/hooks";
 
 
 const options = [
@@ -27,6 +30,12 @@ const options = [
 ]
 
 export function WhyChooseUse() {
+  
+  const { scope } = useStaggerAnimation({
+    className: ".stagger-why-choose-use",
+    position: 'vertical'
+  });
+
   return (
     <Box sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
@@ -36,23 +45,22 @@ export function WhyChooseUse() {
       width: '100%',
       position: 'relative'
     }}>
-      <Box>
-        <Image
-          alt='world'
-          src={World}
-          style={{
-            width: '100%'
-          }}
-        />
-      </Box>
 
-      <Box>
+      <Ellipse
+        src={World}
+        alt='world'
+        style={{
+          width: '100%'
+        }}
+      />
+
+      <Box ref={scope}>
         <Typography variant="h5" fontWeight='bold' mb={1.3}>Why Choose Us</Typography>
         <Typography variant="body1" mb={3.5}>Become a crypto owner in minutes using your debit or credit card and quickly purchase top cryptocurrencies.</Typography>
 
         {
           options.map(({ title, description, icon }) => (
-            <Box key={title} sx={{
+            <Box className='stagger-why-choose-use' key={title} sx={{
               display: 'flex',
               alignItems: 'center',
               mb: 2
@@ -84,8 +92,7 @@ export function WhyChooseUse() {
         }
       </Box>
 
-      <Box
-        component={Image}
+      <Ellipse
         sx={{
           position: "absolute",
           bottom: '-5%',
@@ -93,7 +100,6 @@ export function WhyChooseUse() {
           zIndex: -1
         }}
         src={Ellipse5}
-        alt='ellipse'
       />
     </Box>
   )
