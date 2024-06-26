@@ -10,6 +10,7 @@ import HistoryToggleOffRoundedIcon from '@mui/icons-material/HistoryToggleOffRou
 import { Countdown, DownloadButton } from "../atoms";
 import { PrintTrade } from "../molecules";
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
+import { AwaitingTradeSkeleton } from "../skeleton";
 
 type IProps = {
   trade?: Transaction;
@@ -21,7 +22,7 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
 
   const { push } = useRouter();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['transaction'],
     queryFn: async () => (await Api.get(`/transactions/${id}`)).data,
     onSuccess: (data) => {
@@ -36,6 +37,8 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
   const isBuy = type === 'buy';
 
   const tradeIsSuccessful = value?.status === Status.SUCCESSFUL;
+
+  if (isLoading) return <AwaitingTradeSkeleton />;
 
   return (
     <Box>
@@ -64,10 +67,12 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
           <Typography mt={3} variant='subtitle1' fontWeight='bold' textAlign='center'>{value?.date ? <Countdown minute={15} startTime={value?.date as any} /> : null} Minutes Remaining to Complete Your Transaction</Typography>
       )}
         
+      
+      <Typography my={2}><b>Rate: </b>{formatNumber(Number(value?.rate || 0), true)}</Typography>
 
-      <Typography variant="body1" my={2}><b>{isBuy ? 'Expected Coin:' : 'Coin Sent:'} </b>{(value?.amount / Number(value?.rate)).toFixed(3)} {value?.asset}</Typography>
+      <Typography variant="body1" my={2}><b>{isBuy ? 'Expected Coin:' : 'Coin Sent:'} </b>{value?.amount} {value?.asset}</Typography>
 
-      <Typography my={2}><b>{isBuy ? 'Amount Sent:' : 'Expected Amount:'} </b>{formatNumber(Number(value?.amount), true)}</Typography>
+      <Typography my={2}><b>{isBuy ? 'Amount Sent:' : 'Expected Amount:'} </b>{formatNumber(Number(value?.equivalentAmount), true)}</Typography>
 
       {isBuy ? (
         <Typography my={2}><b>Your Wallet Address: </b>{value?.walletAddress}</Typography>

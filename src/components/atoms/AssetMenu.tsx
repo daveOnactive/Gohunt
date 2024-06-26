@@ -8,6 +8,7 @@ import Image from 'next/image';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useModal } from '@/hooks';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
 type IMenu = {
   value: string;
@@ -48,15 +49,12 @@ export function AssetMenu({ onChange }: IProps) {
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
-
-    if (open && !selectedValue) {
-      setSelectedValue(menu[0])
-    }
   };
 
   const handleClose = (value: IMenu) => {
     setAnchorEl(null);
-    setSelectedValue(value);
+    setSelectedValue((preValue) => value.value ? value : preValue);
+
     showModal(
       <Box sx={{
         display: 'flex',
@@ -90,7 +88,7 @@ export function AssetMenu({ onChange }: IProps) {
   };
 
   return (
-    <div>
+    <>
       <Box
         component={IconButton}
         onClick={handleClick}
@@ -153,6 +151,6 @@ export function AssetMenu({ onChange }: IProps) {
           ))
         }
       </Menu>
-    </div>
+    </>
   )
 }
