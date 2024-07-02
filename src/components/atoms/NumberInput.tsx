@@ -27,7 +27,7 @@ export const NumberInput = forwardRef<NumericFormatProps, CustomProps>(
         }}
         thousandSeparator
         valueIsNumericString
-        prefix={Currency.naira}
+        prefix={prefix || Currency.naira}
       />
     );
   },
