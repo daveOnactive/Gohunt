@@ -3,40 +3,53 @@ import { Box, Card, Skeleton, Typography } from "@mui/material";
 import Image from "next/image";
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { AssetsIconMapper, formatNumber } from "@/helpers";
-import { useContext } from "react";
-import { AssetContext } from "@/providers";
+import { useContext, useMemo } from "react";
+import { AssetContext, CryptoApiContext } from "@/providers";
 import Ellipse1 from '../../../public/svg/ellipse-1.svg';
 import { Ellipse } from "..";
 import { useStaggerAnimation } from "@/hooks";
 import { Element } from 'react-scroll';
+import ArrowDropUpRoundedIcon from '@mui/icons-material/ArrowDropUpRounded';
+import { green, red } from "@mui/material/colors";
 
 export function OurAsset() {
 
-  const { scope } = useStaggerAnimation({
-    className: ".stagger-card",
-    position: 'vertical'
-  });
+  // const { scope } = useStaggerAnimation({
+  //   className: ".stagger-card",
+  //   position: 'vertical'
+  // });
 
-  const assets = [
-    {
-      title: 'Bitcoin',
-      icon: AssetsIconMapper['bitcoin'],
-      abbr: 'BTC',
-      price: 58000,
-    },
-    {
-      title: 'Ethereum',
-      icon: AssetsIconMapper['ethereum'],
-      abbr: 'ETH',
-      price: 58000,
-    },
-    {
-      title: 'Tether',
-      icon: AssetsIconMapper['tether'],
-      abbr: 'USDT',
-      price: 58000,
-    }
-  ]
+  const {
+    bitcoinData,
+    ethData,
+    usdtData,
+    isLoadingCryptoData
+  } = useContext(CryptoApiContext);
+
+  const assets = useMemo(() => 
+    [
+      {
+        title: 'Bitcoin',
+        icon: AssetsIconMapper['bitcoin'],
+        abbr: 'BTC',
+        price: bitcoinData?.[0]?.quote?.USD?.price as number,
+        percentageChange: bitcoinData?.[0]?.quote?.USD?.percent_change_1h
+      },
+      {
+        title: 'Ethereum',
+        icon: AssetsIconMapper['ethereum'],
+        abbr: 'ETH',
+        price: ethData?.[0]?.quote?.USD?.price as number,
+        percentageChange: ethData?.[0]?.quote?.USD?.percent_change_1h
+      },
+      {
+        title: 'Tether',
+        icon: AssetsIconMapper['tether'],
+        abbr: 'USDT',
+        price: usdtData?.[0]?.quote?.USD?.price as number,
+        percentageChange: usdtData?.[0]?.quote?.USD?.percent_change_1h
+      }
+    ], [bitcoinData, ethData, usdtData, AssetsIconMapper])
 
   const { data, isLoading, getAssetRate } = useContext(AssetContext);
 
@@ -61,7 +74,6 @@ export function OurAsset() {
       <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>Our Asset</Typography>
 
       <Box 
-        ref={scope} 
         sx={{
           display: 'flex',
           alignItems: 'center',
@@ -112,7 +124,31 @@ export function OurAsset() {
               </Box>
 
               <Box display="flex" alignItems='center' justifyContent='space-between'>
-                <Typography variant="h6">{formatNumber(item.price, true)}</Typography>
+                {
+                  isLoadingCryptoData ? null : (
+                    <Box sx={{
+                      display: 'flex',
+                      gap: .5,
+                      alignItems: 'center',
+                      flexDirection: { sm: 'row', xs: 'column' }
+                    }}>
+                      <Typography variant="h6">{formatNumber(item.price, true, '$')}</Typography>
+
+                      <Box sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}>
+                        <Box sx={{
+                          color: Number(item?.percentageChange) <= 0 ? red[500] : green[500]
+                        }}>{Number(item?.percentageChange).toFixed(2)} %</Box>
+                        <ArrowDropUpRoundedIcon sx={{
+                          color: Number(item?.percentageChange) <= 0 ? red[500] : green[500],
+                          transform: 'rotate(180deg)'
+                        }}/>
+                      </Box>
+                    </Box>
+                  )
+                }
                 <Typography variant="h6" fontWeight='light' sx={{ opacity: .7 }}>{item.abbr}</Typography>
               </Box>
             </Card>

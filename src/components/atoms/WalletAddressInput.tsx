@@ -28,7 +28,7 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
       }}>
         <InputLabel>Wallet Address</InputLabel>
 
-        <InputLabel>1 {asset?.abbr} = {formatNumber(asset?.rate[type] as number, true)}</InputLabel>
+        <InputLabel>Rate = {formatNumber(asset?.rate[type] as number, true)}</InputLabel>
       </Box>
       
       <Box sx={{

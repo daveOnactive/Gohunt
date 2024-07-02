@@ -64,13 +64,13 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
       {tradeIsSuccessful ? (
         <Typography mt={3} variant='subtitle1' fontWeight='bold' textAlign='center'>Trade Successful</Typography>
       ) : (
-          <Typography mt={3} variant='subtitle1' fontWeight='bold' textAlign='center'>{value?.date ? <Countdown minute={15} startTime={value?.date as any} /> : null} Minutes Remaining to Complete Your Transaction</Typography>
+        <Typography mt={3} variant='subtitle1' fontWeight='bold' textAlign='center'>{value?.date ? <Countdown minute={15} startTime={value?.date as any} /> : null} Minutes Remaining to Complete Your Transaction</Typography>
       )}
         
       
       <Typography my={2}><b>Rate: </b>{formatNumber(Number(value?.rate || 0), true)}</Typography>
 
-      <Typography variant="body1" my={2}><b>{isBuy ? 'Expected Coin:' : 'Coin Sent:'} </b>{value?.amount} {value?.asset}</Typography>
+      <Typography variant="body1" my={2}><b>{isBuy ? 'Expected Amount:' : 'Amount Sent:'} </b>{formatNumber(value?.amount, true, '$')}</Typography>
 
       <Typography my={2}><b>{isBuy ? 'Amount Sent:' : 'Expected Amount:'} </b>{formatNumber(Number(value?.equivalentAmount), true)}</Typography>
 

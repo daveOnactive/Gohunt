@@ -55,8 +55,8 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
     {
       field: 'amount',
       align: 'left',
-      headerName: 'Coin',
-      valueGetter: (value) => `${value.amount}`
+      headerName: 'Amount in USD',
+      valueGetter: (value) => `${formatNumber(value.amount, true, '$')}`
     },
     {
       field: 'equivalentAmount',
