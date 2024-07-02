@@ -1,3 +1,4 @@
 export enum Currency {
-  naira = '₦'
+  naira = '₦',
+  dollar = '$'
 }

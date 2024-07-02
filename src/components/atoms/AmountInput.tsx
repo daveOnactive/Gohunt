@@ -1,7 +1,10 @@
+'use client'
 import { Box, InputLabel, InputBase, Typography } from "@mui/material";
 import { useState } from "react";
 import { Control, Controller } from "react-hook-form";
 import { formatNumber } from "@/helpers";
+import { Currency } from '@/type';
+import { NumberInput } from ".";
 
 type IProps = {
   control: Control<any>;
@@ -24,7 +27,7 @@ export function AmountInput({ control, defaultValue, selectedAsset, error, rate 
     }}>
       <InputLabel sx={{
         mb: 2,
-      }}>Amount in {selectedAsset}</InputLabel>
+      }}>Amount</InputLabel>
       <Box sx={{
         display: 'flex',
         alignItems: 'center',
@@ -46,7 +49,6 @@ export function AmountInput({ control, defaultValue, selectedAsset, error, rate 
             render={({ field }) => (
               <InputBase
                 {...field}
-                type="number"
                 sx={{ width: '100%' }}
                 onChange={(ev) => {
                   setAmountInAsset(Number(ev.target.value));
@@ -56,6 +58,10 @@ export function AmountInput({ control, defaultValue, selectedAsset, error, rate 
                 error={error}
                 placeholder="Type amount"
                 defaultValue={defaultValue}
+                inputComponent={NumberInput as any}
+                inputProps={{
+                  prefix: Currency.dollar
+                }}
               />
             )}
             rules={{ required: true }}
