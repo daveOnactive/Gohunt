@@ -22,7 +22,7 @@ function DisplayRate({ asset, rate, isLoading, type }: IDisplayRate) {
           <Skeleton variant="text" />
         ) : (
           <>
-            <Typography mb={0.5}><strong>{type} Rate</strong> - 1 {asset} = {formatNumber(rate, true)}</Typography>
+            <Typography mb={0.5}><strong>{type} Rate</strong> = {formatNumber(rate, true)}</Typography>
           </>
         )
       }
