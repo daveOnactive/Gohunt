@@ -18,14 +18,14 @@ function filterCryptoData(symbol: string, data?: CryptoData[]) {
 
 export function CryptoApiProvider({ children }: PropsWithChildren) {
 
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ['cryptoApi'],
-  //   queryFn: async () => (await Api.get<CryptoData[]>('/crypto')).data,
-  //   // refetchInterval: 100,
-  //   // gcTime: 0,
-  // });
+  const { data, isLoading } = useQuery({
+    queryKey: ['cryptoApi'],
+    queryFn: async () => (await Api.get<CryptoData[]>('/crypto')).data,
+    refetchInterval: 60000,
+    staleTime: 1,
+  });
 
-  const cryptoData = [] as CryptoData[];
+  const cryptoData = (data?.slice(0, 4) || [])
 
   const bitcoinData = useMemo(() => filterCryptoData('BTC', cryptoData), [cryptoData]);
   const ethData = useMemo(() => filterCryptoData('ETH', cryptoData), [cryptoData]);
@@ -38,7 +38,7 @@ export function CryptoApiProvider({ children }: PropsWithChildren) {
         bitcoinData,
         ethData,
         usdtData,
-        isLoadingCryptoData: false
+        isLoadingCryptoData: isLoading
       }}
     >
       {children}
