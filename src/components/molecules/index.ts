@@ -13,3 +13,4 @@ export * from './BankDetailsCard';
 export * from './TransactionHistory';
 export * from './PrintTrade';
 export * from './TransactionDetails';
+export * from './Carousel';

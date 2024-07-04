@@ -143,7 +143,7 @@ export function OurAsset() {
                         }}>{Number(item?.percentageChange).toFixed(2)} %</Box>
                         <ArrowDropUpRoundedIcon sx={{
                           color: Number(item?.percentageChange) <= 0 ? red[500] : green[500],
-                          transform: 'rotate(180deg)'
+                          transform: Number(item?.percentageChange) <= 0 ? 'rotate(180deg)' : 'unset'
                         }}/>
                       </Box>
                     </Box>
