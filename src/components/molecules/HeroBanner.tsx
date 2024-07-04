@@ -2,12 +2,12 @@
 import { Box, Typography } from "@mui/material";
 import BannerImg from '../../../public/img/banner.png';
 import Image from "next/image";
-import BannerSide from '../../../public/svg/banner.svg';
 import Dollar from '../../../public/svg/dollar.svg';
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { SCREEN_MAX_WIDTH } from "@/constant/width";
 import { motion } from "framer-motion";
 import { useStaggerAnimation } from "@/hooks";
+import { Carousel } from ".";
 
 export function HeroBanner(){
 
@@ -24,7 +24,7 @@ export function HeroBanner(){
         width: '100%',
         backgroundSize: '100% 100%',
         backgroundPosition: 'center',
-        paddingTop: { sm: 30, xs: 10 },
+        paddingTop: { sm: 20, xs: 10 },
         paddingX: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
         position: 'relative',
       }}
@@ -42,7 +42,7 @@ export function HeroBanner(){
       <Box
         ref={scope}
         sx={{
-        width: { sm: '629px', xs: '100%'}
+        width: { sm: '50%', xs: '100%'}
       }}>
         <Box 
           className='stagger-element'
@@ -66,21 +66,21 @@ export function HeroBanner(){
         <Typography className='stagger-element' variant="h3" mb={"35px"}>A trusted and secure cryptocurrency exchange.</Typography>
         <Typography className='stagger-element' variant="body1">We have over 15 year exprience in business consultting arena. We have over 15 year exprience in business consultting arena and artficial intelligence.</Typography>
       </Box>
-        <Box 
-          component={motion.div}
-          initial={{ y: 20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1, delay: .25 }}
-          viewport={{ once: true }}
-          sx={{
-            zIndex: 2
-          }}
-        >
-          <Image
-            src={BannerSide}
-            alt="Banner side"
-          />
-        </Box>
+      
+      <Box 
+        component={motion.div}
+        initial={{ y: 20, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1, delay: .25 }}
+        viewport={{ once: true }}
+        sx={{
+          zIndex: 2,
+          width: { sm: '50%', xs: '100%'}
+        }}
+      >
+        <Carousel />
+      </Box>
+
 
       </Box>
 

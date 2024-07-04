@@ -15,19 +15,17 @@ import Button from '@mui/material/Button';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 import { SCREEN_MAX_WIDTH } from '@/constant/width';
-import { Breadcrumbs } from '../atoms';
+import { Breadcrumbs, Ellipse } from '../atoms';
 import { Link } from 'react-scroll';
 import CurrencyBitcoinRoundedIcon from '@mui/icons-material/CurrencyBitcoinRounded';
 import LanRoundedIcon from '@mui/icons-material/LanRounded';
 import VolunteerActivismRoundedIcon from '@mui/icons-material/VolunteerActivismRounded';
 import SentimentSatisfiedRoundedIcon from '@mui/icons-material/SentimentSatisfiedRounded';
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
+import { Typography } from '@mui/material';
+import Ellipse1 from '../../../public/svg/ellipse-1.svg';
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
   isNavBg?: boolean;
   showBreadcrumbs?: boolean;
@@ -82,7 +80,7 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
       <Divider />
       <List>
         {navItems.map((item, index) => (
-          <ListItem key={item} disablePadding>
+          <ListItem key={`${item}-${index}`} disablePadding>
             <Box 
               component={Link} 
               activeClass="active"
@@ -91,16 +89,20 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
               smooth
               offset={50}
               duration={500}
-              sx={{ 
+              sx={{
                 textAlign: 'center',
                 display: 'flex',
                 justifyContent: 'center',
                 width: '100%',
-                my: 1
+                my: 1,
+                flexDirection: 'column',
+                gap: .5,
+                alignItems: 'center'
               }}>
               {
                 navIcon[index]
               }
+              <Typography variant='subtitle2'>{item}</Typography>
             </Box>
           </ListItem>
         ))}
@@ -180,14 +182,28 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { 
+              boxSizing: 'border-box', 
+              width: drawerWidth,
+              background: '#0F0F12'
+            },
+            position: 'relative'
           }}
         >
           {drawer}
+          <Ellipse
+            sx={{
+              position: "absolute",
+              top: '10%',
+              left: '-20%',
+              zIndex: -1
+            }}
+            src={Ellipse1}
+          />
         </Drawer>
       </nav>
       <Box component="main" width='100%'>

@@ -4,6 +4,7 @@ import { Status, Transaction } from "@/type";
 import { Box, Button, Typography } from "@mui/material";
 import Image from "next/image";
 import { DownloadButton } from "../atoms";
+import { PrintTrade } from ".";
 
 type IProps = {
   transaction: Transaction;
@@ -28,8 +29,8 @@ export function TransactionDetails({ transaction, onApprove }: IProps) {
 
   const buyTradeContent = [
     {
-      label: 'Coin to Send: ',
-      value: `${transaction?.amount} ${transaction?.asset}`
+      label: 'Amount to Send: ',
+      value: `${formatNumber(Number(transaction?.amount), true, '$')}`
     },
     {
       label: 'Amount Received: ',
@@ -44,8 +45,8 @@ export function TransactionDetails({ transaction, onApprove }: IProps) {
 
   const sellTradeContent = [
     {
-      label: 'Coin Received: ',
-      value: `${transaction?.amount} ${transaction?.asset}`
+      label: 'Amount Received: ',
+      value: `${formatNumber(Number(transaction?.amount), true, '$')}`
     },
     {
       label: 'Amount to Send: ',
@@ -98,13 +99,14 @@ export function TransactionDetails({ transaction, onApprove }: IProps) {
           variant="contained"
           sx={{
             display: 'flex',
-            m: 'auto'
+            m: 'auto',
+            mt: 2
           }}
           onClick={onApprove}
         >Approve</Button>
       ) : (
         <DownloadButton
-          downloadContent={renderContent}
+          downloadContent={<PrintTrade value={transaction} />}
           filename={`transaction-${formatDate(transaction?.date)}`}
           sx={{
             display: 'flex',
