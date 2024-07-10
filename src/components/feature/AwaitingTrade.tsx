@@ -1,13 +1,12 @@
 'use client'
 import { Status, Transaction } from "@/type";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import { useQuery } from 'react-query';
 import Api from '@/services/api';
-import { formatDate, formatNumber } from "@/helpers";
+import { convertToTime, formatDate, formatNumber } from "@/helpers";
 import { useRouter } from "next/navigation";
-import { StatusColorMapper } from "@/constant/statusColorMapper";
 import HistoryToggleOffRoundedIcon from '@mui/icons-material/HistoryToggleOffRounded';
-import { Countdown, DownloadButton } from "../atoms";
+import { Countdown, DownloadButton, TransactionStatus } from "../atoms";
 import { PrintTrade } from "../molecules";
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 import { AwaitingTradeSkeleton } from "../skeleton";
@@ -38,6 +37,33 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
 
   const tradeIsSuccessful = value?.status === Status.SUCCESSFUL;
 
+  const tradeInfo = [
+    {
+      title: 'Ref Number',
+      value: `#${id?.slice(0, 7)}`
+    },
+    {
+      title: 'Payment Time',
+      value: `${formatDate(value?.date)} - ${convertToTime(value?.date)}`
+    },
+    {
+      title: 'Payment Method',
+      value: isBuy ? 'Bank Transfer' : 'Wallet'
+    },
+    {
+      title: 'Trade Type',
+      value: value?.transactionType
+    },
+    {
+      title: 'Amount',
+      value: formatNumber(value?.equivalentAmount, true)
+    },
+    {
+      title: 'Order Status',
+      value: <TransactionStatus type={value?.status as Status} />
+    },
+  ]
+
   if (isLoading) return <AwaitingTradeSkeleton />;
 
   return (
@@ -45,44 +71,79 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
       {
         tradeIsSuccessful ? (
           <TaskAltRoundedIcon
-          color = 'success' 
-          sx = {{
-            display: 'flex',
-            margin: '2rem auto',
-            fontSize: '6rem'
-          }}
+            sx={({ palette }) => ({
+              display: 'flex',
+              margin: '2rem auto',
+              fontSize: '6rem',
+              color: 'white',
+              background: palette.success.main,
+              borderRadius: '100%',
+              p: 2
+            })}
           />
         ) : (
-          <HistoryToggleOffRoundedIcon color='primary' sx={{
-            display: 'flex',
-            margin: '2rem auto',
-            fontSize: '6rem'
-          }} />
+            <HistoryToggleOffRoundedIcon sx={({ palette }) => ({
+              display: 'flex',
+              margin: '2rem auto',
+              fontSize: '6rem',
+              color: 'white',
+              background: palette.primary.main,
+              borderRadius: '100%',
+              p: 2
+            })} />
         )
       }
 
-      {tradeIsSuccessful ? (
-        <Typography mt={3} variant='subtitle1' fontWeight='bold' textAlign='center'>Trade Successful</Typography>
-      ) : (
-        <Typography mt={3} variant='subtitle1' fontWeight='bold' textAlign='center'>{value?.date ? <Countdown minute={15} startTime={value?.date as any} /> : null} Minutes Remaining to Complete Your Transaction</Typography>
-      )}
-        
-      
-      <Typography my={2}><b>Rate: </b>{formatNumber(Number(value?.rate || 0), true)}</Typography>
+      <Typography mt={3} variant='body1' fontWeight='bold' textAlign='center'>{tradeIsSuccessful ? 'Trade Successful' : 'Trade Pending'}</Typography>
 
-      <Typography variant="body1" my={2}><b>{isBuy ? 'Expected Amount:' : 'Amount Sent:'} </b>{formatNumber(value?.amount, true, '$')}</Typography>
+      {!tradeIsSuccessful ? (
+        <Typography mt={1} variant='subtitle1' fontWeight='bold' textAlign='center'>{value?.date ? <Countdown minute={15} startTime={value?.date as any} /> : null} Minutes Remaining to Complete Your Transaction</Typography>
+      ) : null}
 
-      <Typography my={2}><b>{isBuy ? 'Amount Sent:' : 'Expected Amount:'} </b>{formatNumber(Number(value?.equivalentAmount), true)}</Typography>
+      <Divider sx={{
+        my: 2
+      }} />
 
-      {isBuy ? (
-        <Typography my={2}><b>Your Wallet Address: </b>{value?.walletAddress}</Typography>
-      ) : (
-        <Typography my = { 2 }><b>Your Bank Account: </b>{ value?.bankAccount } { value?.bankName } ({ value?.holdersName })</Typography >
-      )}
+      {
+        tradeInfo.map(item => (
+          <Box 
+            key={item.title}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              my: 2
+            }}
+          >
+            <Typography>
+              {item.title}
+            </Typography>
+            <Typography>
+              <b>
+                {item.value}
+              </b>
+            </Typography>
+          </Box>
+        ))
+      }
 
-      <Typography my={2}><b>Your Phone Number: </b>{value?.phoneNumber}</Typography>
-
-      <Typography mb={3}><b>Transaction Status: </b><span style={{ color: StatusColorMapper[value?.status as keyof typeof StatusColorMapper] }}>{value?.status}</span></Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          my: 2
+        }}
+      >
+        <Typography>
+          {isBuy ? 'Your Wallet Address: ' : 'Your Bank Account: '}
+        </Typography>
+        <Typography>
+          <b>
+            {isBuy ? value?.walletAddress : `${value?.bankAccount} ${value?.bankName} (${value?.holdersName})`}
+          </b>
+        </Typography>
+      </Box>
 
       <Box sx={{
         display: 'flex',
