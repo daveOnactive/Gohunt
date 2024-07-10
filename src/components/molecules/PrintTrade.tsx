@@ -23,7 +23,7 @@ export function PrintTrade({ value }: Partial<IProp>) {
     },
     {
       label: 'Rate: ',
-      value: value?.rate,
+      value: `${formatNumber(Number(value?.rate), true)}`
     }
   ]
 

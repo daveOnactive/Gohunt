@@ -4,7 +4,7 @@ import Api from "@/services/api";
 import { Status, Transaction } from '@/type';
 import { Box } from '@mui/material';
 import { useAlert, useDataSnapshot, useModal } from '@/hooks';
-import { Table, Tabs } from '../atoms';
+import { Table, Tabs, TransactionStatus } from '../atoms';
 import { formatDate, formatNumber } from '@/helpers';
 import { TransactionDetails } from '@/components/molecules';
 import React, { useCallback, useState } from 'react';
@@ -69,13 +69,9 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
       align: 'left',
       headerName: 'Status',
       valueGetter: (value) => (
-        <Box 
-          sx={{ 
-            color: StatusColorMapper[value.status as keyof typeof StatusColorMapper] 
-          }}
-          >
-          {value.status}
-        </Box>
+        <TransactionStatus
+          type={value.status as Status}
+        />
       )
     },
     {
