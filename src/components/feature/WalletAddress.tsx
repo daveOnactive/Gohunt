@@ -60,7 +60,9 @@ export function WalletAddress({ register, control, value }: IProps) {
     <Box>
       {
         fields.map((field, index) => (
-          <Box sx={{
+          <Box 
+          key={field.id}
+          sx={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -72,7 +74,6 @@ export function WalletAddress({ register, control, value }: IProps) {
             </Typography>
             <TextField
               color='primary'
-              key={field.id}
               variant="standard"
               fullWidth
               size='small'
