@@ -1,19 +1,20 @@
 "use client"
-import { Card, Typography, Button, TextField, Skeleton } from "@mui/material";
+import { Card, Typography, Button, TextField, Skeleton, Box } from "@mui/material";
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from 'react-query';
 import Api from "@/services/api";
 import { useAlert } from "@/hooks";
-import { Assets } from "@/type";
+import { Networks } from "@/type";
 import { useContext } from "react";
 import { AssetContext } from "@/providers";
 import { NumberInput } from "../atoms";
+import { WalletAddress } from "./WalletAddress";
 
 type IForm = {
-  assetAddress: string;
   buy: number;
   sell: number;
+  networks: Networks[];
 }
 
 export function EditWalletDetails() {
@@ -23,14 +24,13 @@ export function EditWalletDetails() {
 
   const { asset: data, isLoadingAsset } = useContext(AssetContext);
 
-  const { control, formState: { errors }, handleSubmit } = useForm<IForm>({
+  const { control, formState: { errors }, handleSubmit, register } = useForm<IForm>({
     defaultValues: {
-      assetAddress: data?.assetAddress,
       buy: data?.rate?.buy,
-      sell: data?.rate?.sell
+      sell: data?.rate?.sell,
+      networks: data?.networks,
     }
   });
-
 
   const { push } = useRouter();
 
@@ -43,13 +43,27 @@ export function EditWalletDetails() {
   });
 
   const onSubmit: SubmitHandler<IForm> = (value) => {
-    mutate({ ...value, sell: Number(value.sell), buy: Number(value.buy) }, {
+    mutate({
+      ...value, 
+      sell: Number(value.sell), 
+      buy: Number(value.buy),
+      networks: value.networks
+    }, {
       onSuccess: () => {
         showNotification({ message: 'Wallet Details Edited!', type: 'success' });
         queryClient.invalidateQueries(['assets'])
         push('/dashboard');
+      },
+      onError: (e: any) => {
+        showNotification({ message: e.message, type: 'error' });
       }
     });
+  }
+
+  const style = {
+    p: 1.5,
+    width: '100%',
+    my: 1
   }
 
   return (
@@ -68,78 +82,90 @@ export function EditWalletDetails() {
         mt: 7
       }}>
       <Typography color='primary' variant="h6" textAlign='center' fontWeight='bold' mb={6.5}>{`Wallet Details (${params.get('name') })`}</Typography>
-      {
-        isLoadingAsset ? (
-          <Skeleton variant="rounded" width='100%' height={30} sx={{ my: 2 }}/>
-        ) : (
-            <Controller
-              name="assetAddress"
-              control={control}
-              defaultValue={data?.assetAddress}
-              render={({ field }) => (
-                <TextField {...field} label='Wallet Address' fullWidth sx={{ my: 2 }} variant="standard" disabled={isLoadingAsset} error={!!errors.assetAddress} defaultValue={data?.assetAddress} />
-              )}
-              rules={{ required: true }}
-            />
-        )
-      }
 
-      <Typography variant="body1" fontWeight='bold'>Rates</Typography>
+      <Box
+        sx={style}
+        component={Card}
+        variant="outlined"
+      >
+        <Typography variant="body1" fontWeight='bold'>Wallet Address Networks</Typography>
+        {
+          isLoadingAsset ? (
+            <Box>
+              <Skeleton variant="rounded" width='100%' height={30} sx={{ my: 2 }}/>
+              <Skeleton variant="rounded" width='30%' height={40} />
+            </Box>
+          ) : (
+              <WalletAddress
+                control={control}
+                register={register}
+                value={data?.networks}
+              />
+          )
+        }
+      </Box>
 
-      {
-        isLoadingAsset ? (
-          <>
-            <Skeleton variant="rounded" width='100%' height={30} sx={{ my: 2 }} />
-            <Skeleton variant="rounded" width='100%' height={30} sx={{ my: 2 }} />
-          </>
-        ) : (
-          <>
-            <Controller
-              name="sell"
-              control={control}
-                defaultValue={data?.rate?.sell}
-              render={({ field }) => (
-                <TextField 
-                  {...field}
-                  label='Sell' 
-                  fullWidth sx={{ my: 2 }}
-                  variant="standard" 
-                  disabled={isLoadingAsset} 
-                  error={!!errors.sell} 
+      <Box
+        sx={style}
+        component={Card}
+        variant="outlined"
+      >
+        <Typography variant="body1" fontWeight='bold'>Rates</Typography>
+
+        {
+          isLoadingAsset ? (
+            <>
+              <Skeleton variant="rounded" width='100%' height={30} sx={{ my: 2 }} />
+              <Skeleton variant="rounded" width='100%' height={30} sx={{ my: 2 }} />
+            </>
+          ) : (
+            <>
+              <Controller
+                name="sell"
+                control={control}
                   defaultValue={data?.rate?.sell}
-                  InputProps={{
-                    inputComponent: NumberInput as any
-                  }}
-                />
-              )}
-              rules={{ required: true }}
-            />
+                render={({ field }) => (
+                  <TextField 
+                    {...field}
+                    label='Sell' 
+                    fullWidth sx={{ my: 2 }}
+                    variant="standard" 
+                    disabled={isLoadingAsset} 
+                    error={!!errors.sell} 
+                    defaultValue={data?.rate?.sell}
+                    InputProps={{
+                      inputComponent: NumberInput as any
+                    }}
+                  />
+                )}
+                rules={{ required: true }}
+              />
 
-            <Controller
-              name="buy"
-              control={control}
-              defaultValue={data?.rate?.buy}
-              render={({ field }) => (
-                <TextField 
-                  {...field} 
-                  label='Buy' 
-                  fullWidth sx={{ my: 2 }}
-                  variant="standard" 
-                  disabled={isLoadingAsset} 
-                  error={!!errors.buy}
-                  defaultValue={data?.rate?.buy}
-                  InputProps={{
-                    inputComponent: NumberInput as any
-                  }}
-                />
-              )}
-              rules={{ required: true }}
-            />
-          </>
-        )
-      }
-
-
+              <Controller
+                name="buy"
+                control={control}
+                defaultValue={data?.rate?.buy}
+                render={({ field }) => (
+                  <TextField 
+                    {...field} 
+                    label='Buy' 
+                    fullWidth sx={{ my: 2 }}
+                    variant="standard" 
+                    disabled={isLoadingAsset} 
+                    error={!!errors.buy}
+                    defaultValue={data?.rate?.buy}
+                    InputProps={{
+                      inputComponent: NumberInput as any
+                    }}
+                  />
+                )}
+                rules={{ required: true }}
+              />
+            </>
+          )
+        }
+      </Box>
+      
       <Button disabled={isLoading} type='submit' variant="contained" color='primary' fullWidth sx={{ mt: 6.5 }}>Save Changes</Button>
     </Card>
   )
