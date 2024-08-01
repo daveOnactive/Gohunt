@@ -24,10 +24,6 @@ export function AssetCard({ data, onClick }: IProps) {
         mb: 1.5,
         flexDirection: { sm: 'row', xs: 'column-reverse'}
       }}>
-        <Typography variant="body2">
-          <strong>{`Wallet Address: `}</strong>
-          <span style={{ opacity: .7 }}>{data.assetAddress}</span>
-        </Typography>
 
         <Button
           size="large"

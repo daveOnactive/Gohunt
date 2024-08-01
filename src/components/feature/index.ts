@@ -6,3 +6,4 @@ export * from './TransactionList';
 export * from './EditBankDetails';
 export * from './EditWalletDetails';
 export * from './AwaitingTrade';
+export * from './WalletAddress';

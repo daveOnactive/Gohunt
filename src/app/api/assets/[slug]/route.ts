@@ -14,11 +14,11 @@ export async function PUT(
     const assetRef = doc(db, 'assets', slug)
 
     await updateDoc(assetRef, {
-      assetAddress: res.assetAddress,
       rate: {
         buy: res.buy,
         sell: res.sell
-      }
+      },
+      networks: res.networks
     });
 
 

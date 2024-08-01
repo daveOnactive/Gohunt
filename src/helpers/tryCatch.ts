@@ -3,7 +3,9 @@ export async function tryCatch(callback: () => Promise<Response>) {
     return await callback();
   } catch (e: any) {
     console.log(e)
-    return Response.json({ message: e.message });
+    return Response.json({ message: e.message }, {
+      status: e.statusCode || 500
+    });
   }
 }
 
