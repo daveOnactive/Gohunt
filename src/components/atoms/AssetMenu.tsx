@@ -1,6 +1,6 @@
 'use client'
-import { Box, Button, IconButton, Menu, MenuItem, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Box, Button, IconButton, Menu, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
+import { useContext, useState } from 'react';
 import Bitcoin from '../../../public/svg/Bitcoin.svg';
 import ETH from '../../../public/svg/ETH.svg';
 import USDT from '../../../public/svg/USDT.svg';
@@ -8,7 +8,8 @@ import Image from 'next/image';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useModal } from '@/hooks';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+import { Assets } from '@/type';
+import { AssetContext } from '@/providers';
 
 type IMenu = {
   value: string;
@@ -34,18 +35,35 @@ const menu: IMenu[] = [
   }
 ];
 
-type IProps = {
-  onChange?: (value: string) => void;
+type INetworks = {
+  BTC: string[];
+  USDT: string[];
+  ETH: string[];
 }
 
-export function AssetMenu({ onChange }: IProps) {
+const Networks: INetworks = {
+  'BTC': ['Bitcoin'],
+  'USDT': ['ERC20', 'TRC20'],
+  'ETH': ['ERC20']
+}
+
+type IProps = {
+  onChange?: (value: string) => void;
+  asset?: Assets;
+  setNetwork?: (network: string) => void;
+  network?: string;
+}
+
+export function AssetMenu({ onChange, asset, setNetwork, network }: IProps) {
+
+  const { data, filterAssets } = useContext(AssetContext);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const { showModal, handleModalClose } = useModal();
 
-  const [selectedValue, setSelectedValue] = useState<IMenu>(menu[0])
+  const [selectedValue, setSelectedValue] = useState<IMenu>(menu[0]);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget);
@@ -54,6 +72,8 @@ export function AssetMenu({ onChange }: IProps) {
   const handleClose = (value: IMenu) => {
     setAnchorEl(null);
     setSelectedValue((preValue) => value.value ? value : preValue);
+
+    const filteredAsset = filterAssets(data, value.value)
 
     showModal(
       <Box sx={{
@@ -72,6 +92,39 @@ export function AssetMenu({ onChange }: IProps) {
         <Typography mb={2} variant='h6' fontWeight='bold'>Notice</Typography>
 
         <Typography textAlign='center' mb={2} variant='body1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit magni nisi non, a ullam inventore fugiat quia exercitationem incidunt in laudantium</Typography>
+        
+          <Typography variant='body1' fontWeight='bold'>
+            Select Network
+          </Typography>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            variant='outlined'
+            sx={{
+              width: '50%',
+              my: 2,
+              display: 'flex',
+              mx: 'auto'
+            }}
+            size='small'
+            color='success'
+            label="Age"
+            onChange={(ev: SelectChangeEvent) => {
+              const value = ev.target.value as string;
+
+              function getValue(network: string) {
+                return filteredAsset?.networks.filter((item: any) => item.network === network)[0]?.value as string;
+              }
+
+              setNetwork?.(getValue(value));
+            }}
+          >
+            {
+            Networks[value.value as keyof typeof Networks]?.map(network => (
+                <MenuItem key={network} value={network}>{network}</MenuItem>
+              ))
+            }
+          </Select>
 
         <Button variant='contained' size='large' sx={{
             display: 'flex',

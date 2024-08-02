@@ -1,8 +1,10 @@
+'use client'
 import { Box, InputBase, InputLabel, Typography } from "@mui/material";
 import { AssetMenu } from "./AssetMenu";
 import { Assets } from "@/type";
 import { formatNumber } from "@/helpers";
 import { Copy } from ".";
+import { useState } from "react";
 
 type IProps = {
   isInput?: boolean;
@@ -13,6 +15,8 @@ type IProps = {
 }
 
 export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell', onInputChange }: IProps) {
+
+  const [selectedNetwork, setSelectedNetwork] = useState(asset?.networks[0]?.value || '');
   
   return (
     <Box>
@@ -58,11 +62,11 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
               <>
                   <Typography variant="h6" sx={{
                     fontSize: { sm: '1.27rem', xs: '.7rem'}
-                  }}>{asset?.assetAddress}</Typography>
+                  }}>{selectedNetwork}</Typography>
 
                   <Copy
                     name='Wallet Address'
-                    value={asset?.assetAddress || ''}
+                    value={selectedNetwork}
                   />
               </>
             )
@@ -73,7 +77,12 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
           display: 'flex',
           mx: 'auto',
         }}>
-          <AssetMenu onChange={(value) => onAssetChange?.(value)}/>
+          <AssetMenu 
+            onChange={(value) => onAssetChange?.(value)}
+            asset={asset}
+            setNetwork={(value) => setSelectedNetwork(value)}
+            network={selectedNetwork}
+          />
         </Box>
 
       </Box>
