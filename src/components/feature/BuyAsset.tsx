@@ -38,6 +38,8 @@ export function BuyAsset(){
 
   const searchParams = useSearchParams();
 
+  const [selectedNetwork, setSelectedNetwork] = useState<any>();
+
   function handleInput(value: string) {
     setWalletAddress(value);
   }
@@ -68,7 +70,9 @@ export function BuyAsset(){
 
       uploadTask.on('state_changed', null, null, () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          mutate({ ...formValue, screenshotUrl: downloadURL }, {
+          const network = selectedNetwork?.network;
+
+          mutate({ ...formValue, screenshotUrl: downloadURL, network }, {
             onSuccess: (data) => {
               showNotification({ message: 'Requested to buy', type: 'success' });
               setTrade(data.data.data);
@@ -140,6 +144,7 @@ export function BuyAsset(){
           asset={asset}
           onAssetChange={(value) => setSelectedAsset(value)}
           onInputChange={(value) => handleInput(value)}
+          getSelectedNetwork={(value) => setSelectedNetwork(value)}
         />
       </Box>
 

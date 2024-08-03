@@ -12,11 +12,12 @@ type IProps = {
   asset?: Assets;
   type?: 'sell' | 'buy';
   onInputChange?: (value: string) => void;
+  getSelectedNetwork?: (value: any) => void;
 }
 
-export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell', onInputChange }: IProps) {
+export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell', onInputChange, getSelectedNetwork }: IProps) {
 
-  const [selectedNetwork, setSelectedNetwork] = useState(asset?.networks[0]?.value || '');
+  const [selectedNetwork, setSelectedNetwork] = useState(asset?.networks[0]);
   
   return (
     <Box>
@@ -62,11 +63,11 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
               <>
                   <Typography variant="h6" sx={{
                     fontSize: { sm: '1.27rem', xs: '.7rem'}
-                  }}>{selectedNetwork}</Typography>
+                  }}>{selectedNetwork?.value}</Typography>
 
                   <Copy
                     name='Wallet Address'
-                    value={selectedNetwork}
+                    value={selectedNetwork?.value || ''}
                   />
               </>
             )
@@ -80,8 +81,11 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
           <AssetMenu 
             onChange={(value) => onAssetChange?.(value)}
             asset={asset}
-            setNetwork={(value) => setSelectedNetwork(value)}
-            network={selectedNetwork}
+            setNetwork={(value) => {
+              setSelectedNetwork(value);
+              getSelectedNetwork?.(value)
+            }}
+            network={selectedNetwork?.value}
           />
         </Box>
 

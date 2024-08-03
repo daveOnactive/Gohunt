@@ -50,7 +50,7 @@ const Networks: INetworks = {
 type IProps = {
   onChange?: (value: string) => void;
   asset?: Assets;
-  setNetwork?: (network: string) => void;
+  setNetwork?: (network: any) => void;
   network?: string;
 }
 
@@ -113,7 +113,7 @@ export function AssetMenu({ onChange, asset, setNetwork, network }: IProps) {
               const value = ev.target.value as string;
 
               function getValue(network: string) {
-                return filteredAsset?.networks.filter((item: any) => item.network === network)[0]?.value as string;
+                return filteredAsset?.networks.filter((item: any) => item.network === network)[0];
               }
 
               setNetwork?.(getValue(value));
