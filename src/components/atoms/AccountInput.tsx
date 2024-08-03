@@ -1,6 +1,6 @@
 'use client'
 import { BankAccounts } from "@/type";
-import { Box, InputLabel, InputBase, Typography } from "@mui/material";
+import { Box, InputLabel, InputBase, Typography, Skeleton } from "@mui/material";
 import Autocomplete from '@mui/material/Autocomplete';
 
 type IValue = {
@@ -15,9 +15,11 @@ type IProps = {
   value?: Partial<IValue>;
   banks?: BankAccounts[];
   bankHolderName?: string;
+  isLoadingHolderName?: boolean;
+  isHolderNameError?: boolean;
 }
 
-export function AccountInput({ value, onChange, onBankChange, banks, bankHolderName }: IProps) {
+export function AccountInput({ value, onChange, onBankChange, banks, bankHolderName, isLoadingHolderName, isHolderNameError }: IProps) {
     return (
     <Box>
       <Box sx={{
@@ -96,7 +98,10 @@ export function AccountInput({ value, onChange, onBankChange, banks, bankHolderN
         </Box>
 
       </Box>
-        <Typography variant='h6' fontWeight='bold' color='#EB832E'>{bankHolderName}</Typography>
+      {
+          isLoadingHolderName ? <Skeleton variant="text" height={45} width='30%' /> : <Typography variant='h6' fontWeight='bold' color='#EB832E'>{isHolderNameError ? 'Invalid account number or bank' : bankHolderName}</Typography>
+      }
+       
     </Box>
   )
 }

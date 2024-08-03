@@ -77,7 +77,7 @@ export function EditBankDetails(){
           accountNumber: bank?.accountNumber,
           bankName: bank?.bankName
         }}
-        onBankChange={(value) => handleBankDetails(value, 'bankName')}
+        onBankChange={(value) => handleBankDetails(value?.name as string, 'bankName')}
         onChange={(value) => handleBankDetails(value, 'accountNumber')}
       />
 

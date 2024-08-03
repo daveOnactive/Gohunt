@@ -11,6 +11,7 @@ export const BankVerificationContext = createContext<Partial<{
   isLoadingAccountDetails: boolean;
   setQueryParams: any;
   queryParams: QueryParams;
+  isAccountDetailsError: boolean;
 }>>({});
 
 const Api = axios.create({
@@ -34,7 +35,7 @@ export function BankVerificationProvider({ children }: PropsWithChildren) {
     queryKey: ['nigeria_banks']
   });
 
-  const { data: accountDetails, isLoading: isLoadingAccountDetails } = useQuery<{ data: AccountDetails }>({
+  const { data: accountDetails, isFetching: isLoadingAccountDetails, isError: isAccountDetailsError } = useQuery<{ data: AccountDetails }>({
     queryFn: async () => (await Api.get(`/bank/resolve?account_number=${queryParams.account_number}&bank_code=${queryParams.bank_code}`)).data,
     queryKey: ['account_details', queryParams],
     enabled: !!queryParams.account_number && !!queryParams.bank_code
@@ -47,6 +48,7 @@ export function BankVerificationProvider({ children }: PropsWithChildren) {
         accountDetails: accountDetails?.data,
         isLoadingBanks,
         isLoadingAccountDetails,
+        isAccountDetailsError,
         setQueryParams,
         queryParams
       }}

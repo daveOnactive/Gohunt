@@ -13,7 +13,6 @@ export async function GET(
     const transactionRef = doc(db, 'transactions', slug);
   
     const transaction = (await getDoc(transactionRef)).data();
-  
     return Response.json({ data: transaction })
   })
 }
