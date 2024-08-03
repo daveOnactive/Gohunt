@@ -37,7 +37,7 @@ export function SellAsset() {
 
   const [trade, setTrade] = useState<Transaction>();
 
-  const { banks, accountDetails, setQueryParams, queryParams } = useContext(BankVerificationContext);
+  const { banks, accountDetails, setQueryParams, queryParams, isLoadingAccountDetails } = useContext(BankVerificationContext);
 
 
   function handleBankChange(value: string | BankAccounts | undefined, key: 'bankName' | 'accountNumber') {
@@ -58,6 +58,11 @@ export function SellAsset() {
         ...queryParams,
         bank_code: value?.code
       })
+
+      setBankDetails({
+        ...bankDetails,
+        bankName: value?.name
+      })
     }
   }
 
@@ -71,7 +76,7 @@ export function SellAsset() {
 
   const onSubmit: SubmitHandler<IForm> = (value) => {
 
-    if (bankDetails?.accountNumber && bankDetails?.bankName) {
+    if (bankDetails?.bankName && accountDetails?.account_name) {
       setIsLoading(true);
       const formValue = {
         asset: asset.assetName,
@@ -159,6 +164,7 @@ export function SellAsset() {
           onChange={(value) => handleBankChange(value, 'accountNumber')}
           banks={banks}
           bankHolderName={accountDetails?.account_name}
+          isLoadingHolderName={isLoadingAccountDetails}
         />
       </Box>
 
