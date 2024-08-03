@@ -3,17 +3,11 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import Api from "@/services/api";
 import { Status, Transaction } from '@/type';
 import { Box } from '@mui/material';
-import { useAlert, useDataSnapshot, useModal } from '@/hooks';
+import { useAlert, useModal } from '@/hooks';
 import { Table, Tabs, TransactionStatus } from '../atoms';
 import { formatDate, formatNumber } from '@/helpers';
 import { TransactionDetails } from '@/components/molecules';
 import React, { useCallback, useState } from 'react';
-
-const StatusColorMapper = {
-  "successful": "#19966C",
-  "pending": "#BCAC1B",
-  "failed": "#FF0318",
-}
 
 type ITransactionTable = {
   transactions?: Transaction[];
@@ -107,6 +101,11 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
       align: 'left',
       headerName: 'Wallet Address',
     },
+    {
+      field: 'network',
+      align: 'left',
+      headerName: 'Network Type',
+    },
   ];
 
   const { showModal, handleModalClose } = useModal();
@@ -171,6 +170,8 @@ export function TransactionList(){
     queryFn: async () => (await Api.get('/transactions')).data,
     refetchInterval: 7000,
   });
+
+  console.log({ transactions })
 
   return (
     <Box sx={{
