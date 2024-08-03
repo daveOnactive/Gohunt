@@ -1,14 +1,7 @@
 'use client'
+import { BankAccounts } from "@/type";
 import { Box, InputLabel, InputBase, Typography } from "@mui/material";
 import Autocomplete from '@mui/material/Autocomplete';
-
-const banks = [
-  'Access Bank',
-  'First Bank',
-  'UBA',
-  'Kuda',
-  'Opay'
-]
 
 type IValue = {
   accountNumber: string;
@@ -18,11 +11,13 @@ type IValue = {
 
 type IProps = {
   onChange?: (value: string) => void;
-  onBankChange?: (value: string) => void;
+  onBankChange?: (bank?: BankAccounts) => void;
   value?: Partial<IValue>;
+  banks?: BankAccounts[];
+  bankHolderName?: string;
 }
 
-export function AccountInput({ value, onChange, onBankChange }: IProps) {
+export function AccountInput({ value, onChange, onBankChange, banks, bankHolderName }: IProps) {
     return (
     <Box>
       <Box sx={{
@@ -72,9 +67,12 @@ export function AccountInput({ value, onChange, onBankChange }: IProps) {
           <Autocomplete
             disablePortal
             id="combo-box-demo"
-            options={banks}
+            options={banks?.map(bank => bank.name) || []}
             defaultValue={value?.bankName}
-            onChange={(_ev, value) => onBankChange?.(value as string)}
+            onChange={(_ev, value) => {
+              const bank = banks?.filter(bank => bank.name === value)[0]
+              onBankChange?.(bank);
+            }}
             sx={{
               display: 'inline-block',
               '& input': {
@@ -98,7 +96,7 @@ export function AccountInput({ value, onChange, onBankChange }: IProps) {
         </Box>
 
       </Box>
-      <Typography variant='h6' fontWeight='bold' color='#EB832E'>{value?.holdersName}</Typography>
+        <Typography variant='h6' fontWeight='bold' color='#EB832E'>{bankHolderName}</Typography>
     </Box>
   )
 }

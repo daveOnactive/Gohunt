@@ -2,13 +2,13 @@
 import { Box, Button, Skeleton, TextField } from "@mui/material";
 import { AccountInput, AwaitingTrade, UploadInput, WalletAddressInput } from "..";
 import { useContext, useMemo, useState } from "react";
-import { AssetContext } from "@/providers";
+import { AssetContext, BankVerificationContext } from "@/providers";
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useAlert } from "@/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "react-query";
 import Api from "@/services/api";
-import { Assets, Bank, Transaction } from "@/type";
+import { Assets, Bank, BankAccounts, Transaction } from "@/type";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from '@/services';
 import { AmountInput } from "../atoms/AmountInput";
@@ -37,12 +37,28 @@ export function SellAsset() {
 
   const [trade, setTrade] = useState<Transaction>();
 
+  const { banks, accountDetails, setQueryParams, queryParams } = useContext(BankVerificationContext);
 
-  function handleBankChange(value: string, key: 'bankName' | 'accountNumber') {
-    setBankDetails({
-      ...bankDetails,
-      [key]: value,
-    })
+
+  function handleBankChange(value: string | BankAccounts | undefined, key: 'bankName' | 'accountNumber') {
+    if (typeof value === 'string' && key === 'accountNumber' && value.length === 10) {
+      setBankDetails({
+        ...bankDetails,
+        [key]: value,
+      })
+
+      setQueryParams({
+        ...queryParams,
+        account_number: value
+      })
+    }
+
+    if (key === 'bankName' && typeof value !== 'string') {
+      setQueryParams({
+        ...queryParams,
+        bank_code: value?.code
+      })
+    }
   }
 
   const { push } = useRouter();
@@ -65,7 +81,7 @@ export function SellAsset() {
         amount: value?.amount,
         bankAccount: bankDetails?.accountNumber,
         bankName: bankDetails?.bankName,
-        holdersName: bankDetails?.holdersName || 'Default_name',
+        holdersName: accountDetails?.account_name || 'Default_name',
       }
   
       const storageRef = ref(storage, `files/${selectedFile.name}`);
@@ -138,9 +154,11 @@ export function SellAsset() {
       />
         
       <Box mt={3}>
-        <AccountInput 
-          onBankChange={(value) => handleBankChange(value, 'bankName')} 
+        <AccountInput
+          onBankChange={(bank) => handleBankChange(bank, 'bankName')}
           onChange={(value) => handleBankChange(value, 'accountNumber')}
+          banks={banks}
+          bankHolderName={accountDetails?.account_name}
         />
       </Box>
 
