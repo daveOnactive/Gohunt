@@ -3,12 +3,10 @@ import { SCREEN_MAX_WIDTH } from "@/constant/width";
 import { Box } from "@mui/material";
 import Ellipse7 from '../../../public/svg/ellipse-7.svg';
 import Ellipse8 from '../../../public/svg/ellipse-8.svg';
-import { BankVerificationProvider } from "@/providers";
 
 export default function Trade() {
   return (
     <main>
-      <BankVerificationProvider>
         <NavigationBar
           isNavBg
           showBreadcrumbs
@@ -44,7 +42,6 @@ export default function Trade() {
             />
           </Box>
         </NavigationBar>
-      </BankVerificationProvider>
     </main>
   )
 }

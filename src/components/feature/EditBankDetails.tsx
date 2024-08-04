@@ -1,12 +1,13 @@
 'use client'
 import { Button, Card, Typography } from "@mui/material";
 import { AccountInput } from "../atoms";
-import { AssetContext } from "@/providers";
+import { AssetContext, BankVerificationContext } from "@/providers";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import Api from "@/services/api";
 import { useAlert } from "@/hooks";
 import { useQueryClient, useMutation } from "react-query";
+import { BankAccounts } from "@/type";
 
 type IForm = {
   bankName: string;
@@ -18,6 +19,7 @@ type IForm = {
 export function EditBankDetails(){
 
   const { bank } = useContext(AssetContext);
+  const { banks, isAccountDetailsError, isLoadingAccountDetails, accountDetails, setQueryParams } = useContext(BankVerificationContext);
 
   const [bankDetails, setBankDetails] = useState<Partial<IForm>>();
 
@@ -46,9 +48,21 @@ export function EditBankDetails(){
     });
   }
 
+  function handleBankChange(bank?: BankAccounts) {
+    setQueryParams({
+      account_number: bankDetails?.accountNumber,
+      bank_code: bank?.code,
+    })
+
+    setBankDetails({
+      ...bankDetails,
+      bankName: bank?.name
+    });
+  }
+
   const onSubmit = () => {
-    if (bankDetails?.accountNumber && bankDetails.bankName) {
-      mutate({ ...bankDetails, id: bank?.id }, {
+    if (bankDetails?.accountNumber && accountDetails?.account_name) {
+      mutate({ ...bankDetails, id: bank?.id, holdersName: accountDetails.account_name }, {
         onSuccess: () => {
           showNotification({ message: 'Bank Details Edited!', type: 'success' });
           queryClient.invalidateQueries(['bank'])
@@ -77,8 +91,12 @@ export function EditBankDetails(){
           accountNumber: bank?.accountNumber,
           bankName: bank?.bankName
         }}
-        onBankChange={(value) => handleBankDetails(value?.name as string, 'bankName')}
+        onBankChange={(bank) => handleBankChange(bank)}
         onChange={(value) => handleBankDetails(value, 'accountNumber')}
+        banks={banks}
+        isHolderNameError={isAccountDetailsError}
+        isLoadingHolderName={isLoadingAccountDetails}
+        bankHolderName={accountDetails?.account_name}
       />
 
       <Button disabled={isLoading} variant="contained" color='primary' fullWidth sx={{ mt: 6.5 }} onClick={onSubmit}>Save Changes</Button>

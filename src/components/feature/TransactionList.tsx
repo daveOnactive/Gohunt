@@ -1,5 +1,5 @@
 "use client"
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import Api from "@/services/api";
 import { Status, Transaction } from '@/type';
 import { Box } from '@mui/material';
@@ -7,7 +7,8 @@ import { useAlert, useModal } from '@/hooks';
 import { Table, Tabs, TransactionStatus } from '../atoms';
 import { formatDate, formatNumber } from '@/helpers';
 import { TransactionDetails } from '@/components/molecules';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
+import { TransactionContext } from "@/providers";
 
 type ITransactionTable = {
   transactions?: Transaction[];
@@ -165,13 +166,7 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
 
 export function TransactionList(){
 
-  const { data: transactions } = useQuery<Transaction[]>({
-    queryKey: ['transactions'],
-    queryFn: async () => (await Api.get('/transactions')).data,
-    refetchInterval: 7000,
-  });
-
-  console.log({ transactions })
+  const { transactions } = useContext(TransactionContext)
 
   return (
     <Box sx={{

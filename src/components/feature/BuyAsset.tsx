@@ -34,8 +34,6 @@ export function BuyAsset(){
 
   const [selectedFile, setSelectedFile] = useState<any>();
 
-  const [trade, setTrade] = useState<Transaction>();
-
   const searchParams = useSearchParams();
 
   const [selectedNetwork, setSelectedNetwork] = useState<any>();
@@ -75,7 +73,6 @@ export function BuyAsset(){
           mutate({ ...formValue, screenshotUrl: downloadURL, network }, {
             onSuccess: (data) => {
               showNotification({ message: 'Requested to buy', type: 'success' });
-              setTrade(data.data.data);
               push(`/trade?tradeId=${data.data.data.id}&type=buy`);
             },
             onSettled: () => setIsLoading(false)
@@ -86,7 +83,7 @@ export function BuyAsset(){
   }
 
   if (searchParams.get('tradeId') && searchParams.get('type') === 'buy') {
-    return <AwaitingTrade trade={trade} type="buy" id={searchParams.get('tradeId') as string} />;
+    return <AwaitingTrade type="buy" id={searchParams.get('tradeId') as string} />;
   }
 
   
