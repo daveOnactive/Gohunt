@@ -2,7 +2,7 @@
 import { Box, Button, Skeleton, TextField } from "@mui/material";
 import { AccountInput, AwaitingTrade, UploadInput, WalletAddressInput } from "..";
 import { useContext, useMemo, useState } from "react";
-import { AssetContext, BankVerificationContext } from "@/providers";
+import { AssetContext, BankVerificationContext, TransactionContext } from "@/providers";
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useAlert } from "@/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -34,8 +34,6 @@ export function SellAsset() {
   const [selectedFile, setSelectedFile] = useState<any>();
 
   const asset = useMemo(() => filterAssets(data, selectedAsset), [data, filterAssets, selectedAsset]) as Assets;
-
-  const [trade, setTrade] = useState<Transaction>();
 
   const { banks, accountDetails, setQueryParams, queryParams, isLoadingAccountDetails } = useContext(BankVerificationContext);
 
@@ -97,7 +95,6 @@ export function SellAsset() {
           mutate({ ...formValue, screenshotUrl: downloadURL }, {
             onSuccess: (data) => {
               showNotification({ message: 'Requested to sell', type: 'success' });
-              setTrade(data.data.data);
               push(`/trade?tradeId=${data.data.data.id}&type=sell`);
             },
             onSettled: () => setIsLoading(false)
@@ -107,9 +104,8 @@ export function SellAsset() {
     }
   }
 
-
   if (searchParams.get('tradeId') && searchParams.get('type') === 'sell') {
-    return <AwaitingTrade trade={trade} type="sell" id={searchParams.get('tradeId') as string}/>;
+    return <AwaitingTrade type="sell" id={searchParams.get('tradeId') as string}/>;
   }
 
   return (

@@ -10,29 +10,21 @@ import { Countdown, DownloadButton, TransactionStatus } from "../atoms";
 import { PrintTrade } from "../molecules";
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 import { AwaitingTradeSkeleton } from "../skeleton";
+import { TransactionContext } from "@/providers";
+import { useContext } from "react";
 
 type IProps = {
-  trade?: Transaction;
   type: 'sell' | 'buy';
   id?: string;
 }
 
-export function AwaitingTrade({ trade, type, id }: IProps) {
+export function AwaitingTrade({ type, id }: IProps) {
 
   const { push } = useRouter();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['transaction'],
-    queryFn: async () => (await Api.get(`/transactions/${id}`)).data,
-    onSuccess: (data) => {
-      if(!data.data) {
-        push('/trade')
-      }
-    },
-    refetchInterval: 7000,
-  });
+  const { transaction } = useContext(TransactionContext);
 
-  const value = data?.data as Transaction;
+  const value = transaction as Transaction;
   const isBuy = type === 'buy';
 
   const tradeIsSuccessful = value?.status === Status.SUCCESSFUL;
@@ -64,7 +56,7 @@ export function AwaitingTrade({ trade, type, id }: IProps) {
     },
   ]
 
-  if (isLoading) return <AwaitingTradeSkeleton />;
+  // if (isLoading) return <AwaitingTradeSkeleton />;
 
   return (
     <Box>

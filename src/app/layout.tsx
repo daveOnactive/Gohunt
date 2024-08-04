@@ -7,6 +7,7 @@ import '../app/style.css';
 import ReactQueryProvider from "./ReactQueryProvider";
 import { AssetProvider, SnackbarProvider, ConfirmProvider, ModalProvider, CryptoApiProvider, BankVerificationProvider } from "@/providers";
 import { Suspense } from "react";
+import { TransactionProvider } from "@/providers/TransactionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,19 +28,21 @@ export default function RootLayout({
           <Suspense>
             <ThemeProvider theme={theme}>
               <ReactQueryProvider>
-                <ModalProvider>
-                  <SnackbarProvider>
-                    <ConfirmProvider>
-                      <AssetProvider>
-                        <CryptoApiProvider>
-                          <BankVerificationProvider>
-                            {children}
-                          </BankVerificationProvider>
-                        </CryptoApiProvider>
-                      </AssetProvider>
-                    </ConfirmProvider>
-                  </SnackbarProvider>
-                </ModalProvider>
+                <TransactionProvider>
+                  <ModalProvider>
+                    <SnackbarProvider>
+                      <ConfirmProvider>
+                        <AssetProvider>
+                          <CryptoApiProvider>
+                            <BankVerificationProvider>
+                              {children}
+                            </BankVerificationProvider>
+                          </CryptoApiProvider>
+                        </AssetProvider>
+                      </ConfirmProvider>
+                    </SnackbarProvider>
+                  </ModalProvider>
+                </TransactionProvider>
               </ReactQueryProvider>
             </ThemeProvider>
           </Suspense>
