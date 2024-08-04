@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from "@/theme";
 import '../app/style.css';
 import ReactQueryProvider from "./ReactQueryProvider";
-import { AssetProvider, SnackbarProvider, ConfirmProvider, ModalProvider, CryptoApiProvider } from "@/providers";
+import { AssetProvider, SnackbarProvider, ConfirmProvider, ModalProvider, CryptoApiProvider, BankVerificationProvider } from "@/providers";
 import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,7 +32,9 @@ export default function RootLayout({
                     <ConfirmProvider>
                       <AssetProvider>
                         <CryptoApiProvider>
-                          {children}
+                          <BankVerificationProvider>
+                            {children}
+                          </BankVerificationProvider>
                         </CryptoApiProvider>
                       </AssetProvider>
                     </ConfirmProvider>
