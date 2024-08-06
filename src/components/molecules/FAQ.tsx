@@ -9,19 +9,32 @@ import { Element } from 'react-scroll';
 const faqs = [
   {
     title: 'How does GoHut Work?',
-    content: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
+    content: `
+        <p>
+          To start trading crypto on our app, follow these simple steps:
+        </p>
+        <br />
+        <ol>
+          <li><b>Enter the Amount:</b> Specify how much you want to invest or trade.</li>
+          <li><b>Choose the Type of Crypto:</b> Select from a range of cryptocurrencies available on our platform.</li>
+          <li><b>Provide Banking or Wallet Details:</b> Enter your banking information or wallet address to complete the transaction.</li>
+        </ol>
+        <br />
+        <p>Once you’ve completed these steps, your trade will be processed, and you’ll receive confirmation.</p>
+    `,
+    isHtml: true
   },
   {
-    title: 'What is the value of GoHut?',
-    content: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
+    title: 'What cryptocurrencies are available for trading?',
+    content: 'We offer a diverse selection of cryptocurrencies, including popular ones like Bitcoin (BTC), Ethereum (ETH), and Tether (USDT), among others. For a full list of available cryptocurrencies, please check the “Markets” section of our app.'
   },
   {
-    title: 'What is the value of GoHut?',
-    content: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
+    title: 'How secure is my information?',
+    content: 'We prioritize your security. Our app uses advanced encryption and security protocols to protect your personal and financial information. We also offer two-factor authentication (2FA) for added protection.'
   },
   {
-    title: 'What is the value of GoHut?',
-    content: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
+    title: 'How can I contact customer support?',
+    content: 'If you have any questions or need assistance, our customer support team is available 24/7. You can reach us via the “Support” section in the app, email us at support@gohuntfx.com, or use the live chat feature on our website.'
   }
 ];
 
@@ -49,16 +62,16 @@ export function FAQ() {
     }}>
       <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>Frequently Asked Questions</Typography>
       <Typography variant="body1" textAlign="center" mb={4} sx={{
-        width: { sm: '400px', xs: '100%' },
+        width: { sm: '600px', xs: '100%' },
         display: 'flex',
         mx: 'auto',
         opacity: .7,
-      }}>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</Typography>
+      }}>Find answers to common questions about using our platform and trading cryptocurrencies. If you need further assistance, our support team is here to help!</Typography>
 
 
       <Box ref={scope} mt={5}>
         {
-          faqs.map(({ title, content }, index ) => (
+          faqs.map(({ title, content, isHtml }, index ) => (
             <Accordion 
               key={title}
               className="stagger-accordion"
@@ -92,7 +105,11 @@ export function FAQ() {
                 {title}
               </AccordionSummary>
               <AccordionDetails>
-                {content}
+                {!isHtml ? content : (
+                  <div dangerouslySetInnerHTML={{
+                    __html: content
+                  }} />
+                )}
               </AccordionDetails>
             </Accordion>
           ))

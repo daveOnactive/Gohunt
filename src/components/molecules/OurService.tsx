@@ -7,20 +7,20 @@ import Ellipse3 from '../../../public/svg/ellipse-3.svg';
 
 const services = [
   {
-    title: 'Excessive Speed',
-    content: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
+    title: ' Cryptocurrency Trading',
+    content: 'Easily buy, sell, and trade a wide variety of cryptocurrencies on our user-friendly platform. Enjoy real-time market data and seamless transactions.'
   },
   {
-    title: 'Good Rate',
-    content: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
+    title: 'Good Rates',
+    content: 'Get competitive and transparent rates for all your cryptocurrency transactions. Our platform offers up-to-date exchange rates with no hidden fees, ensuring you get the best value.'
   },
   {
-    title: 'Liability',
-    content: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
+    title: 'Security and Compliance',
+    content: 'Rest assured knowing your transactions are secure and compliant with industry standards. Our platform adheres to strict regulatory guidelines and employs advanced security measures to protect your data and assets.'
   },
   {
-    title: 'Trust Worthy',
-    content: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.'
+    title: '24/7 Customer Support',
+    content: 'Get assistance whenever you need it with our dedicated 24/7 customer support. Our knowledgeable team is here to help you with any questions or issues you may encounter.'
   }
 ];
 
@@ -38,7 +38,7 @@ export function OurService(){
         display: 'flex',
         mx: 'auto',
         opacity: .7
-      }}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi veniam quia sint officiis labore corporis.</Typography>
+      }}>Explore Our Comprehensive Suite of Services Designed to Enhance Your Crypto Trading Experience.</Typography>
 
       <Timeline
         items={services}
