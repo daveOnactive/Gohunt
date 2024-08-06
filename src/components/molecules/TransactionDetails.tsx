@@ -38,7 +38,7 @@ export function TransactionDetails({ transaction, onApprove }: IProps) {
     },
     {
       label: 'Wallet Address: ',
-      value: transaction?.walletAddress
+      value: `${transaction?.walletAddress} (${transaction?.network})`
     },
     ...defaultTradeContent
   ];
