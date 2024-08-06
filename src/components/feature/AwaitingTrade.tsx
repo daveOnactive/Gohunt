@@ -132,7 +132,7 @@ export function AwaitingTrade({ type, id }: IProps) {
         </Typography>
         <Typography>
           <b>
-            {isBuy ? value?.walletAddress : `${value?.bankAccount} ${value?.bankName} (${value?.holdersName})`}
+            {isBuy ? `${value?.walletAddress} (${value?.network})` : `${value?.bankAccount} ${value?.bankName} (${value?.holdersName})`}
           </b>
         </Typography>
       </Box>
