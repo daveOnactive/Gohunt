@@ -63,8 +63,24 @@ export function HeroBanner(){
           />
           <Typography variant="body1" ml='8px' sx={{ fontSize: { xs: '.8rem', sm: '1rem' }}}>Discover a new ways to enjoy your World!</Typography>
         </Box>
-        <Typography className='stagger-element' variant="h3" mb={"35px"}>A trusted and secure cryptocurrency exchange.</Typography>
-        <Typography className='stagger-element' variant="body1">We have over 15 year exprience in business consultting arena. We have over 15 year exprience in business consultting arena and artficial intelligence.</Typography>
+          <Typography fontWeight='bold' className='stagger-element' variant="h2" mb={"35px"}>Discover, Trade, and <Box 
+            component='span' 
+            sx={({ palette }) => ({
+              color: palette.primary.main,
+              mx: 1
+            })}
+          >Thrive in
+          </Box>
+          Crypto Markets with
+          <Box
+            component='span'
+            sx={({ palette }) => ({
+              color: palette.primary.main,
+              mx: 1
+            })}
+          >GoHunt
+          </Box>
+        </Typography>
       </Box>
       
       <Box 

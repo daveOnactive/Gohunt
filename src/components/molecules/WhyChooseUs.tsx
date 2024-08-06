@@ -60,7 +60,7 @@ export function WhyChooseUse() {
 
       <Box ref={scope}>
         <Typography variant="h5" fontWeight='bold' mb={1.3}>Why Choose Us</Typography>
-        <Typography variant="body1" mb={3.5}>Become a crypto owner in minutes using your debit or credit card and quickly purchase top cryptocurrencies.</Typography>
+        <Typography variant="body1" mb={3.5}>Discover the Advantages of Trading with Us and Experience Unmatched Reliability, Security, and Support</Typography>
 
         {
           options.map(({ title, description, icon }) => (

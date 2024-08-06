@@ -5,8 +5,26 @@ import Quote from '../../../public/svg/quote.svg';
 import Ellipse6 from '../../../public/svg/ellipse-5.svg';
 import { Ellipse } from "../atoms";
 
+type Testimonial = {
+  testimony: string;
+  name: string;
+}
+type ITestimonialCard = {
+  testimonial: Testimonial;
+}
 
-function TestimonialCard() {
+const testimonials: Testimonial[] = [
+  {
+    testimony: 'As a newcomer to crypto trading, the educational resources here were a game-changer. The secure wallet and real-time data made trading seamless. Highly recommended!',
+    name: 'Chinedu Okafor'
+  },
+  {
+    testimony: 'This platform has revolutionized my trading experience. The advanced tools and 24/7 support are top-notch. It\'s the best I\'ve used in years!',
+    name: 'Aisha Adeyemi'
+  }
+]
+
+function TestimonialCard({ testimonial }: ITestimonialCard) {
   return (
     <Card sx={{
       width: '100%',
@@ -24,13 +42,10 @@ function TestimonialCard() {
       </Box>
 
       <Typography textAlign="center" variant="body1" mb={2}>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        {testimonial.testimony}
       </Typography>
 
-      <Typography variant="h6" fontWeight="bold" textAlign="center">john smith</Typography>
-      <Typography textAlign="center" variant="body1" sx={{opacity: .7 }}>
-        Founder of Awesomeux Technology
-      </Typography>
+      <Typography variant="h6" fontWeight="bold" textAlign="center">{testimonial.name}</Typography>
     </Card>
   )
 }
@@ -58,7 +73,7 @@ export function Testimonial() {
         display: 'flex',
         mx: 'auto',
         opacity: .7,
-      }}>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</Typography>
+      }}>Hear from Our Satisfied Users: Real Testimonials, Real Success Stories</Typography>
 
         <Box
           sx={{
@@ -68,8 +83,13 @@ export function Testimonial() {
           gap: 2,
           flexDirection: { sm: 'row', xs: 'column' }
         }}>
-          <TestimonialCard />
-          <TestimonialCard />
+          {
+            testimonials.map(item => (
+              <TestimonialCard
+                testimonial={item}
+              />
+            ))
+          }
         </Box>
     </Box>
   )

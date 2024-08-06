@@ -130,7 +130,7 @@ export function Timeline({ items }: IProps) {
         }
       </Box>
       <Box sx={{
-        height: '800px',
+        height: '63rem',
         width: '2px',
         backgroundColor: '#1F719D',
         position: 'absolute',

@@ -12,16 +12,16 @@ import { useStaggerAnimation } from "@/hooks";
 
 const content = [
   {
-    title: 'Connect your wallet',
+    title: 'Enter the Amount',
     icon: connect
   },
   {
-    title: 'Link your bank',
-    icon: bank
+    title: 'Choose Your Cryptocurrency',
+    icon: wallet
   },
   {
-    title: 'Start buying and selling',
-    icon: wallet
+    title: 'Provide Your Banking or Wallet Details',
+    icon: bank
   }
 ];
 
@@ -55,7 +55,7 @@ function ContentSection() {
       }}>
       <Typography className='stagger-icon' variant="h5" fontWeight="bold" mb={2}>One click, instant sell & buy crypto.</Typography>
       <Typography className='stagger-icon'>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod neque nisi.
+        Effortlessly Trade Your Favorite Cryptocurrencies in Three Simple Steps
       </Typography>
 
       <Box mt={2.5}>
