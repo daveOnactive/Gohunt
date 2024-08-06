@@ -6,8 +6,9 @@ import X from '../../../public/svg/x.svg';
 import Insta from '../../../public/svg/insta.svg';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import Image from "next/image";
-import Link from "next/link";
 import { useStaggerAnimation } from "@/hooks";
+import { Link } from "react-scroll";
+import { useState, useEffect } from "react";
 
 const socials = [
   {
@@ -24,28 +25,7 @@ const socials = [
   }
 ]
 
-const links = [
-  {
-    label: 'OUR ASSET',
-    href: '#'
-  },
-  {
-    label: 'OUR Service',
-    href: '#'
-  },
-  {
-    label: 'WHY CHOOSE US',
-    href: '#'
-  },
-  {
-    label: 'TESTIMONIAL',
-    href: '#'
-  },
-  {
-    label: 'FAQ',
-    href: '#'
-  }
-]
+const links = ['Our Asset', 'Our Service', 'Why Choose Us', 'Testimonial', 'FAQ']
 
 export function Footer() {
 
@@ -53,6 +33,10 @@ export function Footer() {
     className: ".stagger-footer",
     position: 'vertical'
   });
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <Box ref={scope} sx={{
@@ -101,10 +85,27 @@ export function Footer() {
           mt: { xs: '1rem' }
         }}>
           {
-            links.map(({ href, label }) => (
-              <Link className="stagger-footer" href={href} key={label} style={{
-                color: 'white',
-              }}>{label}</Link>
+            links.map((link) => (
+              <Box
+                component={Link}
+                className="stagger-footer"
+                key={link}
+                sx={{
+                  color: '#fff',
+                  cursor: 'pointer',
+                  mx: 1,
+                  '&:hover': {
+                    textDecoration: 'underline'
+                  }
+                }}
+                activeClass="active"
+                to={link}
+                smooth
+                offset={50}
+                duration={500}
+              >
+                {link}
+              </Box>
             ))
           }
         </Box>
@@ -122,7 +123,7 @@ export function Footer() {
           Copyright © 2024GoHunt. All rights reserved.
         </Typography>
 
-        <Box className="stagger-footer" >
+        <Box className="stagger-footer" onClick={scrollToTop}>
           <Box sx={{
             backgroundColor: '#EC3363',
             width: '2rem',
@@ -131,6 +132,7 @@ export function Footer() {
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 0.5,
+            cursor: 'pointer',
           }}>
             <KeyboardArrowUpRoundedIcon sx={{ color: 'white'}} />
           </Box>
