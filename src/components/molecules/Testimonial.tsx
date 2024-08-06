@@ -86,6 +86,7 @@ export function Testimonial() {
           {
             testimonials.map(item => (
               <TestimonialCard
+                key={item.name}
                 testimonial={item}
               />
             ))
