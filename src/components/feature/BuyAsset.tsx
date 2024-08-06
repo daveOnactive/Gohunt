@@ -36,7 +36,9 @@ export function BuyAsset(){
 
   const searchParams = useSearchParams();
 
-  const [selectedNetwork, setSelectedNetwork] = useState<any>();
+  const [selectedNetwork, setSelectedNetwork] = useState<any>({
+    network: "Bitcoin"
+  });
 
   function handleInput(value: string) {
     setWalletAddress(value);
@@ -51,7 +53,6 @@ export function BuyAsset(){
   });
 
   const onSubmit: SubmitHandler<IForm> = (value) => {
-
     if (walletAddress) {
       setIsLoading(true);
       const formValue = {
@@ -65,10 +66,10 @@ export function BuyAsset(){
 
       const storageRef = ref(storage, `files/${selectedFile.name}`);
       const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+      const network = selectedNetwork?.network;
 
       uploadTask.on('state_changed', null, null, () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          const network = selectedNetwork?.network;
 
           mutate({ ...formValue, screenshotUrl: downloadURL, network }, {
             onSuccess: (data) => {
