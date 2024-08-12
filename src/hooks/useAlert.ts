@@ -9,7 +9,7 @@ type INotification = {
 
 export function useAlert() {
 
-  const { handleClick, setMessage, setType, } = useContext(SnackbarContext);
+  const { handleClick, setMessage, setType } = useContext(SnackbarContext);
 
   function showNotification({ message, type }: INotification) {
     handleClick();

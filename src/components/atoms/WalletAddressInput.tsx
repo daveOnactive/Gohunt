@@ -61,10 +61,32 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
               />
             ) : (
               <>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: .5,
+                    alignItems: 'center',
+                    borderRight: 1,
+                    borderColor: '#6a6868',
+                    pr: 2,
+                    justifyContent: 'center'
+                  }}
+                >
                   <Typography variant="h6" sx={{
-                    fontSize: { sm: '1.27rem', xs: '.7rem'}
+                    fontSize: { sm: '1rem', xs: '.8rem' },
+                  }}>Network:</Typography>
+                  <Typography variant="h6" sx={{
+                    fontSize: { sm: '1rem', xs: '.8rem'}
+                  }}>{selectedNetwork?.network}</Typography>
+                </Box>
+                  <Typography variant="h6" sx={{
+                    fontSize: { sm: '1rem', xs: '.8rem' },
+                    width: '200px',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    ml: 2,
                   }}>{selectedNetwork?.value}</Typography>
-
                   <Copy
                     name='Wallet Address'
                     value={selectedNetwork?.value || ''}
@@ -78,14 +100,13 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
           display: 'flex',
           mx: 'auto',
         }}>
-          <AssetMenu 
+          <AssetMenu
             onChange={(value) => onAssetChange?.(value)}
-            asset={asset}
-            setNetwork={(value) => {
+            setSelectedNetwork={(value) => {
               setSelectedNetwork(value);
               getSelectedNetwork?.(value)
             }}
-            network={selectedNetwork?.value}
+            selectedNetwork={selectedNetwork}
           />
         </Box>
 

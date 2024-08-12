@@ -8,7 +8,7 @@ import Image from 'next/image';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useModal } from '@/hooks';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import { Assets } from '@/type';
+import { Networks as AssetNetworks } from '@/type';
 import { AssetContext } from '@/providers';
 
 type IMenu = {
@@ -49,12 +49,80 @@ const Networks: INetworks = {
 
 type IProps = {
   onChange?: (value: string) => void;
-  asset?: Assets;
-  setNetwork?: (network: any) => void;
-  network?: string;
+  setSelectedNetwork?: (network: any) => void;
+  selectedNetwork?: AssetNetworks;
 }
 
-export function AssetMenu({ onChange, asset, setNetwork, network }: IProps) {
+type IChooseNetwork = {
+  asset: string;
+  onChange: (ev: SelectChangeEvent<unknown>) => void;
+  handleModalClose?: () => void;
+}
+
+function ChooseNetwork({ asset, onChange, handleModalClose }: IChooseNetwork) {
+  const [network, setNetwork] = useState('');
+  return (
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      textAlign: 'center'
+    }}>
+      <ErrorOutlineRoundedIcon color='info' sx={{
+        mb: 2,
+        fontSize: '3rem',
+        display: 'flex',
+        mx: 'auto'
+      }} />
+
+      <Typography mb={2} variant='h6' fontWeight='bold'>Notice</Typography>
+
+      <Typography textAlign='center' mb={2} variant='body1'>Please confirm that you are depositing {asset} to the network you selected. Mismatched address information may result in the permanent loss of your asset.</Typography>
+
+      <Typography variant='body1' fontWeight='bold'>
+        Select Network
+      </Typography>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        variant='outlined'
+        sx={{
+          width: '50%',
+          my: 2,
+          display: 'flex',
+          mx: 'auto'
+        }}
+        size='small'
+        color='success'
+        label="Age"
+        onChange={(ev) => {
+          onChange?.(ev)
+          setNetwork(ev.target?.value as string);
+        }}
+      >
+        {
+          Networks[asset as keyof typeof Networks]?.map(network => (
+            <MenuItem key={network} value={network}>{network}</MenuItem>
+          ))
+        }
+      </Select>
+
+      <Button 
+        disabled={!(!!network)}
+        variant='contained' size='large' sx={{
+        display: 'flex',
+        mx: 'auto',
+        width: '60%'
+      }}
+        onClick={handleModalClose}
+      >
+        Ok
+      </Button>
+    </Box>
+  )
+}
+
+export function AssetMenu({ onChange, setSelectedNetwork }: IProps) {
 
   const { data, filterAssets } = useContext(AssetContext);
 
@@ -73,69 +141,29 @@ export function AssetMenu({ onChange, asset, setNetwork, network }: IProps) {
     setAnchorEl(null);
     setSelectedValue((preValue) => value.value ? value : preValue);
 
-    const filteredAsset = filterAssets(data, value.value)
+    const filteredAsset = filterAssets(data, value.value);
 
     showModal(
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        textAlign: 'center'
-      }}>
-        <ErrorOutlineRoundedIcon color='primary' sx={{
-          mb: 2,
-          fontSize: '3rem',
-          display: 'flex',
-          mx: 'auto'
-        }}/>
+      <ChooseNetwork
+        asset={value.value}
+        onChange={(ev: SelectChangeEvent<unknown>) => {
+          const value = ev.target.value as string;
 
-        <Typography mb={2} variant='h6' fontWeight='bold'>Notice</Typography>
-
-        <Typography textAlign='center' mb={2} variant='body1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit magni nisi non, a ullam inventore fugiat quia exercitationem incidunt in laudantium</Typography>
-        
-          <Typography variant='body1' fontWeight='bold'>
-            Select Network
-          </Typography>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            variant='outlined'
-            sx={{
-              width: '50%',
-              my: 2,
-              display: 'flex',
-              mx: 'auto'
-            }}
-            size='small'
-            color='success'
-            label="Age"
-            onChange={(ev: SelectChangeEvent) => {
-              const value = ev.target.value as string;
-
-              function getValue(network: string) {
-                return filteredAsset?.networks.filter((item: any) => item.network === network)[0];
+          function getValue(network: string) {
+            return filteredAsset?.networks.filter((item: any) => {
+              if (item.network === network) {
+                return item;
               }
-
-              setNetwork?.(getValue(value));
-            }}
-          >
-            {
-            Networks[value.value as keyof typeof Networks]?.map(network => (
-                <MenuItem key={network} value={network}>{network}</MenuItem>
-              ))
             }
-          </Select>
+            )[0];
+          }
 
-        <Button variant='contained' size='large' sx={{
-            display: 'flex',
-            mx: 'auto',
-            width: '60%'
-          }}
-          onClick={handleModalClose}
-        >
-          Ok
-        </Button>
-      </Box>
+          const filteredNetwork = getValue(value);
+
+          setSelectedNetwork?.(filteredNetwork);
+        }}
+        handleModalClose={handleModalClose}
+      />
     )
     onChange?.(value.value);
   };
@@ -171,7 +199,7 @@ export function AssetMenu({ onChange, asset, setNetwork, network }: IProps) {
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={() => handleClose(menu[0])}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
