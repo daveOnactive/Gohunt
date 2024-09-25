@@ -35,7 +35,7 @@ export function SellAsset() {
 
   const asset = useMemo(() => filterAssets(data, selectedAsset), [data, filterAssets, selectedAsset]) as Assets;
 
-  const { banks, accountDetails, setQueryParams, queryParams, isLoadingAccountDetails } = useContext(BankVerificationContext);
+  const { banks, accountDetails, setQueryParams, queryParams, isLoadingAccountDetails, isAccountDetailsError } = useContext(BankVerificationContext);
 
 
   function handleBankChange(value: string | BankAccounts | undefined, key: 'bankName' | 'accountNumber') {
@@ -139,7 +139,7 @@ export function SellAsset() {
             fullWidth
             sx={{ mt: 2 }} 
             variant="standard" 
-            error={!!errors.assetAddress}
+            error={!!errors.phoneNumber}
             placeholder="Type seller’s phone number"
           />
         )}
@@ -161,6 +161,7 @@ export function SellAsset() {
           banks={banks}
           bankHolderName={accountDetails?.account_name}
           isLoadingHolderName={isLoadingAccountDetails}
+          isHolderNameError={isAccountDetailsError}
         />
       </Box>
 

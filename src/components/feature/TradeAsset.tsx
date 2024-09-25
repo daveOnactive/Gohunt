@@ -33,15 +33,15 @@ function DisplayRate({ asset, rate, isLoading, type }: IDisplayRate) {
 type IBuyInputSection = {
   assetValue?: number;
   currencyValue?: number;
-  onChange?: (value: number) => void;
+  onChange?: (value: string | number) => void;
   onAssetChange?: ((value: string) => void)
 }
 
 function BuyInputSection({ assetValue, currencyValue, onChange, onAssetChange }: IBuyInputSection) {
   return (
     <>
-      <CurrencyInput value={currencyValue} onChange={onChange} />
-      <AssetInput value={assetValue} disabled onAssetChange={onAssetChange} />
+      <AssetInput value={assetValue} onAssetChange={onAssetChange} onInputChange={onChange} />
+      <CurrencyInput value={currencyValue} disabled />
     </>
   )
 }
@@ -94,14 +94,6 @@ export function TradeAsset({ tradeType }: IProps) {
     );
   }
 
-  function handleAmountChange(value: number) {
-    setAmount(value);
-
-    setInputValue(
-      value
-    );
-  };
-
   function navigateToTrade() {
 
     router.push('/trade', { scroll: false });
@@ -110,8 +102,8 @@ export function TradeAsset({ tradeType }: IProps) {
   const isTradeTypeSell = tradeType === 'sell';
   const rate = defaultAsset?.rate[tradeType]
 
-  const assetInputValue = isTradeTypeSell ? inputValue : Number(inputValue) / rate;
-  const currencyInputValue = isTradeTypeSell ? Number(amount) * rate : amount;
+  const assetInputValue = inputValue;
+  const currencyInputValue = Number(amount) * rate;
 
   return (
     <Box>
@@ -142,7 +134,7 @@ export function TradeAsset({ tradeType }: IProps) {
               assetValue={assetInputValue}
               currencyValue={currencyInputValue}
               onAssetChange={handleAssetInputChange}
-              onChange={handleAmountChange}
+              onChange={handleInputChange}
             />
           )
         }
