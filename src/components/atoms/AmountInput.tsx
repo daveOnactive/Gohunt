@@ -33,7 +33,7 @@ export function AmountInput({ control, defaultValue, selectedAsset, error, rate 
         alignItems: 'center',
         gap: 2,
         borderBottom: '1px solid',
-        borderColor: '#6a6868',
+        borderColor: error ? 'red' : '#6a6868',
         py: 1,
       }}>
         <Box

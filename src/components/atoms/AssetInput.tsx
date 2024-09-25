@@ -1,6 +1,7 @@
 import { Box, InputBase} from "@mui/material";
 import { AssetMenu } from "./AssetMenu";
-// import { NumberInput } from ".";
+import { NumberInput } from ".";
+import { Currency } from "@/type";
 
 type IProps = {
   onAssetChange?: (value: string) => void;
@@ -28,12 +29,14 @@ export function AssetInput({ onAssetChange, onInputChange, value, disabled }: IP
         }
       }}>
         <InputBase
-          type="number"
           fullWidth
           onChange={(ev) => onInputChange?.(ev.target.value)}
           value={value}
           disabled={disabled}
-          // inputComponent={NumberInput as any}
+          inputComponent={NumberInput as any}
+          inputProps={{
+            prefix: Currency.dollar
+          }}
         />
       </Box>
       <Box sx={{
