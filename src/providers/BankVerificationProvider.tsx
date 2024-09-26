@@ -38,7 +38,8 @@ export function BankVerificationProvider({ children }: PropsWithChildren) {
   const { data: accountDetails, isFetching: isLoadingAccountDetails, isError: isAccountDetailsError } = useQuery<{ data: AccountDetails }>({
     queryFn: async () => (await Api.get(`/bank/resolve?account_number=${queryParams.account_number}&bank_code=${queryParams.bank_code}`)).data,
     queryKey: ['account_details', queryParams],
-    enabled: !!queryParams.account_number && !!queryParams.bank_code
+    enabled: !!queryParams.account_number && !!queryParams.bank_code,
+    retry: false
   });
 
   return (

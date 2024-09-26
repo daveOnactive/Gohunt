@@ -8,9 +8,10 @@ const MAX_SIZE = 5242880;
 
 type IProp = {
   getFile?: (file: any) => void;
+  error?: boolean;
 }
 
-export function UploadInput({ getFile }: IProp) {
+export function UploadInput({ getFile, error }: IProp) {
 
   const [selectedFile, setSelectedFile] = useState<any>();
 
@@ -45,7 +46,7 @@ export function UploadInput({ getFile }: IProp) {
       >Upload a screenshot of Transaction</InputLabel>
       <Box 
         sx={{
-          borderColor: '#CBD0DC',
+          borderColor: error ? 'red' : '#CBD0DC',
           borderStyle: 'dashed',
           borderWidth: '1px',
           height: { sm: '196px' },
