@@ -120,7 +120,7 @@ export function BuyAsset(){
             fullWidth
             sx={{ mt: 2 }}
             variant="standard"
-            error={!!errors.assetAddress}
+            error={!!errors.phoneNumber}
             placeholder="Type buyer’s phone number"
           />
         )}
