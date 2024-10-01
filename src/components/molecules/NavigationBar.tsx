@@ -24,11 +24,13 @@ import SentimentSatisfiedRoundedIcon from '@mui/icons-material/SentimentSatisfie
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 import { Typography } from '@mui/material';
 import Ellipse1 from '../../../public/svg/ellipse-1.svg';
+import AuthButton from '../feature/AuthButton.client';
 
 interface Props {
   window?: () => Window;
   isNavBg?: boolean;
   showBreadcrumbs?: boolean;
+  isDashboard?: boolean;
 }
 
 const drawerWidth = 240;
@@ -41,6 +43,8 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isNavBg, setIsNavBg] = React.useState(props?.isNavBg);
   const [container, setContainer] = React.useState<HTMLElement>();
+
+  const { isDashboard } = props;
 
   const router = useRouter()
 
@@ -170,9 +174,17 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
             ))}
           </Box>
 
-          <Button variant='contained' onClick={() => router.push('/trade', { scroll: false })}>
-            Get Started
-          </Button>
+          {
+            isDashboard ? (
+              <AuthButton />
+            ) : (
+              <Button variant='contained' onClick={() => router.push('/trade', { scroll: false })}>
+                Get Started
+              </Button>
+            )
+          }
+
+          
         </Toolbar>
       </AppBar>
       <nav>
