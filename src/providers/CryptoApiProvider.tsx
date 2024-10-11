@@ -2,7 +2,7 @@
 
 import Api from "@/services/api";
 import { CryptoData } from "@/type/CryptoData";
-import { createContext, PropsWithChildren, useMemo } from "react"
+import { createContext, PropsWithChildren, useEffect, useMemo, useState } from "react"
 import { useQuery } from "react-query";
 
 export const CryptoApiContext = createContext<{
@@ -18,12 +18,33 @@ function filterCryptoData(symbol: string, data?: CryptoData[]) {
 
 export function CryptoApiProvider({ children }: PropsWithChildren) {
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['cryptoApi'],
-    queryFn: async () => (await Api.get<CryptoData[]>('/crypto')).data,
-    refetchInterval: 60000,
-    staleTime: 1,
-  });
+  const [data, setData] = useState<CryptoData[]>();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    let intervalId;
+
+    const fetchData = async () => {
+      try {
+        const response = await Api.get('/crypto');
+        const result = await response.data;
+        setData(result);
+        setIsLoading(false);
+      } catch (err: any) {
+        setError(err.message);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+
+    intervalId = setInterval(fetchData, 6000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const cryptoData = (data?.slice(0, 4) || [])
 
