@@ -112,9 +112,9 @@ export function SellAsset() {
             You Have to Complete the Following Field Before Submitting
           </Typography>
           <ul>
-            {value.phoneNumber ? null : <li>Seller's Phone Number</li>}
+            {value.phoneNumber ? null : <li>Sellers Phone Number</li>}
             {value.amount ? null : <li>Amount</li>}
-            {isBank ? null : <li>Seller's Account Details</li>}
+            {isBank ? null : <li>Sellers Account Details</li>}
             {selectedFile?.name ? null : <li>Transaction screenshot</li>}
           </ul>
           <Button
