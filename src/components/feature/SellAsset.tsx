@@ -1,10 +1,10 @@
 'use client'
-import { Box, Button, Skeleton, TextField } from "@mui/material";
+import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
 import { AccountInput, AwaitingTrade, UploadInput, WalletAddressInput } from "..";
 import { useContext, useMemo, useState } from "react";
 import { AssetContext, BankVerificationContext, TransactionContext } from "@/providers";
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
-import { useAlert } from "@/hooks";
+import { useAlert, useModal } from "@/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "react-query";
 import Api from "@/services/api";
@@ -27,6 +27,8 @@ export function SellAsset() {
   const [selectedAsset, setSelectedAsset] = useState<string>('BTC');
 
   const { control, formState: { errors }, handleSubmit } = useForm();
+
+  const { handleModalClose, showModal } = useModal();
 
   const [bankDetails, setBankDetails] = useState<Partial<Bank>>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -73,8 +75,10 @@ export function SellAsset() {
   });
 
   const onSubmit: SubmitHandler<IForm> = (value) => {
+    const isBank = bankDetails?.bankName && accountDetails?.account_name
+    const isReadyToSubmit = value.phoneNumber && value.amount && isBank && selectedFile?.name
 
-    if (bankDetails?.bankName && accountDetails?.account_name) {
+    if (isReadyToSubmit) {
       setIsLoading(true);
       const formValue = {
         asset: asset.assetName,
@@ -86,10 +90,10 @@ export function SellAsset() {
         bankName: bankDetails?.bankName,
         holdersName: accountDetails?.account_name || 'Default_name',
       }
-  
+
       const storageRef = ref(storage, `files/${selectedFile.name}`);
       const uploadTask = uploadBytesResumable(storageRef, selectedFile);
-  
+
       uploadTask.on('state_changed', null, null, () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           mutate({ ...formValue, screenshotUrl: downloadURL }, {
@@ -101,6 +105,30 @@ export function SellAsset() {
           });
         });
       })
+    } else {
+      showModal(
+        <Box>
+          <Typography variant="h6">
+            You Have to Complete the Following Field Before Submitting
+          </Typography>
+          <ul>
+            {value.phoneNumber ? null : <li>Sellers Phone Number</li>}
+            {value.amount ? null : <li>Amount</li>}
+            {isBank ? null : <li>Sellers Account Details</li>}
+            {selectedFile?.name ? null : <li>Transaction screenshot</li>}
+          </ul>
+          <Button
+            sx={{
+              display: 'flex',
+              m: 'auto'
+            }}
+            onClick={handleModalClose}
+            variant="contained"
+          >
+            Close
+          </Button>
+        </Box>
+      )
     }
   }
 
@@ -143,7 +171,7 @@ export function SellAsset() {
             placeholder="Type seller’s phone number"
           />
         )}
-        rules={{ required: true }}
+        // rules={{ required: true }}
       />
 
       <AmountInput
