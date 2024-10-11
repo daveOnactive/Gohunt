@@ -15,10 +15,15 @@ export const authOptions: NextAuthConfig = {
         const users = [
           {
             id: "admin-1",
-            userName: "Super Admin",
-            name: "super admin",
-            password: "admin",
-            email: "admin@gohuntfx.com",
+            userName: process.env.SUPER_ADMIN_USER_NAME,
+            name: process.env.SUPER_ADMIN_USER_NAME,
+            password: process.env.SUPER_ADMIN_PASSWORD,
+          },
+          {
+            id: "admin-2",
+            userName: process.env.ADMIN_USER_NAME,
+            name: process.env.ADMIN_USER_NAME,
+            password: process.env.ADMIN_PASSWORD,
           },
         ];
         const user = users.find(
@@ -27,13 +32,13 @@ export const authOptions: NextAuthConfig = {
             user.password === credentials?.password
         );
         return user
-          ? { id: user.id, name: user.name, email: user.email }
+          ? { id: user.id, name: user.name }
           : null;
       },
     }),
   ],
   basePath: BASE_PATH,
-  secret: 'kfjkfmrmrkwaknfkrnfrnfr'
+  secret: process.env.SECRET
 };
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);

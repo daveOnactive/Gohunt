@@ -1,7 +1,7 @@
 'use client'
-import { Box, Button, Skeleton, TextField } from "@mui/material";
+import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
 import { AccountDisplay, UploadInput, WalletAddressInput } from "../atoms";
-import { useAlert } from "@/hooks";
+import { useAlert, useModal } from "@/hooks";
 import { AssetContext } from "@/providers";
 import { Assets, Transaction } from "@/type";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -25,6 +25,8 @@ export function BuyAsset(){
   const [selectedAsset, setSelectedAsset] = useState<string>('BTC');
 
   const { control, formState: { errors }, handleSubmit } = useForm();
+
+  const { handleModalClose, showModal } = useModal();
 
   const [walletAddress, setWalletAddress] = useState<string>();
 
@@ -53,7 +55,10 @@ export function BuyAsset(){
   });
 
   const onSubmit: SubmitHandler<IForm> = (value) => {
-    if (walletAddress) {
+    const wallet = walletAddress && selectedNetwork?.network;
+    const isReadyToSubmit = value.phoneNumber && value.amount && wallet && selectedFile?.name;
+
+    if (isReadyToSubmit) {
       setIsLoading(true);
       const formValue = {
         asset: asset.assetName,
@@ -80,6 +85,30 @@ export function BuyAsset(){
           });
         });
       })
+    } else {
+      showModal(
+        <Box>
+          <Typography variant="h6">
+            You Have to Complete the Following Field Before Submitting
+          </Typography>
+          <ul>
+            {value.phoneNumber ? null : <li>Seller's Phone Number</li>}
+            {value.amount ? null : <li>Amount</li>}
+            {wallet ? null : <li>Wallet Address</li>}
+            {selectedFile?.name ? null : <li>Transaction screenshot</li>}
+          </ul>
+          <Button
+            sx={{
+              display: 'flex',
+              m: 'auto'
+            }}
+            onClick={handleModalClose}
+            variant="contained"
+          >
+            Close
+          </Button>
+        </Box>
+      )
     }
   }
 
@@ -124,7 +153,7 @@ export function BuyAsset(){
             placeholder="Type buyer’s phone number"
           />
         )}
-        rules={{ required: true }}
+        // rules={{ required: true }}
       />
 
       <AmountInput

@@ -64,7 +64,7 @@ export function AmountInput({ control, defaultValue, selectedAsset, error, rate 
                 }}
               />
             )}
-            rules={{ required: true }}
+            // rules={{ required: true }}
           />
         </Box>
 

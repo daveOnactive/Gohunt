@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 const Api = axios.create({
-  timeout: 6000,
+  timeout: 60000,
   baseURL: '/api'
 });
 

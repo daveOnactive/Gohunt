@@ -66,7 +66,7 @@ export function PrintTrade({ value }: Partial<IProp>) {
       style={{
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
       }}
     >
       <Box
