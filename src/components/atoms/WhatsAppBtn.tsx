@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import Whatsapp from '../../../public/img/whatsapp.png';
 
-const whatsAppNumber = process.env.WHATSAPP_NUMBER;
+const whatsAppNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
 
 export function WhatsAppBtn() {
   

@@ -8,6 +8,7 @@ import ReactQueryProvider from "./ReactQueryProvider";
 import { AssetProvider, SnackbarProvider, ConfirmProvider, ModalProvider, CryptoApiProvider, BankVerificationProvider } from "@/providers";
 import { Suspense } from "react";
 import { TransactionProvider } from "@/providers/TransactionProvider";
+import { InstallPrompt } from "./installPrompt";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,6 +45,7 @@ export default function RootLayout({
                         <AssetProvider>
                           <CryptoApiProvider>
                             <BankVerificationProvider>
+                              <InstallPrompt />
                               {children}
                             </BankVerificationProvider>
                           </CryptoApiProvider>
