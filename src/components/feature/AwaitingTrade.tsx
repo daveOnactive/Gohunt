@@ -56,8 +56,6 @@ export function AwaitingTrade({ type, id }: IProps) {
     },
   ]
 
-  // if (isLoading) return <AwaitingTradeSkeleton />;
-
   return (
     <Box>
       {
@@ -86,7 +84,7 @@ export function AwaitingTrade({ type, id }: IProps) {
         )
       }
 
-      <Typography mt={3} variant='body1' fontWeight='bold' textAlign='center'>{tradeIsSuccessful ? 'Trade Successful' : 'Trade Pending'}</Typography>
+      <Typography mt={3} variant='body1' fontWeight='bold' textAlign='center'>{tradeIsSuccessful ? 'Trade Completed' : 'Pending Trade'}</Typography>
 
       {!tradeIsSuccessful ? (
         <Typography mt={1} variant='subtitle1' fontWeight='bold' textAlign='center'>{value?.date ? <Countdown minute={15} startTime={value?.date as any} /> : null} Minutes Remaining to Complete Your Transaction</Typography>

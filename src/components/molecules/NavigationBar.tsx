@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 import { SCREEN_MAX_WIDTH } from '@/constant/width';
-import { Breadcrumbs, Ellipse } from '../atoms';
+import { Breadcrumbs, Ellipse, WhatsAppBtn } from '../atoms';
 import { Link } from 'react-scroll';
 import CurrencyBitcoinRoundedIcon from '@mui/icons-material/CurrencyBitcoinRounded';
 import LanRoundedIcon from '@mui/icons-material/LanRounded';
@@ -222,6 +222,8 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
         {props?.showBreadcrumbs ? <Breadcrumbs /> : null}
         {props.children}
       </Box>
+
+      <WhatsAppBtn />
     </Box>
   );
 }

@@ -8,7 +8,6 @@ import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRound
 import Image from "next/image";
 import { useStaggerAnimation } from "@/hooks";
 import { Link } from "react-scroll";
-import { useState, useEffect } from "react";
 
 const socials = [
   {

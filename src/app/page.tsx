@@ -7,7 +7,7 @@ import {
   WhyChooseUse, 
   Testimonial, 
   FAQ,
-  Footer
+  Footer,
 } from "@/components";
 import { SCREEN_MAX_WIDTH } from "@/constant/width";
 import { Box } from "@mui/material";

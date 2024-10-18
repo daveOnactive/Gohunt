@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { useStaggerAnimation } from "@/hooks";
 import { Carousel } from ".";
 
-export function HeroBanner(){
+export function HeroBanner() {
 
   const { scope } = useStaggerAnimation({
     className: ".stagger-element",
@@ -20,7 +20,7 @@ export function HeroBanner(){
     <Box
       sx={{
         backgroundImage: `url(${BannerImg.src})`,
-        height: { sm: 700, xs: 'fit-content'},
+        height: { sm: 700, xs: 'fit-content' },
         width: '100%',
         backgroundSize: '100% 100%',
         backgroundPosition: 'center',
@@ -31,71 +31,80 @@ export function HeroBanner(){
     >
       <Box
         sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexDirection: { sm: 'row', xs: 'column', xl: 'row' },
-        maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' },
-        mx: 'auto'
-      }}>
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexDirection: { sm: 'row', xs: 'column', xl: 'row' },
+          maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' },
+          mx: 'auto'
+        }}>
 
-      <Box
-        ref={scope}
-        sx={{
-        width: { sm: '50%', xs: '100%'}
-      }}>
-        <Box 
-          className='stagger-element'
+        <Box
+          ref={scope}
           sx={{
-            backgroundImage: 'linear-gradient(to right bottom, #1B5373, #1184C2)',
-            width: 'fit-content',
-            paddingX: '16px',
-            paddingY: '8px',
-            borderRadius: 100,
-            marginBottom: '8px',
-            display: 'flex',
-            alignItems: 'center'
+            width: { sm: '50%', xs: '100%' }
           }}>
-          <Image
-            src={Dollar}
-            alt="dollar"
-            objectFit="contain"
-          />
-          <Typography variant="body1" ml='8px' sx={{ fontSize: { xs: '.8rem', sm: '1rem' }}}>Discover a new ways to enjoy your World!</Typography>
-        </Box>
-          <Typography fontWeight='bold' className='stagger-element' variant="h2" mb={"35px"}>Discover, Trade, and <Box 
-            component='span' 
-            sx={({ palette }) => ({
-              color: palette.primary.main,
-              mx: 1
-            })}
-          >Thrive in
-          </Box>
-          Crypto Markets with
           <Box
+            className='stagger-element'
+            sx={{
+              backgroundImage: 'linear-gradient(to right bottom, #1B5373, #1184C2)',
+              width: 'fit-content',
+              paddingX: '16px',
+              paddingY: '8px',
+              borderRadius: 100,
+              marginBottom: '8px',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+            <Image
+              src={Dollar}
+              alt="dollar"
+              objectFit="contain"
+            />
+            <Typography variant="body1" ml='8px' sx={{ fontSize: { xs: '.8rem', sm: '1rem' } }}>Discover a new ways to enjoy your World!</Typography>
+          </Box>
+          <Typography 
+            sx={({ breakpoints }) => ({
+              [breakpoints.down('md')]: {
+                fontSize: '2.2rem'
+              }
+            })}
+            fontWeight='bold'
+            className='stagger-element'
+            variant="h2" 
+            mb={"35px"}>Discover, Trade, and <Box
             component='span'
             sx={({ palette }) => ({
               color: palette.primary.main,
-              mx: 1
+              mx: 1,
             })}
-          >GoHunt
-          </Box>
-        </Typography>
-      </Box>
-      
-      <Box 
-        component={motion.div}
-        initial={{ y: 20, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: .25 }}
-        viewport={{ once: true }}
-        sx={{
-          zIndex: 2,
-          width: { sm: '50%', xs: '100%'}
-        }}
-      >
-        <Carousel />
-      </Box>
+            >Thrive in
+            </Box>
+            Crypto Markets with
+            <Box
+              component='span'
+              sx={({ palette }) => ({
+                color: palette.primary.main,
+                mx: 1
+              })}
+            >GoHunt
+            </Box>
+          </Typography>
+        </Box>
+
+        <Box
+          component={motion.div}
+          initial={{ y: 20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, delay: .25 }}
+          viewport={{ once: true }}
+          sx={{
+            zIndex: 2,
+            width: { sm: '50%', xs: '100%' }
+          }}
+        >
+          <Carousel />
+        </Box>
 
 
       </Box>
