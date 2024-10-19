@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 import { SCREEN_MAX_WIDTH } from '@/constant/width';
-import { Breadcrumbs, Ellipse, WhatsAppBtn } from '../atoms';
+import { Breadcrumbs, Ellipse, WhatsAppBtn, DarkLightToggle } from '../atoms';
 import { Link } from 'react-scroll';
 import CurrencyBitcoinRoundedIcon from '@mui/icons-material/CurrencyBitcoinRounded';
 import LanRoundedIcon from '@mui/icons-material/LanRounded';
@@ -174,15 +174,27 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
             ))}
           </Box>
 
-          {
-            isDashboard ? (
-              <AuthButton />
-            ) : (
-              <Button variant='contained' onClick={() => router.push('/trade', { scroll: false })}>
-                Get Started
-              </Button>
-            )
-          }
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2
+            }}
+          >
+            <DarkLightToggle
+            />
+
+            {
+              isDashboard ? (
+                <AuthButton />
+              ) : (
+                <Button variant='contained' onClick={() => router.push('/trade', { scroll: false })}>
+                  Get Started
+                </Button>
+              )
+            }
+          </Box>
+
 
           
         </Toolbar>
