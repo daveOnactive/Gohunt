@@ -18,3 +18,4 @@ export * from './Ellipse';
 export * from './TransactionStatus';
 export * from './SelectButton';
 export * from './WhatsAppBtn';
+export * from './DarkLightToggle';
