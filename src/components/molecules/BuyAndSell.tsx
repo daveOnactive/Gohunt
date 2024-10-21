@@ -1,6 +1,6 @@
 'use client'
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card, Typography, useTheme } from "@mui/material";
 import connect from '../../../public/svg/connect.svg';
 import wallet from '../../../public/svg/wallet.svg';
 import bank from '../../../public/svg/bank.svg';
@@ -9,6 +9,7 @@ import { Ellipse, Tabs } from "../atoms";
 import { TradeAsset } from "../feature";
 import Ellipse4 from '../../../public/svg/ellipse-4.svg';
 import { useStaggerAnimation } from "@/hooks";
+import { useTheme as useCustomTheme } from '../../contexts/ThemeContext';
 
 const content = [
   {
@@ -41,6 +42,8 @@ const tabs = [
 ]
 
 function ContentSection() {
+  const { isDarkMode } = useCustomTheme();
+  const theme = useTheme();
 
   const { scope } = useStaggerAnimation({
     className: ".stagger-icon",
@@ -51,7 +54,8 @@ function ContentSection() {
     <Box
       ref={scope}
       sx={{
-        width: { sm: '50%' }
+        width: { sm: '50%' },
+        color: theme.palette.text.primary
       }}>
       <Typography className='stagger-icon' variant="h5" fontWeight="bold" mb={2}>One click, instant sell & buy crypto.</Typography>
       <Typography className='stagger-icon'>
@@ -72,7 +76,7 @@ function ContentSection() {
                 ml: { sm: index * 7 }
               }}>
               <Box sx={{
-                background: '#132D46',
+                background: isDarkMode ? '#132D46' : '#E0E0E0',
                 width: { sm: '60px', xs: '40px'},
                 height: { sm: '60px', xs: '40px'},
                 borderRadius: 100,
@@ -109,6 +113,8 @@ function ContentSection() {
 }
 
 function CardSection() {
+  const { isDarkMode } = useCustomTheme();
+  const theme = useTheme();
 
   const { scope } = useStaggerAnimation({
     className: ".stagger-tab",
@@ -123,6 +129,8 @@ function CardSection() {
         width: { sm: '30%', xs: '100%' },
         py: { sm: 2.5, xs: 2 },
         px: { sm: 1.8, xs: 1.3 },
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.primary
       }}>
       <Tabs
         tabs={tabs}
@@ -132,6 +140,9 @@ function CardSection() {
 }
 
 export function BuyAndSell(){
+  const { isDarkMode } = useCustomTheme();
+  const theme = useTheme();
+
   return (
     <Box sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
@@ -141,7 +152,9 @@ export function BuyAndSell(){
       flexDirection: { sm: 'row', xs: 'column'},
       gap: 5,
       width: '100%',
-      position: 'relative'
+      position: 'relative',
+      backgroundColor: theme.palette.background.default,
+      color: theme.palette.text.primary
     }}>
       <ContentSection />
       <CardSection />

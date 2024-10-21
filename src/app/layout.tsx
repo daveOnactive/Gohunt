@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '../contexts/ThemeContext';
 import theme from "@/theme";
 import '../app/style.css';
 import ReactQueryProvider from "./ReactQueryProvider";
@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppRouterCacheProvider>
           <Suspense>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider>
               <ReactQueryProvider>
                 <TransactionProvider>
                   <ModalProvider>

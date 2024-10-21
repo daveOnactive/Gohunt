@@ -1,5 +1,5 @@
 'use client'
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import Image from "next/image";
 import World from '../../../public/svg/world.svg';
 import Shield from '../../../public/svg/Shield.svg';
@@ -9,8 +9,8 @@ import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/
 import Ellipse5 from '../../../public/svg/ellipse-5.svg';
 import { Ellipse } from "../atoms";
 import { useStaggerAnimation } from "@/hooks";
-import { Element  } from 'react-scroll';
-
+import { Element } from 'react-scroll';
+import { useTheme as useCustomTheme } from '../../contexts/ThemeContext';
 
 const options = [
   {
@@ -31,6 +31,8 @@ const options = [
 ]
 
 export function WhyChooseUse() {
+  const { isDarkMode } = useCustomTheme();
+  const theme = useTheme();
   
   const { scope } = useStaggerAnimation({
     className: ".stagger-why-choose-use",
@@ -42,14 +44,16 @@ export function WhyChooseUse() {
       component={Element}
       name='Why Choose Us'
       sx={{
-      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
-      display: 'flex',
-      flexDirection: { sm: 'row', xs: 'column' },
-      alignItems: 'center',
-      width: '100%',
-      position: 'relative'
-    }}>
-
+        padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
+        display: 'flex',
+        flexDirection: { sm: 'row', xs: 'column' },
+        alignItems: 'center',
+        width: '100%',
+        position: 'relative',
+        backgroundColor: theme.palette.background.default,
+        color: theme.palette.text.primary,
+      }}
+    >
       <Ellipse
         src={World}
         alt='world'
@@ -73,7 +77,7 @@ export function WhyChooseUse() {
                 width: '7rem',
                 height: '7rem',
                 borderRadius: '12px',
-                background: '#2F3241',
+                background: isDarkMode ? '#2F3241' : '#E0E0E0',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',

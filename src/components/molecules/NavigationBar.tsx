@@ -25,6 +25,7 @@ import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 import { Typography } from '@mui/material';
 import Ellipse1 from '../../../public/svg/ellipse-1.svg';
 import AuthButton from '../feature/AuthButton.client';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface Props {
   window?: () => Window;
@@ -36,17 +37,21 @@ interface Props {
 const drawerWidth = 240;
 const navItems = ['Our Asset', 'Our Service', 'Why Choose Us', 'Testimonial', 'FAQ'];
 
-const navIcon = [<CurrencyBitcoinRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={1} />, <LanRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={2} />, <VolunteerActivismRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={3} />, <SentimentSatisfiedRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={4} />, <HelpOutlineRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={5} />]
+const navIcon = [
+  <CurrencyBitcoinRoundedIcon sx={{ fontSize: '2.2rem', color: '#FFFFFF' }} key={1} />,
+  <LanRoundedIcon sx={{ fontSize: '2.2rem', color: '#FFFFFF' }} key={2} />,
+  <VolunteerActivismRoundedIcon sx={{ fontSize: '2.2rem', color: '#FFFFFF' }} key={3} />,
+  <SentimentSatisfiedRoundedIcon sx={{ fontSize: '2.2rem', color: '#FFFFFF' }} key={4} />,
+  <HelpOutlineRoundedIcon sx={{ fontSize: '2.2rem', color: '#FFFFFF' }} key={5} />
+];
 
 export function NavigationBar(props: React.PropsWithChildren<Props>) {
-  // const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isNavBg, setIsNavBg] = React.useState(props?.isNavBg);
-  const [container, setContainer] = React.useState<HTMLElement>();
+  const [container, setContainer] = React.useState<HTMLElement | undefined>(undefined);
 
   const { isDashboard } = props;
-
-  const router = useRouter()
+  const router = useRouter();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -63,12 +68,16 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
     if (window) setContainer(window.document.body);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+  }, [props?.isNavBg]);
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Box
-      >
+    <Box onClick={handleDrawerToggle} sx={{ 
+      textAlign: 'center',
+      backgroundColor: '#0F101E',
+      color: '#FFFFFF',
+      height: '100%'
+    }}>
+      <Box sx={{ my: 2 }}>
         <Image
           src={require('../../../public/img/logo.png')}
           alt='Gohunt-logo'
@@ -81,7 +90,7 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
           onClick={() => router.push('/')}
         />
       </Box>
-      <Divider />
+      <Divider sx={{ backgroundColor: '#FFFFFF' }} />
       <List>
         {navItems.map((item, index) => (
           <ListItem key={`${item}-${index}`} disablePadding>
@@ -101,11 +110,10 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
                 my: 1,
                 flexDirection: 'column',
                 gap: .5,
-                alignItems: 'center'
+                alignItems: 'center',
+                color: '#FFFFFF'
               }}>
-              {
-                navIcon[index]
-              }
+              {navIcon[index]}
               <Typography variant='subtitle2'>{item}</Typography>
             </Box>
           </ListItem>
@@ -114,28 +122,35 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
     </Box>
   );
 
-  const handleSetActive = (to: any) => {
+  const handleSetActive = (to: string) => {
     console.log({to});
   };
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" elevation={0} sx={{ background: isNavBg ? '#0F101E' : 'none', }}>
-        <Toolbar sx={{ justifyContent: 'space-between', maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' }, display: 'flex', alignItems: 'center', width: '100%', margin: 'auto' }}>
+      <AppBar component="nav" elevation={0} sx={{ 
+        background: isNavBg ? '#0F101E' : 'transparent',
+        color: '#FFFFFF'
+      }}>
+        <Toolbar sx={{ 
+          justifyContent: 'space-between', 
+          maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' }, 
+          display: 'flex', 
+          alignItems: 'center', 
+          width: '100%', 
+          margin: 'auto' 
+        }}>
           <IconButton
-            color="inherit"
+            sx={{ mr: 2, display: { sm: 'none' }, color: '#FFFFFF' }}
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
 
-          <Box
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Image
               src={require('../../../public/img/logo.png')}
               alt='Gohunt-logo'
@@ -155,7 +170,7 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
                 component={Link}
                 key={item} 
                 sx={{ 
-                  color: '#fff',
+                  color: '#FFFFFF',
                   cursor: 'pointer',
                   mx: 1,
                   '&:hover': {
@@ -174,29 +189,26 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
             ))}
           </Box>
 
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 2
-            }}
-          >
-            <DarkLightToggle
-            />
-
-            {
-              isDashboard ? (
-                <AuthButton />
-              ) : (
-                <Button variant='contained' onClick={() => router.push('/trade', { scroll: false })}>
-                  Get Started
-                </Button>
-              )
-            }
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <DarkLightToggle />
+            {isDashboard ? (
+              <AuthButton />
+            ) : (
+              <Button 
+                variant='contained' 
+                onClick={() => router.push('/trade', { scroll: false })}
+                sx={{
+                  backgroundColor: '#1184C2',
+                  color: '#FFFFFF',
+                  '&:hover': {
+                    backgroundColor: '#0D6FA3',
+                  }
+                }}
+              >
+                Get Started
+              </Button>
+            )}
           </Box>
-
-
-          
         </Toolbar>
       </AppBar>
       <nav>
@@ -213,7 +225,7 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
             '& .MuiDrawer-paper': { 
               boxSizing: 'border-box', 
               width: drawerWidth,
-              background: '#0F0F12'
+              background: '#0F101E'
             },
             position: 'relative'
           }}

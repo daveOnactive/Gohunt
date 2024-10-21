@@ -1,6 +1,6 @@
 'use client'
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography, useTheme } from "@mui/material";
 import Fb from '../../../public/svg/fb.svg';
 import X from '../../../public/svg/x.svg';
 import Insta from '../../../public/svg/insta.svg';
@@ -8,6 +8,7 @@ import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRound
 import Image from "next/image";
 import { useStaggerAnimation } from "@/hooks";
 import { Link } from "react-scroll";
+import { useTheme as useCustomTheme } from '../../contexts/ThemeContext';
 
 const socials = [
   {
@@ -27,6 +28,8 @@ const socials = [
 const links = ['Our Asset', 'Our Service', 'Why Choose Us', 'Testimonial', 'FAQ']
 
 export function Footer() {
+  const { isDarkMode } = useCustomTheme();
+  const theme = useTheme();
 
   const { scope } = useStaggerAnimation({
     className: ".stagger-footer",
@@ -40,7 +43,9 @@ export function Footer() {
   return (
     <Box ref={scope} sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
-      width: '100%'
+      width: '100%',
+      backgroundColor: theme.palette.background.default,
+      color: theme.palette.text.primary,
     }}>
       <Box mb={3} sx={{
         display: 'flex',
@@ -59,13 +64,13 @@ export function Footer() {
                 width: '3rem',
                 height: '3rem',
                 borderRadius: 100,
-                background: '#2F3241',
+                background: isDarkMode ? '#2F3241' : '#E0E0E0',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 cursor: 'pointer',
                 '&:hover': {
-                  background: '#0F101E'
+                  background: isDarkMode ? '#0F101E' : '#BDBDBD'
                 }
               }}>
                 <Image
@@ -90,7 +95,7 @@ export function Footer() {
                 className="stagger-footer"
                 key={link}
                 sx={{
-                  color: '#fff',
+                  color: theme.palette.text.primary,
                   cursor: 'pointer',
                   mx: 1,
                   '&:hover': {
@@ -110,7 +115,7 @@ export function Footer() {
         </Box>
       </Box>
       
-      <Divider sx={{ background: 'white' }}/>
+      <Divider sx={{ background: theme.palette.divider }} />
 
       <Box sx={{
         display: 'flex',
@@ -119,7 +124,7 @@ export function Footer() {
         mt: 3
       }}>
         <Typography className="stagger-footer" variant="body2">
-          Copyright © 2024GoHunt. All rights reserved.
+          Copyright © 2024 GoHunt. All rights reserved.
         </Typography>
 
         <Box className="stagger-footer" onClick={scrollToTop}>
