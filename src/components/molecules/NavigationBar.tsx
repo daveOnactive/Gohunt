@@ -13,7 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import { SCREEN_MAX_WIDTH } from '@/constant/width';
 import { Breadcrumbs, Ellipse, WhatsAppBtn, DarkLightToggle } from '../atoms';
 import { Link } from 'react-scroll';
@@ -25,7 +25,8 @@ import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 import { Typography } from '@mui/material';
 import Ellipse1 from '../../../public/svg/ellipse-1.svg';
 import AuthButton from '../feature/AuthButton.client';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useTheme } from '@mui/material/styles';
+
 
 interface Props {
   window?: () => Window;
@@ -38,20 +39,20 @@ const drawerWidth = 240;
 const navItems = ['Our Asset', 'Our Service', 'Why Choose Us', 'Testimonial', 'FAQ'];
 
 const navIcon = [
-  <CurrencyBitcoinRoundedIcon sx={{ fontSize: '2.2rem', color: '#FFFFFF' }} key={1} />,
-  <LanRoundedIcon sx={{ fontSize: '2.2rem', color: '#FFFFFF' }} key={2} />,
-  <VolunteerActivismRoundedIcon sx={{ fontSize: '2.2rem', color: '#FFFFFF' }} key={3} />,
-  <SentimentSatisfiedRoundedIcon sx={{ fontSize: '2.2rem', color: '#FFFFFF' }} key={4} />,
-  <HelpOutlineRoundedIcon sx={{ fontSize: '2.2rem', color: '#FFFFFF' }} key={5} />
+  <CurrencyBitcoinRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={1} />, 
+  <LanRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={2} />, 
+  <VolunteerActivismRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={3} />, 
+  <SentimentSatisfiedRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={4} />, 
+  <HelpOutlineRoundedIcon color='primary' sx={{ fontSize: '2.2rem' }} key={5} />
 ];
 
 export function NavigationBar(props: React.PropsWithChildren<Props>) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isNavBg, setIsNavBg] = React.useState(props?.isNavBg);
-  const [container, setContainer] = React.useState<HTMLElement | undefined>(undefined);
-
+  const [container, setContainer] = React.useState<HTMLElement>();
   const { isDashboard } = props;
   const router = useRouter();
+  const theme = useTheme();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -68,34 +69,27 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
     if (window) setContainer(window.document.body);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [props?.isNavBg]);
+  }, [handleScroll]);
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ 
-      textAlign: 'center',
-      backgroundColor: '#0F101E',
-      color: '#FFFFFF',
-      height: '100%'
-    }}>
-      <Box sx={{ my: 2 }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Box>
         <Image
-          src={require('../../../public/img/logo.png')}
+          src={isNavBg || theme.palette.mode !== 'light' 
+            ? require('../../../public/img/logo.png') // Default logo when scrolled or in dark mode
+            : require('../../../public/img/logo2.png') // Light mode logo when not scrolled
+          }
           alt='Gohunt-logo'
-          style={{
-            width: 150,
-            height: 50,
-            objectFit: 'contain',
-            cursor: 'pointer'
-          }}
+          style={{ width: 150, height: 50, objectFit: 'contain', cursor: 'pointer' }}
           onClick={() => router.push('/')}
         />
       </Box>
-      <Divider sx={{ backgroundColor: '#FFFFFF' }} />
+      <Divider />
       <List>
         {navItems.map((item, index) => (
           <ListItem key={`${item}-${index}`} disablePadding>
-            <Box 
-              component={Link} 
+            <Box
+              component={Link}
               activeClass="active"
               to={item}
               onClick={() => setMobileOpen(false)}
@@ -111,7 +105,9 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
                 flexDirection: 'column',
                 gap: .5,
                 alignItems: 'center',
-                color: '#FFFFFF'
+                color: isNavBg || theme.palette.mode !== 'light' 
+                  ? '#fff'  // White when scrolled or in dark mode
+                  : '#000', // Black in light mode (when not scrolled)
               }}>
               {navIcon[index]}
               <Typography variant='subtitle2'>{item}</Typography>
@@ -122,60 +118,73 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
     </Box>
   );
 
-  const handleSetActive = (to: string) => {
-    console.log({to});
+  const handleSetActive = (to: any) => {
+    console.log({ to });
   };
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" elevation={0} sx={{ 
-        background: isNavBg ? '#0F101E' : 'transparent',
-        color: '#FFFFFF'
-      }}>
-        <Toolbar sx={{ 
-          justifyContent: 'space-between', 
-          maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' }, 
-          display: 'flex', 
-          alignItems: 'center', 
-          width: '100%', 
-          margin: 'auto' 
-        }}>
+      <AppBar
+        component="nav"
+        elevation={0}
+        sx={{
+          background: isNavBg
+            ? '#0F101E'
+            : theme.palette.mode === 'light'
+              ? '#fff'
+              : 'none',
+          boxShadow: theme.palette.mode === 'light'
+            ? '0px 8px 10px 0px hsla(0, 0%, 81%, 0.25)'
+            : 'none',
+        }}
+      >
+        <Toolbar
+          sx={{
+            justifyContent: 'space-between',
+            maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' },
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            margin: 'auto',
+          }}
+        >
           <IconButton
-            sx={{ mr: 2, display: { sm: 'none' }, color: '#FFFFFF' }}
+            color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Image
-              src={require('../../../public/img/logo.png')}
+              src={isNavBg || theme.palette.mode !== 'light' 
+                ? require('../../../public/img/logo.png') // Default logo when scrolled or in dark mode
+                : require('../../../public/img/logo2.png') // Light mode logo when not scrolled
+              }
               alt='Gohunt-logo'
-              style={{
-                width: 150,
-                height: 50,
-                objectFit: 'contain',
-                cursor: 'pointer'
-              }}
+              style={{ width: 150, height: 50, objectFit: 'contain', cursor: 'pointer' }}
               onClick={() => router.push('/')}
             />
           </Box>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (
-              <Box 
+              <Box
                 component={Link}
-                key={item} 
-                sx={{ 
-                  color: '#FFFFFF',
+                key={item}
+                sx={{
+                  color: isNavBg || theme.palette.mode !== 'light' 
+                    ? '#fff'  // White when scrolled or in dark mode
+                    : '#000', // Black in light mode when not scrolled
                   cursor: 'pointer',
                   mx: 1,
                   '&:hover': {
-                    textDecoration: 'underline'
-                  }
+                    textDecoration: 'underline',
+                  },
                 }}
                 activeClass="active"
                 to={item}
@@ -191,26 +200,15 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <DarkLightToggle />
-            {isDashboard ? (
-              <AuthButton />
-            ) : (
-              <Button 
-                variant='contained' 
-                onClick={() => router.push('/trade', { scroll: false })}
-                sx={{
-                  backgroundColor: '#1184C2',
-                  color: '#FFFFFF',
-                  '&:hover': {
-                    backgroundColor: '#0D6FA3',
-                  }
-                }}
-              >
+            {isDashboard ? <AuthButton /> : (
+              <Button variant='contained' onClick={() => router.push('/trade', { scroll: false })}>
                 Get Started
               </Button>
             )}
           </Box>
         </Toolbar>
       </AppBar>
+
       <nav>
         <Drawer
           container={container}
@@ -222,26 +220,18 @@ export function NavigationBar(props: React.PropsWithChildren<Props>) {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { 
-              boxSizing: 'border-box', 
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
               width: drawerWidth,
-              background: '#0F101E'
+              background: '#0F0F12',
             },
-            position: 'relative'
+            position: 'relative',
           }}
         >
           {drawer}
-          <Ellipse
-            sx={{
-              position: "absolute",
-              top: '10%',
-              left: '-20%',
-              zIndex: -1
-            }}
-            src={Ellipse1}
-          />
         </Drawer>
       </nav>
+
       <Box component="main" width='100%'>
         {props?.showBreadcrumbs ? <Breadcrumbs /> : null}
         {props.children}

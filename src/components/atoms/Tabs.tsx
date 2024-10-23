@@ -2,6 +2,7 @@
 
 import { Tabs as MuiTabs, Tab as MuiTab, Box } from '@mui/material';
 import { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -45,9 +46,9 @@ type IProps = {
   activeTab?: number;
 }
 
-export function Tabs({ tabs, handleClick, activeTab = 0, }: IProps) {
-  
+export function Tabs({ tabs, handleClick, activeTab = 0 }: IProps) {
   const [value, setValue] = useState(activeTab);
+  const theme = useTheme();
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -64,28 +65,29 @@ export function Tabs({ tabs, handleClick, activeTab = 0, }: IProps) {
             '& button': {
               width: '50% !important',
               fontWeight: 'bold',
-              color: '#fff',
+              color: theme.palette.mode === 'light' ? '#000' : '#fff', // Black in light mode, white in dark mode
               textTransform: 'capitalize',
             },
             '& .MuiTabs-indicator': {
-              backgroundColor: 'unset !important'
-            }
+              backgroundColor: 'unset !important',
+            },
           }}
         >
-          {
-            tabs.map((tab, index) => (
-              <MuiTab key={tab.title} label={tab.title} {...a11yProps(index)} onClick={() => handleClick?.(tab.title)}/>
-            ))
-          }
+          {tabs.map((tab, index) => (
+            <MuiTab
+              key={tab.title}
+              label={tab.title}
+              {...a11yProps(index)}
+              onClick={() => handleClick?.(tab.title)}
+            />
+          ))}
         </MuiTabs>
       </Box>
-      {
-        tabs.map((tab, index) => (
-          <CustomTabPanel key={tab.title} value={value} index={index}>
-            {tab.content}
-          </CustomTabPanel>
-        ))
-      }
+      {tabs.map((tab, index) => (
+        <CustomTabPanel key={tab.title} value={value} index={index}>
+          {tab.content}
+        </CustomTabPanel>
+      ))}
     </>
-  )
+  );
 }
