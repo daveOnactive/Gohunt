@@ -1,6 +1,6 @@
 'use client'
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
-import { Box, Divider, Typography, useTheme } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import Fb from '../../../public/svg/fb.svg';
 import X from '../../../public/svg/x.svg';
 import Insta from '../../../public/svg/insta.svg';
@@ -8,7 +8,10 @@ import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRound
 import Image from "next/image";
 import { useStaggerAnimation } from "@/hooks";
 import { Link } from "react-scroll";
-import { useTheme as useCustomTheme } from '../../contexts/ThemeContext';
+
+interface FooterProps {
+  isDarkMode: boolean;
+}
 
 const socials = [
   {
@@ -27,10 +30,7 @@ const socials = [
 
 const links = ['Our Asset', 'Our Service', 'Why Choose Us', 'Testimonial', 'FAQ']
 
-export function Footer() {
-  const { isDarkMode } = useCustomTheme();
-  const theme = useTheme();
-
+export function Footer({ isDarkMode}: FooterProps) {
   const { scope } = useStaggerAnimation({
     className: ".stagger-footer",
     position: 'vertical'
@@ -43,9 +43,7 @@ export function Footer() {
   return (
     <Box ref={scope} sx={{
       padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
-      width: '100%',
-      backgroundColor: theme.palette.background.default,
-      color: theme.palette.text.primary,
+      width: '100%'
     }}>
       <Box mb={3} sx={{
         display: 'flex',
@@ -60,19 +58,29 @@ export function Footer() {
         }}>
           {
             socials.map(({ href, icon }, index) => (
-              <Box className="stagger-footer" href={href} target="_blank" component={'a'} key={`key-${index}`} sx={{
-                width: '3rem',
-                height: '3rem',
-                borderRadius: 100,
-                background: isDarkMode ? '#2F3241' : '#E0E0E0',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                cursor: 'pointer',
-                '&:hover': {
-                  background: isDarkMode ? '#0F101E' : '#BDBDBD'
-                }
-              }}>
+              <Box 
+                className="stagger-footer" 
+                href={href} 
+                target="_blank" 
+                component={'a'} 
+                key={`key-${index}`} 
+                sx={{
+                  width: '3rem',
+                  height: '3rem',
+                  borderRadius: 100,
+                  background: isDarkMode ? '#2F3241' : '#ffffff',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    background: isDarkMode ? '#0F101E' : '#f5f5f5'
+                  },
+                  '& img': {
+                    filter: isDarkMode ? 'none' : 'brightness(0)',
+                  }
+                }}
+              >
                 <Image
                   alt={`social-${index}`}
                   src={icon}
@@ -95,7 +103,7 @@ export function Footer() {
                 className="stagger-footer"
                 key={link}
                 sx={{
-                  color: theme.palette.text.primary,
+                  color: isDarkMode ? '#fff' : '#000',
                   cursor: 'pointer',
                   mx: 1,
                   '&:hover': {
@@ -115,7 +123,7 @@ export function Footer() {
         </Box>
       </Box>
       
-      <Divider sx={{ background: theme.palette.divider }} />
+      <Divider sx={{ background: isDarkMode ? 'white' : 'black' }}/>
 
       <Box sx={{
         display: 'flex',
@@ -123,8 +131,14 @@ export function Footer() {
         alignItems: 'center',
         mt: 3
       }}>
-        <Typography className="stagger-footer" variant="body2">
-          Copyright © 2024 GoHunt. All rights reserved.
+        <Typography 
+          className="stagger-footer" 
+          variant="body2"
+          sx={{
+            color: isDarkMode ? '#fff' : '#000'
+          }}
+        >
+          Copyright © 2024GoHunt. All rights reserved.
         </Typography>
 
         <Box className="stagger-footer" onClick={scrollToTop}>

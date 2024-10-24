@@ -44,7 +44,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         light: '#40A0D8',
       },
       background: {
-        default: isDarkMode ? '#0F0F12' : '#F5F5F5',
+        default: isDarkMode ? '#0F0F12' : 'rgba(248, 248, 248, 1)',
         paper: isDarkMode ? '#2F3241' : '#FFFFFF',
       },
       text: {
@@ -54,12 +54,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     },
     components: {
       MuiCssBaseline: {
-        styleOverrides: {
-          body: {
-            backgroundColor: isDarkMode ? '#0F0F12' : '#F5F5F5',
-            color: isDarkMode ? '#FFFFFF' : '#000000',
-          },
-        },
+        styleOverrides: `
+          body {
+            background-color: ${isDarkMode ? '#0F0F12' : 'rgba(248, 248, 248, 1)'};
+            color: ${isDarkMode ? '#FFFFFF' : '#000000'};
+          }
+        `,
       },
       MuiButton: {
         defaultProps: {

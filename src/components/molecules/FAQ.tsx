@@ -1,11 +1,14 @@
 "use client"
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography, useTheme } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from "react";
 import { useStaggerAnimation } from "@/hooks";
 import { Element } from 'react-scroll';
-import { useTheme as useCustomTheme } from '../../contexts/ThemeContext';
+
+interface FAQProps {
+  isDarkMode: boolean;
+}
 
 const faqs = [
   {
@@ -39,10 +42,8 @@ const faqs = [
   }
 ];
 
-export function FAQ() {
+export function FAQ({ isDarkMode }: FAQProps) {
   const [expanded, setExpanded] = useState<string | false>(false);
-  const { isDarkMode } = useCustomTheme();
-  const theme = useTheme();
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -61,17 +62,30 @@ export function FAQ() {
       sx={{
         padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
         width: '100%',
-        backgroundColor: theme.palette.background.default,
-        color: theme.palette.text.primary,
-      }}
-    >
-      <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>Frequently Asked Questions</Typography>
-      <Typography variant="body1" textAlign="center" mb={4} sx={{
-        width: { sm: '600px', xs: '100%' },
-        display: 'flex',
-        mx: 'auto',
-        opacity: .7,
-      }}>Find answers to common questions about using our platform and trading cryptocurrencies. If you need further assistance, our support team is here to help!</Typography>
+      }}>
+      <Typography 
+        variant="h5" 
+        fontWeight="bold" 
+        textAlign="center" 
+        mb={2}
+        sx={{ color: isDarkMode ? '#fff' : '#000' }}
+      >
+        Frequently Asked Questions
+      </Typography>
+      <Typography 
+        variant="body1" 
+        textAlign="center" 
+        mb={4} 
+        sx={{
+          width: { sm: '600px', xs: '100%' },
+          display: 'flex',
+          mx: 'auto',
+          opacity: .7,
+          color: isDarkMode ? '#fff' : '#000'
+        }}
+      >
+        Find answers to common questions about using our platform and trading cryptocurrencies. If you need further assistance, our support team is here to help!
+      </Typography>
 
       <Box ref={scope} mt={5}>
         {
@@ -80,15 +94,18 @@ export function FAQ() {
               key={title}
               className="stagger-accordion"
               sx={{
-                backgroundColor: theme.palette.background.paper,
-                color: theme.palette.text.primary,
+                backgroundColor: isDarkMode ? '#0F101E !important' : '#ffffff !important',
                 my: 2,
+                color: isDarkMode ? '#fff' : '#000',
+                border: isDarkMode ? 'none' : '1px solid rgba(0, 0, 0, 0.12)'
               }}
               expanded={expanded === title} 
               onChange={handleChange(title)}
             >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon sx={{color: theme.palette.text.primary}} />}
+                expandIcon={
+                  <ExpandMoreIcon sx={{color: isDarkMode ? 'white' : 'black'}} />
+                }
                 aria-controls="panel1-content"
                 id="panel1-header"
               >
@@ -105,7 +122,7 @@ export function FAQ() {
                     fontSize: '.7rem',
                     marginRight: 2,
                     borderImageSlice: 1,
-                    color: theme.palette.text.primary,
+                    color: isDarkMode ? '#fff' : '#000'
                   }}
                 >
                   {index + 1}
@@ -113,12 +130,14 @@ export function FAQ() {
                 {title}
               </AccordionSummary>
               <AccordionDetails>
-                {!isHtml ? (
-                  <Typography color={theme.palette.text.primary}>{content}</Typography>
-                ) : (
+                {!isHtml ? content : (
                   <div 
-                    dangerouslySetInnerHTML={{__html: content}} 
-                    style={{color: theme.palette.text.primary}}
+                    dangerouslySetInnerHTML={{
+                      __html: content
+                    }}
+                    style={{
+                      color: isDarkMode ? '#fff' : '#000'
+                    }}
                   />
                 )}
               </AccordionDetails>
