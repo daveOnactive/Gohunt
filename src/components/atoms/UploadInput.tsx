@@ -39,7 +39,7 @@ export function UploadInput({ getFile, error }: IProp) {
       <InputLabel 
         sx={{
           fontSize: '1rem',
-          color: theme.palette.text.primary,  // Adjusting based on the theme
+          color: theme.palette.text.primary, 
           mb: 1
         }}
       >

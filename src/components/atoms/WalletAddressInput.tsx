@@ -27,7 +27,7 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
         alignItems: 'center',
         mb: 1,
         '& label': {
-          color: 'text.primary',
+          color: theme.palette.text.primary,  // Use theme for label color
           fontSize: '1rem'
         }
       }}>
@@ -37,7 +37,7 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
       
       <Box sx={{
         borderBottom: 1,
-        borderColor: 'divider',
+        borderColor: theme.palette.divider,  // Adapt border color
         width: '100%',
         display: 'flex',
         py: 1
@@ -45,7 +45,7 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
         <Box sx={{
           width: '70%',
           borderRight: 1,
-          borderColor: 'divider',
+          borderColor: theme.palette.divider,  // Adapt border color
           height: 30,
           display: 'flex',
           justifyContent: 'space-between',
@@ -58,9 +58,9 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
                 fullWidth
                 onChange={(ev) => onInputChange?.(ev.target.value)}
                 sx={{
-                  color: 'text.primary',
+                  color: theme.palette.text.primary,  // Ensure text matches theme
                   '& .MuiInputBase-input': {
-                    color: 'text.primary',
+                    color: theme.palette.text.primary,  // Ensure input text matches theme
                   }
                 }}
               />
@@ -72,7 +72,7 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
                     gap: .5,
                     alignItems: 'center',
                     borderRight: 1,
-                    borderColor: 'divider',
+                    borderColor: theme.palette.divider,
                     pr: 2,
                     justifyContent: 'center'
                   }}
@@ -81,7 +81,7 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
                     variant="h6" 
                     sx={{
                       fontSize: { sm: '1rem', xs: '.8rem' },
-                      color: 'text.primary'
+                      color: theme.palette.text.primary  // Ensure text matches theme
                     }}
                   >
                     Network:
@@ -90,7 +90,7 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
                     variant="h6" 
                     sx={{
                       fontSize: { sm: '1rem', xs: '.8rem'},
-                      color: 'text.primary'
+                      color: theme.palette.text.primary  // Ensure text matches theme
                     }}
                   >
                     {selectedNetwork?.network}
@@ -105,7 +105,7 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     ml: 2,
-                    color: 'text.primary'
+                    color: theme.palette.text.primary  // Ensure text matches theme
                   }}
                 >
                   {selectedNetwork?.value}
