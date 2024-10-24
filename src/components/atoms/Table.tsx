@@ -1,5 +1,16 @@
 'use client'
-import { TableContainer, Paper, Divider, TableHead, TableRow, TableCell, TableBody, TablePagination, Table as MuiTable } from "@mui/material";
+import { 
+  TableContainer, 
+  Paper, 
+  Divider, 
+  TableHead, 
+  TableRow, 
+  TableCell, 
+  TableBody, 
+  TablePagination, 
+  Table as MuiTable,
+  useTheme 
+} from "@mui/material";
 import { useMemo, useState } from "react";
 
 type IProps = {
@@ -14,7 +25,7 @@ type IProps = {
 }
 
 export function Table({ columns, data, handleClick }: IProps) {
-
+  const theme = useTheme();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -36,58 +47,84 @@ export function Table({ columns, data, handleClick }: IProps) {
     [page, rowsPerPage, data],
   );
 
-  
   return (
-    <TableContainer component={Paper} sx={{
-      backgroundColor: '#132D46'
-    }} elevation={0}>
-      <Divider sx={{ borderColor: 'paper' }} />
-      <MuiTable sx={{ width: '100%' }} aria-label="simple table">
+    <TableContainer 
+      component={Paper} 
+      elevation={0}
+      sx={{
+        backgroundColor: theme.palette.mode === 'light' 
+          ? theme.palette.background.paper 
+          : '#132D46',
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: 1,
+      }}
+    >
+      <Divider sx={{ 
+        borderColor: theme.palette.divider 
+      }} />
+      
+      <MuiTable 
+        sx={{ 
+          width: '100%',
+          '& .MuiTableCell-root': {
+            color: theme.palette.text.primary,
+            borderColor: theme.palette.divider,
+          },
+        }} 
+        aria-label="simple table"
+      >
         <TableHead>
-          <TableRow sx={{
-            '& .MuiTableCell-root': {
-              borderColor: 'paper'
-            }
-          }}>
-            {
-              columns.map((item) => (
-                <TableCell key={item.field} align={item.align as any}>{item.headerName}</TableCell>
-              ))
-            }
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {
-            visibleRows?.map(item => (
-              <TableRow
-                key={item?.id}
-                onClick={() => handleClick?.(item)}
+          <TableRow>
+            {columns.map((item) => (
+              <TableCell 
+                key={item.field} 
+                align={item.align as any}
                 sx={{
-                  '&:last-child td, &:last-child th': { border: 0 },
-                  '& .MuiTableCell-root': {
-                    borderColor: 'paper'
-                  },
-                  cursor: 'pointer',
-                  '&:hover': {
-                    opacity: .7,
-                    background: '#111'
-                  }
+                  color: theme.palette.text.secondary,
+                  fontWeight: 600,
+                  backgroundColor: theme.palette.mode === 'light'
+                    ? theme.palette.grey[50]
+                    : '#0f2235',
                 }}
               >
-                {
-                  columns.map(row => (
-                  <TableCell key={`${row.align}-${item?.id}`} align={row.align as any}>
-                    {
-                      row?.valueGetter ? row.valueGetter(item) : item[row.field]
-                    }
-                  </TableCell>
-                  ))
+                {item.headerName}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        
+        <TableBody>
+          {visibleRows?.map(item => (
+            <TableRow
+              key={item?.id}
+              onClick={() => handleClick?.(item)}
+              sx={{
+                '&:last-child td, &:last-child th': { 
+                  border: 0 
+                },
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                '&:hover': {
+                  backgroundColor: theme.palette.mode === 'light'
+                    ? theme.palette.action.hover
+                    : '#111',
+                  opacity: theme.palette.mode === 'dark' ? 0.7 : 1,
                 }
-              </TableRow>
-            ))
-          }
+              }}
+            >
+              {columns.map(row => (
+                <TableCell 
+                  key={`${row.align}-${item?.id}`} 
+                  align={row.align as any}
+                >
+                  {row?.valueGetter ? row.valueGetter(item) : item[row.field]}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
         </TableBody>
       </MuiTable>
+      
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
@@ -96,7 +133,17 @@ export function Table({ columns, data, handleClick }: IProps) {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+        sx={{
+          color: theme.palette.text.primary,
+          borderTop: `1px solid ${theme.palette.divider}`,
+          '& .MuiToolbar-root': {
+            color: theme.palette.text.primary,
+          },
+          '& .MuiSelect-icon': {
+            color: theme.palette.text.primary,
+          },
+        }}
       />
     </TableContainer>
-  )
+  );
 }
