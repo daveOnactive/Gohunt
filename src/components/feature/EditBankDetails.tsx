@@ -1,5 +1,5 @@
 'use client'
-import { Button, Card, Typography } from "@mui/material";
+import { Button, Card, Typography, useTheme } from "@mui/material";
 import { AccountInput } from "../atoms";
 import { AssetContext, BankVerificationContext } from "@/providers";
 import { useRouter } from "next/navigation";
@@ -16,19 +16,16 @@ type IForm = {
   id?: string;
 }
 
-export function EditBankDetails(){
-
+export function EditBankDetails() {
   const { bank } = useContext(AssetContext);
   const { banks, isAccountDetailsError, isLoadingAccountDetails, accountDetails, setQueryParams } = useContext(BankVerificationContext);
-
   const [bankDetails, setBankDetails] = useState<Partial<IForm>>();
-
   const { push } = useRouter();
-
   const { showNotification } = useAlert();
-
   const queryClient = useQueryClient();
-
+  
+  const theme = useTheme();  // Get theme to handle light/dark mode
+  
   useEffect(() => {
     setBankDetails({
       bankName: bank?.bankName,
@@ -52,7 +49,7 @@ export function EditBankDetails(){
     setQueryParams({
       account_number: bankDetails?.accountNumber,
       bank_code: bank?.code,
-    })
+    });
 
     setBankDetails({
       ...bankDetails,
@@ -65,7 +62,7 @@ export function EditBankDetails(){
       mutate({ ...bankDetails, id: bank?.id, holdersName: accountDetails.account_name }, {
         onSuccess: () => {
           showNotification({ message: 'Bank Details Edited!', type: 'success' });
-          queryClient.invalidateQueries(['bank'])
+          queryClient.invalidateQueries(['bank']);
           push('/dashboard');
         }
       });
@@ -81,9 +78,19 @@ export function EditBankDetails(){
       flexDirection: 'column',
       mx: 'auto',
       width: { sm: '50%', xs: '100%' },
-      mt: 7
+      mt: 7,
+      bgcolor: theme.palette.background.paper,  // Dynamic background for light/dark mode
+      color: theme.palette.text.primary          // Dynamic text color
     }}>
-      <Typography color='primary' variant="h6" textAlign='center' fontWeight='bold' mb={6.5}>Bank Details</Typography>
+      <Typography 
+        color='primary' 
+        variant="h6" 
+        textAlign='center' 
+        fontWeight='bold' 
+        mb={6.5}
+      >
+        Bank Details
+      </Typography>
 
       <AccountInput
         value={{
@@ -91,7 +98,7 @@ export function EditBankDetails(){
           accountNumber: bank?.accountNumber,
           bankName: bank?.bankName
         }}
-        onBankChange={(bank) => handleBankChange(bank)}
+        onBankChange={handleBankChange}
         onChange={(value) => handleBankDetails(value, 'accountNumber')}
         banks={banks}
         isHolderNameError={isAccountDetailsError}
@@ -99,7 +106,16 @@ export function EditBankDetails(){
         bankHolderName={accountDetails?.account_name}
       />
 
-      <Button disabled={isLoading} variant="contained" color='primary' fullWidth sx={{ mt: 6.5 }} onClick={onSubmit}>Save Changes</Button>
+      <Button 
+        disabled={isLoading} 
+        variant="contained" 
+        color='primary' 
+        fullWidth 
+        sx={{ mt: 6.5 }} 
+        onClick={onSubmit}
+      >
+        Save Changes
+      </Button>
     </Card>
-  )
+  );
 }
