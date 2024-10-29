@@ -19,26 +19,18 @@ type IForm = {
 }
 
 export function SellAsset() {
-
   const { data, filterAssets, isLoading: isLoadingAsset } = useContext(AssetContext);
-  
   const searchParams = useSearchParams();
-
   const [selectedAsset, setSelectedAsset] = useState<string>('BTC');
-
   const { control, formState: { errors }, handleSubmit } = useForm();
-
   const { handleModalClose, showModal } = useModal();
-
   const [bankDetails, setBankDetails] = useState<Partial<Bank>>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const [selectedFile, setSelectedFile] = useState<any>();
 
   const asset = useMemo(() => filterAssets(data, selectedAsset), [data, filterAssets, selectedAsset]) as Assets;
 
   const { banks, accountDetails, setQueryParams, queryParams, isLoadingAccountDetails, isAccountDetailsError } = useContext(BankVerificationContext);
-
 
   function handleBankChange(value: string | BankAccounts | undefined, key: 'bankName' | 'accountNumber') {
     if (typeof value === 'string' && key === 'accountNumber' && value.length === 10) {
@@ -67,7 +59,6 @@ export function SellAsset() {
   }
 
   const { push } = useRouter();
-
   const { showNotification } = useAlert();
 
   const { mutate } = useMutation({
@@ -163,15 +154,25 @@ export function SellAsset() {
         render={({ field }) => (
           <TextField 
             {...field} 
-            label="Seller’s Phone Number" 
+            label="Seller's Phone Number" 
             fullWidth
-            sx={{ mt: 2 }} 
+            sx={{ 
+              mt: 2,
+              '& .MuiInputLabel-root': {
+                color: 'text.primary'
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: 'primary.main'
+              },
+              '& .MuiInputLabel-root.Mui-error': {
+                color: 'error.main'
+              }
+            }} 
             variant="standard" 
             error={!!errors.phoneNumber}
-            placeholder="Type seller’s phone number"
+            placeholder="Type seller's phone number"
           />
         )}
-        // rules={{ required: true }}
       />
 
       <AmountInput

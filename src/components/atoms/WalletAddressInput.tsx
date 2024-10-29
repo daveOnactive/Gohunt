@@ -1,5 +1,5 @@
 'use client'
-import { Box, InputBase, InputLabel, Typography } from "@mui/material";
+import { Box, InputBase, InputLabel, Typography, useTheme } from "@mui/material";
 import { AssetMenu } from "./AssetMenu";
 import { Assets } from "@/type";
 import { formatNumber } from "@/helpers";
@@ -16,8 +16,8 @@ type IProps = {
 }
 
 export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell', onInputChange, getSelectedNetwork }: IProps) {
-
   const [selectedNetwork, setSelectedNetwork] = useState(asset?.networks[0]);
+  const theme = useTheme();
   
   return (
     <Box>
@@ -27,18 +27,17 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
         alignItems: 'center',
         mb: 1,
         '& label': {
-          color: 'white',
+          color: theme.palette.text.primary,  // Use theme for label color
           fontSize: '1rem'
         }
       }}>
         <InputLabel>Wallet Address</InputLabel>
-
         <InputLabel>Rate = {formatNumber(asset?.rate[type] as number, true)}</InputLabel>
       </Box>
       
       <Box sx={{
         borderBottom: 1,
-        borderColor: '#6a6868',
+        borderColor: theme.palette.divider,  // Adapt border color
         width: '100%',
         display: 'flex',
         py: 1
@@ -46,7 +45,7 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
         <Box sx={{
           width: '70%',
           borderRight: 1,
-          borderColor: '#6a6868',
+          borderColor: theme.palette.divider,  // Adapt border color
           height: 30,
           display: 'flex',
           justifyContent: 'space-between',
@@ -58,6 +57,12 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
               <InputBase
                 fullWidth
                 onChange={(ev) => onInputChange?.(ev.target.value)}
+                sx={{
+                  color: theme.palette.text.primary,  // Ensure text matches theme
+                  '& .MuiInputBase-input': {
+                    color: theme.palette.text.primary,  // Ensure input text matches theme
+                  }
+                }}
               />
             ) : (
               <>
@@ -67,30 +72,48 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
                     gap: .5,
                     alignItems: 'center',
                     borderRight: 1,
-                    borderColor: '#6a6868',
+                    borderColor: theme.palette.divider,
                     pr: 2,
                     justifyContent: 'center'
                   }}
                 >
-                  <Typography variant="h6" sx={{
-                    fontSize: { sm: '1rem', xs: '.8rem' },
-                  }}>Network:</Typography>
-                  <Typography variant="h6" sx={{
-                    fontSize: { sm: '1rem', xs: '.8rem'}
-                  }}>{selectedNetwork?.network}</Typography>
+                  <Typography 
+                    variant="h6" 
+                    sx={{
+                      fontSize: { sm: '1rem', xs: '.8rem' },
+                      color: theme.palette.text.primary  // Ensure text matches theme
+                    }}
+                  >
+                    Network:
+                  </Typography>
+                  <Typography 
+                    variant="h6" 
+                    sx={{
+                      fontSize: { sm: '1rem', xs: '.8rem'},
+                      color: theme.palette.text.primary  // Ensure text matches theme
+                    }}
+                  >
+                    {selectedNetwork?.network}
+                  </Typography>
                 </Box>
-                  <Typography variant="h6" sx={{
+                <Typography 
+                  variant="h6" 
+                  sx={{
                     fontSize: { sm: '1rem', xs: '.8rem' },
                     width: '200px',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     ml: 2,
-                  }}>{selectedNetwork?.value}</Typography>
-                  <Copy
-                    name='Wallet Address'
-                    value={selectedNetwork?.value || ''}
-                  />
+                    color: theme.palette.text.primary  // Ensure text matches theme
+                  }}
+                >
+                  {selectedNetwork?.value}
+                </Typography>
+                <Copy
+                  name='Wallet Address'
+                  value={selectedNetwork?.value || ''}
+                />
               </>
             )
           }
@@ -109,7 +132,6 @@ export function WalletAddressInput({ isInput, onAssetChange, asset, type = 'sell
             selectedNetwork={selectedNetwork}
           />
         </Box>
-
       </Box>
     </Box>
   )

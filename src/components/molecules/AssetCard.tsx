@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import HistoryEduRoundedIcon from '@mui/icons-material/HistoryEduRounded';
 import Image from "next/image";
 import { Assets } from "@/type";
@@ -10,12 +10,18 @@ type IProps = {
 }
 
 export function AssetCard({ data, onClick }: IProps) {
+  const theme = useTheme();
+
   return (
     <Box sx={{
       width: '100%',
-      backgroundColor: '#132D46',
+      backgroundColor: theme.palette.mode === 'light' 
+        ? theme.palette.background.paper 
+        : '#132D46',
       borderRadius: '0.5rem',
       padding: 2,
+      border: `1px solid ${theme.palette.divider}`,
+      boxShadow: theme.shadows[1],
     }}>
       <Box sx={{
         display: 'flex',
@@ -24,12 +30,9 @@ export function AssetCard({ data, onClick }: IProps) {
         mb: 1.5,
         flexDirection: { sm: 'row', xs: 'column-reverse'}
       }}>
-
         <Button
           size="large"
-          endIcon={(
-            <HistoryEduRoundedIcon />
-          )}
+          endIcon={<HistoryEduRoundedIcon />}
           onClick={() => onClick(data)}
         >
           Edit
@@ -51,29 +54,28 @@ export function AssetCard({ data, onClick }: IProps) {
           <Image alt={data.assetName} src={AssetsIconMapper[data.assetName.toLowerCase() as keyof typeof AssetsIconMapper]} />
 
           <Box width='100%'>
-            <Typography variant="h6" pb={.5}>
+            <Typography variant="h6" pb={.5} color="text.primary">
               {data.assetName}
             </Typography>
 
-            <Typography variant="body2" sx={{ opacity: .7 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ opacity: .7 }}>
               {`Updated: 22-01-2024`}
             </Typography>
           </Box>
         </Box>
 
         <Box>
-          <Typography variant="body2">
+          <Typography variant="body2" color="text.primary">
             <strong>Sell Rate- </strong>
             {formatNumber(data.rate.sell, true)}
           </Typography>
 
-          <Typography variant="body2">
+          <Typography variant="body2" color="text.primary">
             <strong>Buy Rate- </strong>
             {formatNumber(data.rate.buy, true)}
           </Typography>
         </Box>
       </Box>
-
     </Box>
-  )
+  );
 }

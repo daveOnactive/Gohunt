@@ -1,15 +1,17 @@
 'use client'
 import { Box, Typography } from "@mui/material";
-import BannerImg from '../../../public/img/banner.png';
 import Image from "next/image";
-import Dollar from '../../../public/svg/dollar.svg';
 import { DESKTOP_CONTAINER_PADDING, MOBILE_CONTAINER_PADDING } from "@/constant/padding";
 import { SCREEN_MAX_WIDTH } from "@/constant/width";
 import { motion } from "framer-motion";
 import { useStaggerAnimation } from "@/hooks";
 import { Carousel } from ".";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export function HeroBanner() {
+  const { isDarkMode } = useTheme();
+  const bannerImg = '/img/banner.png'; // Move image to public folder
+  const Dollar = '/svg/dollar.svg';    // Move SVG to public folder
 
   const { scope } = useStaggerAnimation({
     className: ".stagger-element",
@@ -19,14 +21,22 @@ export function HeroBanner() {
   return (
     <Box
       sx={{
-        backgroundImage: `url(${BannerImg.src})`,
+        background: `url(${bannerImg}) center/cover no-repeat`,
         height: { sm: 700, xs: 'fit-content' },
         width: '100%',
-        backgroundSize: '100% 100%',
-        backgroundPosition: 'center',
         paddingTop: { sm: 20, xs: 10 },
         paddingX: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
         position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: isDarkMode ? 'rgba(0,0,0,0.5)' : 'rgba(248, 248, 248, 1)',
+          zIndex: 1
+        }
       }}
     >
       <Box
@@ -36,7 +46,9 @@ export function HeroBanner() {
           alignItems: 'center',
           flexDirection: { sm: 'row', xs: 'column', xl: 'row' },
           maxWidth: { xl: SCREEN_MAX_WIDTH, sm: '100%', xs: '100%' },
-          mx: 'auto'
+          mx: 'auto',
+          position: 'relative',
+          zIndex: 2
         }}>
 
         <Box
@@ -59,26 +71,39 @@ export function HeroBanner() {
             <Image
               src={Dollar}
               alt="dollar"
-              objectFit="contain"
+              width={24}
+              height={24}
             />
-            <Typography variant="body1" ml='8px' sx={{ fontSize: { xs: '.8rem', sm: '1rem' } }}>Discover a new ways to enjoy your World!</Typography>
+            <Typography 
+              variant="body1" 
+              ml='8px' 
+              sx={{ 
+                fontSize: { xs: '.8rem', sm: '1rem' },
+                color: isDarkMode ? '#FFFFFF' : '#000000'
+              }}>
+              Discover a new ways to enjoy your World!
+            </Typography>
           </Box>
           <Typography 
             sx={({ breakpoints }) => ({
               [breakpoints.down('md')]: {
                 fontSize: '2.2rem'
-              }
+              },
+              color: isDarkMode ? '#FFFFFF' : '#000000'
             })}
             fontWeight='bold'
             className='stagger-element'
             variant="h2" 
-            mb={"35px"}>Discover, Trade, and <Box
-            component='span'
-            sx={({ palette }) => ({
-              color: palette.primary.main,
-              mx: 1,
-            })}
-            >Thrive in
+            mb={"35px"}>
+            Discover, Trade, and 
+            <Box
+              component='span'
+              sx={({ palette }) => ({
+                color: palette.primary.main,
+                mx: 1,
+              })}
+            >
+              Thrive in
             </Box>
             Crypto Markets with
             <Box
@@ -87,7 +112,8 @@ export function HeroBanner() {
                 color: palette.primary.main,
                 mx: 1
               })}
-            >GoHunt
+            >
+              GoHunt
             </Box>
           </Typography>
         </Box>
@@ -105,20 +131,21 @@ export function HeroBanner() {
         >
           <Carousel />
         </Box>
-
-
       </Box>
 
-      <Box
-        sx={{
-          backgroundImage: 'linear-gradient(180deg, rgba(15, 15, 18, 0.00) -8.82%, #0F0F12 63.66%)',
-          width: '100%',
-          height: '238px',
-          position: 'absolute',
-          bottom: 0,
-          left: 0
-        }}
-      />
+      {isDarkMode && (
+        <Box
+          sx={{
+            backgroundImage: 'linear-gradient(180deg, rgba(15, 15, 18, 0.00) -8.82%, #0F0F12 63.66%)',
+            width: '100%',
+            height: '238px',
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            zIndex: 1
+          }}
+        />
+      )}
     </Box>
   )
 }

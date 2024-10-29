@@ -6,6 +6,10 @@ import { useState } from "react";
 import { useStaggerAnimation } from "@/hooks";
 import { Element } from 'react-scroll';
 
+interface FAQProps {
+  isDarkMode: boolean;
+}
+
 const faqs = [
   {
     title: 'How does GoHut Work?',
@@ -38,7 +42,7 @@ const faqs = [
   }
 ];
 
-export function FAQ() {
+export function FAQ({ isDarkMode }: FAQProps) {
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const handleChange =
@@ -51,23 +55,37 @@ export function FAQ() {
     position: 'vertical'
   });
 
-
   return (
     <Box 
       component={Element}
       name='FAQ'
-    sx={{
-      padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
-      width: '100%',
-    }}>
-      <Typography variant="h5" fontWeight="bold" textAlign="center" mb={2}>Frequently Asked Questions</Typography>
-      <Typography variant="body1" textAlign="center" mb={4} sx={{
-        width: { sm: '600px', xs: '100%' },
-        display: 'flex',
-        mx: 'auto',
-        opacity: .7,
-      }}>Find answers to common questions about using our platform and trading cryptocurrencies. If you need further assistance, our support team is here to help!</Typography>
-
+      sx={{
+        padding: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
+        width: '100%',
+      }}>
+      <Typography 
+        variant="h5" 
+        fontWeight="bold" 
+        textAlign="center" 
+        mb={2}
+        sx={{ color: isDarkMode ? '#fff' : '#000' }}
+      >
+        Frequently Asked Questions
+      </Typography>
+      <Typography 
+        variant="body1" 
+        textAlign="center" 
+        mb={4} 
+        sx={{
+          width: { sm: '600px', xs: '100%' },
+          display: 'flex',
+          mx: 'auto',
+          opacity: .7,
+          color: isDarkMode ? '#fff' : '#000'
+        }}
+      >
+        Find answers to common questions about using our platform and trading cryptocurrencies. If you need further assistance, our support team is here to help!
+      </Typography>
 
       <Box ref={scope} mt={5}>
         {
@@ -76,13 +94,18 @@ export function FAQ() {
               key={title}
               className="stagger-accordion"
               sx={{
-                backgroundColor: '#0F101E !important',
-                my: 2
+                backgroundColor: isDarkMode ? '#0F101E !important' : '#ffffff !important',
+                my: 2,
+                color: isDarkMode ? '#fff' : '#000',
+                border: isDarkMode ? 'none' : '1px solid rgba(0, 0, 0, 0.12)'
               }}
-              expanded={expanded === title} onChange={handleChange(title)}
-              >
+              expanded={expanded === title} 
+              onChange={handleChange(title)}
+            >
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon sx={{color: 'white'}} />}
+                expandIcon={
+                  <ExpandMoreIcon sx={{color: isDarkMode ? 'white' : 'black'}} />
+                }
                 aria-controls="panel1-content"
                 id="panel1-header"
               >
@@ -99,16 +122,23 @@ export function FAQ() {
                     fontSize: '.7rem',
                     marginRight: 2,
                     borderImageSlice: 1,
+                    color: isDarkMode ? '#fff' : '#000'
                   }}
-                >{index + 1}
+                >
+                  {index + 1}
                 </Box>
                 {title}
               </AccordionSummary>
               <AccordionDetails>
                 {!isHtml ? content : (
-                  <div dangerouslySetInnerHTML={{
-                    __html: content
-                  }} />
+                  <div 
+                    dangerouslySetInnerHTML={{
+                      __html: content
+                    }}
+                    style={{
+                      color: isDarkMode ? '#fff' : '#000'
+                    }}
+                  />
                 )}
               </AccordionDetails>
             </Accordion>

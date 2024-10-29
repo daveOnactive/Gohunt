@@ -9,6 +9,10 @@ import Image from "next/image";
 import { useStaggerAnimation } from "@/hooks";
 import { Link } from "react-scroll";
 
+interface FooterProps {
+  isDarkMode: boolean;
+}
+
 const socials = [
   {
     icon: Fb,
@@ -26,8 +30,7 @@ const socials = [
 
 const links = ['Our Asset', 'Our Service', 'Why Choose Us', 'Testimonial', 'FAQ']
 
-export function Footer() {
-
+export function Footer({ isDarkMode}: FooterProps) {
   const { scope } = useStaggerAnimation({
     className: ".stagger-footer",
     position: 'vertical'
@@ -55,19 +58,29 @@ export function Footer() {
         }}>
           {
             socials.map(({ href, icon }, index) => (
-              <Box className="stagger-footer" href={href} target="_blank" component={'a'} key={`key-${index}`} sx={{
-                width: '3rem',
-                height: '3rem',
-                borderRadius: 100,
-                background: '#2F3241',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                cursor: 'pointer',
-                '&:hover': {
-                  background: '#0F101E'
-                }
-              }}>
+              <Box 
+                className="stagger-footer" 
+                href={href} 
+                target="_blank" 
+                component={'a'} 
+                key={`key-${index}`} 
+                sx={{
+                  width: '3rem',
+                  height: '3rem',
+                  borderRadius: 100,
+                  background: isDarkMode ? '#2F3241' : '#ffffff',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    background: isDarkMode ? '#0F101E' : '#f5f5f5'
+                  },
+                  '& img': {
+                    filter: isDarkMode ? 'none' : 'brightness(0)',
+                  }
+                }}
+              >
                 <Image
                   alt={`social-${index}`}
                   src={icon}
@@ -90,7 +103,7 @@ export function Footer() {
                 className="stagger-footer"
                 key={link}
                 sx={{
-                  color: '#fff',
+                  color: isDarkMode ? '#fff' : '#000',
                   cursor: 'pointer',
                   mx: 1,
                   '&:hover': {
@@ -110,7 +123,7 @@ export function Footer() {
         </Box>
       </Box>
       
-      <Divider sx={{ background: 'white' }}/>
+      <Divider sx={{ background: isDarkMode ? 'white' : 'black' }}/>
 
       <Box sx={{
         display: 'flex',
@@ -118,7 +131,13 @@ export function Footer() {
         alignItems: 'center',
         mt: 3
       }}>
-        <Typography className="stagger-footer" variant="body2">
+        <Typography 
+          className="stagger-footer" 
+          variant="body2"
+          sx={{
+            color: isDarkMode ? '#fff' : '#000'
+          }}
+        >
           Copyright © 2024GoHunt. All rights reserved.
         </Typography>
 

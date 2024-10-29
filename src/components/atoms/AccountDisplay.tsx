@@ -1,7 +1,5 @@
-import { Box, InputLabel, Typography, IconButton } from "@mui/material";
-import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import { Box, InputLabel, Typography, useTheme } from "@mui/material";
 import { Copy } from ".";
-
 
 type IProps = {
   bankName?: string;
@@ -9,8 +7,9 @@ type IProps = {
   holdersName?: string;
 }
 
-
-export function AccountDisplay({ bankAccount, bankName, holdersName  }: IProps) {
+export function AccountDisplay({ bankAccount, bankName, holdersName }: IProps) {
+  const theme = useTheme();
+  
   return (
     <Box>
       <Box sx={{
@@ -19,11 +18,11 @@ export function AccountDisplay({ bankAccount, bankName, holdersName  }: IProps) 
         alignItems: 'center',
         mb: 1,
         '& label': {
-          color: 'white',
+          color: theme.palette.text.primary,  // This fixes the label color
           fontSize: '1rem'
         }
       }}>
-        <InputLabel>Buyer’s Account Details</InputLabel>
+        <InputLabel>Buyer&apos;s Account Details</InputLabel>
       </Box>
 
       <Box sx={{
@@ -41,25 +40,23 @@ export function AccountDisplay({ bankAccount, bankName, holdersName  }: IProps) 
           alignItems: 'center',
           pr: 2
         }}>
-
           <Typography variant="body1">{bankName}</Typography>
-
           <Typography variant="body1">{bankAccount}</Typography>
-
           <Copy
             name='Bank'
             value={bankAccount || ''}
           />
         </Box>
-
       </Box>
 
       <Typography 
         variant="h6"
         fontWeight='bold'
         sx={{
-        color: '#EB832E'
-        }}>{holdersName}</Typography>
+          color: '#EB832E'
+        }}>
+        {holdersName}
+      </Typography>
     </Box>
   )
 }
