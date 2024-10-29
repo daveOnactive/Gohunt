@@ -60,7 +60,6 @@ export function UploadInput({ getFile, error }: IProp) {
           flexDirection: 'column',
           p: { xs: 2 },
           cursor: 'pointer',
-          bgcolor: theme.palette.background.default  // Adjusting background color based on theme
         }}
         {...getRootProps()}
       >

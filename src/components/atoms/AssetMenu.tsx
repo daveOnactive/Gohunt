@@ -186,14 +186,14 @@ export function AssetMenu({ onChange, setSelectedNetwork }: IProps) {
           width={24}
           height={24}
         />
-        <Typography variant='body1' color="white" sx={{
+        <Typography variant='body1' sx={{
           fontSize: '14px',
           mx: 1
         }}>
           {selectedValue?.label}
         </Typography>
 
-        <KeyboardArrowDownIcon sx={{ color: '#fff' }} />
+        <KeyboardArrowDownIcon />
       </Box>
       <Menu
         id="basic-menu"

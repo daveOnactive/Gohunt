@@ -95,9 +95,6 @@ export function SelectButton({ children, onClick, data, sx }: PropsWithChildren<
           data.filter(item => !selectedValues?.includes(item.network)).map(({ network }) => (
             <MenuItem 
             key={network}
-            sx={({ palette }) => ({
-              color: 'white'
-            })}
             onClick={() => {
               onClick(network);
               handleClose();

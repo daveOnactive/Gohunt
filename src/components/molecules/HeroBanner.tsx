@@ -7,11 +7,11 @@ import { motion } from "framer-motion";
 import { useStaggerAnimation } from "@/hooks";
 import { Carousel } from ".";
 import { useTheme } from "../../contexts/ThemeContext";
+import BannerImg from '../../../public/img/banner.png';
+import Dollar from '../../../public/svg/dollar.svg';
 
 export function HeroBanner() {
   const { isDarkMode } = useTheme();
-  const bannerImg = '/img/banner.png'; // Move image to public folder
-  const Dollar = '/svg/dollar.svg';    // Move SVG to public folder
 
   const { scope } = useStaggerAnimation({
     className: ".stagger-element",
@@ -21,22 +21,12 @@ export function HeroBanner() {
   return (
     <Box
       sx={{
-        background: `url(${bannerImg}) center/cover no-repeat`,
+        background: isDarkMode ? `url(${BannerImg.src}) center/cover no-repeat` : 'unset',
         height: { sm: 700, xs: 'fit-content' },
         width: '100%',
         paddingTop: { sm: 20, xs: 10 },
         paddingX: { sm: DESKTOP_CONTAINER_PADDING, xs: MOBILE_CONTAINER_PADDING },
         position: 'relative',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: isDarkMode ? 'rgba(0,0,0,0.5)' : 'rgba(248, 248, 248, 1)',
-          zIndex: 1
-        }
       }}
     >
       <Box

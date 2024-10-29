@@ -97,7 +97,6 @@ export function FAQ({ isDarkMode }: FAQProps) {
                 backgroundColor: isDarkMode ? '#0F101E !important' : '#ffffff !important',
                 my: 2,
                 color: isDarkMode ? '#fff' : '#000',
-                border: isDarkMode ? 'none' : '1px solid rgba(0, 0, 0, 0.12)'
               }}
               expanded={expanded === title} 
               onChange={handleChange(title)}

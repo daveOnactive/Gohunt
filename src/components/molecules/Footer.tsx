@@ -138,7 +138,7 @@ export function Footer({ isDarkMode}: FooterProps) {
             color: isDarkMode ? '#fff' : '#000'
           }}
         >
-          Copyright © 2024GoHunt. All rights reserved.
+          Copyright © 2024 GoHunt. All rights reserved.
         </Typography>
 
         <Box className="stagger-footer" onClick={scrollToTop}>
