@@ -93,6 +93,7 @@ export function AccountInput({
         <Box sx={{
           display: 'flex',
           mx: 'auto',
+          overflowX: 'hidden'
         }}>
           <Autocomplete
             disablePortal
@@ -107,6 +108,7 @@ export function AccountInput({
               display: 'inline-block',
               '& input': {
                 width: 200,
+                overflowX: 'hidden',
                 color: theme.palette.mode === 'dark' ? '#fff' : '#000',
                 '&::placeholder': {
                   color: theme.palette.text.secondary,
@@ -140,6 +142,7 @@ export function AccountInput({
                     color: theme.palette.mode === 'dark' ? '#fff' : '#000',
                     background: 'transparent',
                     padding: '8px 12px',
+                    overflowX: 'hidden'
                   }}
                   placeholder="Select bank"
                 />
