@@ -18,8 +18,6 @@ export default function Trade() {
             justifyContent: 'center',
             alignItems: 'center',
             mx: 'auto',
-            position: 'relative',
-            overflowX: 'hidden'
           }}>
             <TradeSection />
             <Ellipse
@@ -28,6 +26,7 @@ export default function Trade() {
                 top: '10%',
                 left: 0,
                 zIndex: -1,
+                width: '100%'
               }}
               src={Ellipse7}
             />
@@ -37,6 +36,7 @@ export default function Trade() {
                 bottom: '5%',
                 left: '-3%',
                 zIndex: -1,
+                width: '100%'
               }}
               src={Ellipse8}
             />
