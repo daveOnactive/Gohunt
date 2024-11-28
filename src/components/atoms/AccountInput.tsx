@@ -92,7 +92,7 @@ export function AccountInput({
 
         <Box sx={{
           display: 'flex',
-          mx: 'auto',
+          mx: 'auto'
         }}>
           <Autocomplete
             disablePortal
