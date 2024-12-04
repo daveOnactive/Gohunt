@@ -1,8 +1,6 @@
 'use client'
 import { Status, Transaction } from "@/type";
 import { Box, Button, Divider, Typography } from "@mui/material";
-import { useQuery } from 'react-query';
-import Api from '@/services/api';
 import { convertToTime, formatDate, formatNumber } from "@/helpers";
 import { useRouter } from "next/navigation";
 import HistoryToggleOffRoundedIcon from '@mui/icons-material/HistoryToggleOffRounded';

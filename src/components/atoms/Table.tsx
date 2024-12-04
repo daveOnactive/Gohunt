@@ -94,9 +94,9 @@ export function Table({ columns, data, handleClick }: IProps) {
         </TableHead>
         
         <TableBody>
-          {visibleRows?.map(item => (
+          {visibleRows?.map((item) => (
             <TableRow
-              key={item?.id}
+              key={`${item?.id}`}
               onClick={() => handleClick?.(item)}
               sx={{
                 '&:last-child td, &:last-child th': { 
@@ -112,9 +112,9 @@ export function Table({ columns, data, handleClick }: IProps) {
                 }
               }}
             >
-              {columns.map(row => (
+              {columns.map((row, index) => (
                 <TableCell 
-                  key={`${row.align}-${item?.id}`} 
+                  key={`${index}-${item?.id}`} 
                   align={row.align as any}
                 >
                   {row?.valueGetter ? row.valueGetter(item) : item[row.field]}

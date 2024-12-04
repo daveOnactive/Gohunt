@@ -31,7 +31,9 @@ export async function PUT(
     await updateDoc(transactionRef, {
       status: Status[res.status?.toUpperCase() as keyof typeof Status]
     });
+
+    const transaction = (await getDoc(transactionRef)).data();
   
-    return Response.json({ data: transactionRef.id, message: 'Transaction Status Updated!' })
+    return Response.json({ data: transaction, message: 'Transaction Status Updated!' })
   })
 }

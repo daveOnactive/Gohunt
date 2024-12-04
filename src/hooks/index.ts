@@ -4,3 +4,4 @@ export * from './useModal';
 export * from './useDownload';
 export * from './useStaggerAnimation';
 export * from './useDataSnapshot';
+export * from './useEmail'

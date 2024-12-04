@@ -5,3 +5,4 @@ export * from './ModalProvider';
 export * from './CryptoApiProvider';
 export * from './BankVerificationProvider';
 export * from './TransactionProvider';
+export * from './EmailProvider';
