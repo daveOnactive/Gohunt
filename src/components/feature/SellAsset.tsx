@@ -2,9 +2,9 @@
 import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
 import { AccountInput, AwaitingTrade, UploadInput, WalletAddressInput } from "..";
 import { useContext, useMemo, useState } from "react";
-import { AssetContext, BankVerificationContext, TransactionContext } from "@/providers";
+import { AssetContext, BankVerificationContext } from "@/providers";
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
-import { useAlert, useModal } from "@/hooks";
+import { useAlert, useEmail, useModal } from "@/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation } from "react-query";
 import Api from "@/services/api";
@@ -65,6 +65,8 @@ export function SellAsset() {
     mutationFn: (data: any) => Api.post(`/transactions/`, data)
   });
 
+  const { sellOrderPlaced } = useEmail();
+
   const onSubmit: SubmitHandler<IForm> = (value) => {
     const isBank = bankDetails?.bankName && accountDetails?.account_name
     const isReadyToSubmit = value.phoneNumber && value.amount && isBank && selectedFile?.name
@@ -89,6 +91,7 @@ export function SellAsset() {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           mutate({ ...formValue, screenshotUrl: downloadURL }, {
             onSuccess: (data) => {
+              sellOrderPlaced(data.data.data as Transaction)
               showNotification({ message: 'Requested to sell', type: 'success' });
               push(`/trade?tradeId=${data.data.data.id}&type=sell`);
             },

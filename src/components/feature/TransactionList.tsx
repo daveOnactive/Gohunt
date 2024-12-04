@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query";
 import Api from "@/services/api";
 import { Status, Transaction } from '@/type';
 import { Box } from '@mui/material';
-import { useAlert, useModal } from '@/hooks';
+import { useAlert, useEmail, useModal } from '@/hooks';
 import { Table, Tabs, TransactionStatus } from '../atoms';
 import { formatDate, formatNumber } from '@/helpers';
 import { TransactionDetails } from '@/components/molecules';
@@ -121,16 +121,27 @@ export function TransactionTable({ transactions, type }: ITransactionTable) {
     mutationFn: async (data: { status: Status }) => await Api.put(`/transactions/${transaction?.id}`, data)
   });
 
+  const { buyOrderConfirm, sellOrderConfirm } = useEmail();
+
+  function handleSentEmail(transaction: Transaction) {
+    if (type === 'sell') {
+      sellOrderConfirm(transaction);
+    } else {
+      buyOrderConfirm(transaction);
+    }
+  }
+
   function onApprove() {
     mutate({
       status: Status.SUCCESSFUL
     }, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         showNotification({
           message: 'Transaction Updated!',
           type: 'success'
         });
 
+        handleSentEmail(data.data.data);
         queryClient.invalidateQueries(['transactions'])
 
         handleModalClose?.();

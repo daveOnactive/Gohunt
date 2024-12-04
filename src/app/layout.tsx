@@ -4,7 +4,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '../contexts/ThemeContext';
 import '../app/style.css';
 import ReactQueryProvider from "./ReactQueryProvider";
-import { AssetProvider, SnackbarProvider, ConfirmProvider, ModalProvider, CryptoApiProvider, BankVerificationProvider } from "@/providers";
+import { AssetProvider, SnackbarProvider, ConfirmProvider, ModalProvider, CryptoApiProvider, BankVerificationProvider, EmailProvider } from "@/providers";
 import { Suspense } from "react";
 import { TransactionProvider } from "@/providers/TransactionProvider";
 import { InstallPrompt } from "./installPrompt";
@@ -29,22 +29,24 @@ export default function RootLayout({
           <Suspense>
             <ThemeProvider>
               <ReactQueryProvider>
-                <TransactionProvider>
-                  <ModalProvider>
-                    <SnackbarProvider>
-                      <ConfirmProvider>
-                        <AssetProvider>
-                          <CryptoApiProvider>
-                            <BankVerificationProvider>
-                              <InstallPrompt />
-                              {children}
-                            </BankVerificationProvider>
-                          </CryptoApiProvider>
-                        </AssetProvider>
-                      </ConfirmProvider>
-                    </SnackbarProvider>
-                  </ModalProvider>
-                </TransactionProvider>
+                <EmailProvider>
+                  <TransactionProvider>
+                    <ModalProvider>
+                      <SnackbarProvider>
+                        <ConfirmProvider>
+                          <AssetProvider>
+                            <CryptoApiProvider>
+                              <BankVerificationProvider>
+                                <InstallPrompt />
+                                {children}
+                              </BankVerificationProvider>
+                            </CryptoApiProvider>
+                          </AssetProvider>
+                        </ConfirmProvider>
+                      </SnackbarProvider>
+                    </ModalProvider>
+                  </TransactionProvider>
+                </EmailProvider>
               </ReactQueryProvider>
             </ThemeProvider>
           </Suspense>

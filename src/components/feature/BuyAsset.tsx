@@ -1,7 +1,7 @@
 'use client'
 import { Box, Button, Skeleton, TextField, Typography } from "@mui/material";
 import { AccountDisplay, UploadInput, WalletAddressInput } from "../atoms";
-import { useAlert, useModal } from "@/hooks";
+import { useAlert, useEmail, useModal } from "@/hooks";
 import { AssetContext } from "@/providers";
 import { Assets, Transaction } from "@/type";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -50,6 +50,8 @@ export function BuyAsset(){
 
   const { showNotification } = useAlert();
 
+  const { buyOrderPlaced } = useEmail();
+
   const { mutate } = useMutation({
     mutationFn: (data: any) => Api.post(`/transactions/`, data)
   });
@@ -78,6 +80,7 @@ export function BuyAsset(){
 
           mutate({ ...formValue, screenshotUrl: downloadURL, network }, {
             onSuccess: (data) => {
+              buyOrderPlaced(data.data.data as Transaction)
               showNotification({ message: 'Requested to buy', type: 'success' });
               push(`/trade?tradeId=${data.data.data.id}&type=buy`);
             },
